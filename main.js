@@ -72,24 +72,19 @@ function keyPressed() {
     case 114:
       gotoGame()
       break
-    case RIGHT_ARROW:
-    case LEFT_ARROW:
-    case UP_ARROW:
-    case DOWN_ARROW:
-      return false
-      break
   }
   
-
-  //return false
+  //prevent default for ALL player controls
+  for (let scheme = 0; scheme < controlSchemes.length; scheme++) {
+    for (let schemeKey in controlSchemes[scheme]) {
+      if (controlSchemes[scheme][schemeKey] == keyCode) {
+        return false
+      }
+    }
+  }
 }
 
 function mousePressed() {
   //console.log(mouseX, mouseY)
   userStartAudio()
-}
-
-//suppress default spacebar scrolling
-window.onkeydown = function(e) { 
-  return !(e.keyCode == 32)
 }
