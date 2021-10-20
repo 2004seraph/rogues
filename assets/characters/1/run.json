@@ -1,0 +1,82 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 0, "y": 0, "w": 60, "h": 70 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 26, "w": 60, "h": 70 },
+    "sourceSize": { "w": 128, "h": 128 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 60, "y": 0, "w": 48, "h": 70 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 44, "y": 26, "w": 48, "h": 70 },
+    "sourceSize": { "w": 128, "h": 128 },
+    "duration": 100
+   },
+   "2": {
+    "frame": { "x": 108, "y": 0, "w": 42, "h": 72 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 42, "y": 26, "w": 42, "h": 72 },
+    "sourceSize": { "w": 128, "h": 128 },
+    "duration": 100
+   },
+   "3": {
+    "frame": { "x": 150, "y": 0, "w": 48, "h": 72 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 26, "w": 48, "h": 72 },
+    "sourceSize": { "w": 128, "h": 128 },
+    "duration": 100
+   },
+   "4": {
+    "frame": { "x": 198, "y": 0, "w": 60, "h": 74 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 34, "y": 26, "w": 60, "h": 74 },
+    "sourceSize": { "w": 128, "h": 128 },
+    "duration": 100
+   },
+   "5": {
+    "frame": { "x": 258, "y": 0, "w": 48, "h": 74 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 40, "y": 26, "w": 48, "h": 74 },
+    "sourceSize": { "w": 128, "h": 128 },
+    "duration": 100
+   },
+   "6": {
+    "frame": { "x": 306, "y": 0, "w": 34, "h": 74 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 50, "y": 26, "w": 34, "h": 74 },
+    "sourceSize": { "w": 128, "h": 128 },
+    "duration": 100
+   },
+   "7": {
+    "frame": { "x": 340, "y": 0, "w": 36, "h": 74 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 50, "y": 26, "w": 36, "h": 74 },
+    "sourceSize": { "w": 128, "h": 128 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.29-x64",
+  "image": "assets/characters/1/run.png",
+  "format": "RGBA8888",
+  "size": { "w": 376, "h": 74 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

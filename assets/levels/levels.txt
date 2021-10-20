@@ -1,0 +1,4 @@
+the game expects three images, back through front for the level,
+- 1 = bg (expected to be 1.5 times bigger than the game resolution)
+- 2 = midground (still functionally the background) (expected to be 1.25 times bigger than the game resolution)
+- 3 = the platforms (static) (game res)llllk

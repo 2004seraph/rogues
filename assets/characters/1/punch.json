@@ -1,0 +1,67 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 0, "y": 0, "w": 42, "h": 70 },
+    "duration": 125
+   },
+   "1": {
+    "frame": { "x": 42, "y": 0, "w": 40, "h": 70 },
+    "duration": 125
+   },
+   "2": {
+    "frame": { "x": 82, "y": 0, "w": 64, "h": 70 },
+    "duration": 125
+   },
+   "3": {
+    "frame": { "x": 146, "y": 0, "w": 54, "h": 70 },
+    "duration": 90
+   },
+   "4": {
+    "frame": { "x": 200, "y": 0, "w": 68, "h": 70 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 44, "y": 30, "w": 68, "h": 70 },
+    "sourceSize": { "w": 128, "h": 128 },
+    "duration": 125
+   },
+   "5": {
+    "frame": { "x": 268, "y": 0, "w": 48, "h": 72 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 52, "y": 28, "w": 48, "h": 72 },
+    "sourceSize": { "w": 128, "h": 128 },
+    "duration": 125
+   },
+   "6": {
+    "frame": { "x": 316, "y": 0, "w": 38, "h": 70 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 50, "y": 30, "w": 38, "h": 70 },
+    "sourceSize": { "w": 128, "h": 128 },
+    "duration": 125
+   },
+   "7": {
+    "frame": { "x": 354, "y": 0, "w": 32, "h": 70 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 48, "y": 30, "w": 32, "h": 70 },
+    "sourceSize": { "w": 128, "h": 128 },
+    "duration": 95
+   },
+   "8": {
+    "frame": { "x": 0, "y": 0, "w": 42, "h": 70 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 42, "y": 30, "w": 42, "h": 70 },
+    "sourceSize": { "w": 128, "h": 128 },
+    "duration": 125
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.29-x64",
+  "image": "assets/characters/1/punch.png",
+  "format": "RGBA8888",
+  "size": { "w": 386, "h": 72 },
+  "scale": "1"
+ }
+}
