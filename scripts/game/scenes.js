@@ -187,7 +187,7 @@ function createScenes() {
         }
       )
       buttons.onlinePlayButton.state = false
-      buttons.hubToMenu = new Button(CANX/2 - buttonSize*1.5, CANY/2 + buttonSize/2 + spacing, buttonSize*1.4, buttonSize/2, 
+      buttons.hubToMenu = new Button(CANX/2 - buttonSize*1.5, CANY/2 - buttonSize/3/2 + buttonLevel + buttonSize/3/2, buttonSize*1.4, buttonSize/3/2, 
         function () {
           if (!(this.mouseOver)) {
             //image(this.buttonVars.image, this.spacial.x, this.spacial.y)
@@ -243,6 +243,8 @@ function createScenes() {
     run: function() {
       //background(255, 255, 255)
       image(ASSETS.namedImages.modeSelectBG, 0, 0)
+
+      //rect()
     }
   }
 
