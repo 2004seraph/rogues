@@ -132,8 +132,9 @@ function createScenes() {
 
       let buttonSize = 256
       let spacing = 20
+      let buttonLevel = 100
 
-      buttons.offlinePlayButton = new Button(CANX/2 - buttonSize*1.5, CANY/2 - buttonSize/2, buttonSize*1.4, buttonSize, 
+      buttons.offlinePlayButton = new Button(CANX/2 - buttonSize*1.5, CANY/2 - buttonSize/3/2 - buttonLevel, buttonSize*1.4, buttonSize/3, 
         function () {
           if (!(this.mouseOver)) {
             //image(this.buttonVars.image, this.spacial.x, this.spacial.y)
@@ -159,7 +160,7 @@ function createScenes() {
           tinted: null//.tint(55, 255, 255)
         }
       )
-      buttons.onlinePlayButton = new Button(CANX/2, CANY/2 - buttonSize/2, buttonSize*1.4, buttonSize, 
+      buttons.onlinePlayButton = new Button(CANX/2 - buttonSize*1.5, CANY/2 - buttonSize/3/2, buttonSize*1.4 * 0.6, buttonSize/3, 
         function () {
           if (!(this.mouseOver)) {
             //image(this.buttonVars.image, this.spacial.x, this.spacial.y)
@@ -212,7 +213,7 @@ function createScenes() {
           tinted: null//.tint(55, 255, 255)
         }
       )
-      buttons.accountInfo = new Button(CANX/2, CANY/2 + buttonSize/2 + spacing, buttonSize*1.4, buttonSize/2, 
+      buttons.accountInfo = new Button(CANX/2 - buttonSize*1.5 + buttonSize*1.4 * 0.6 + spacing, CANY/2 - buttonSize/3/2, buttonSize*1.4 * 0.4 - spacing, buttonSize/3, 
         function () {
           if (!(this.mouseOver)) {
             //image(this.buttonVars.image, this.spacial.x, this.spacial.y)
