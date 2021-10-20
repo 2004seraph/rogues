@@ -4,17 +4,7 @@ class Player {
     this.pos = createVector(x, y)
     this.velocity = createVector(0, 0)
 
-    this.controls = {
-      up: 87,
-      down: 83,
-      left: 65,
-      right: 68,
-      jump: 32,
-      lightAttack: 66,
-      heavyAttack: 78,
-      specialAttack: 77,
-      dodge: 16
-    }
+    this.controls = controlScheme
 
     this.character = null
     this.charID = null

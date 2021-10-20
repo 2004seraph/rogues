@@ -65,8 +65,7 @@ function timeScaler() {
 }
 
 function keyPressed() {
-  //console.log(keyCode)
-  //https://theasciicode.com.ar/
+  //console.log(keyCode, key)
   userStartAudio()
   switch (key) {
     case "l":
