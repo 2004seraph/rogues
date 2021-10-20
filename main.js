@@ -68,8 +68,8 @@ function keyPressed() {
   //console.log(keyCode)
   //https://theasciicode.com.ar/
   userStartAudio()
-  switch (keyCode) {
-    case 114:
+  switch (key) {
+    case "l":
       gotoGame()
       break
   }
