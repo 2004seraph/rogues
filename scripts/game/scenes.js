@@ -129,12 +129,14 @@ function createScenes() {
   scenes[MAINMENU] = {
     start: function() {
       //online, offline, back, account
+      this.buttonSize = 450
+      this.spacing = 20
+      this.buttonLevel = 170//lower = bottom
+      this.heightMult = 1/4.5
 
-      let buttonSize = 256
-      let spacing = 20
-      let buttonLevel = 100
+      let b_height = this.buttonSize * this.heightMult
 
-      buttons.offlinePlayButton = new Button(CANX/2 - buttonSize*1.5, CANY/2 - buttonSize/3/2 - buttonLevel, buttonSize*1.4, buttonSize/3, 
+      buttons.offlinePlayButton = new Button(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel, this.buttonSize, b_height, 
         function () {
           if (!(this.mouseOver)) {
             //image(this.buttonVars.image, this.spacial.x, this.spacial.y)
@@ -160,7 +162,7 @@ function createScenes() {
           tinted: null//.tint(55, 255, 255)
         }
       )
-      buttons.onlinePlayButton = new Button(CANX/2 - buttonSize*1.5, CANY/2 - buttonSize/3/2, buttonSize*1.4 * 0.6, buttonSize/3, 
+      buttons.onlinePlayButton = new Button(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + b_height + this.spacing, this.buttonSize * 0.6 + this.spacing, b_height, 
         function () {
           if (!(this.mouseOver)) {
             //image(this.buttonVars.image, this.spacial.x, this.spacial.y)
@@ -186,8 +188,34 @@ function createScenes() {
           tinted: null//.tint(55, 255, 255)
         }
       )
-      buttons.onlinePlayButton.state = false
-      buttons.hubToMenu = new Button(CANX/2 - buttonSize*1.5, CANY/2 - buttonSize/3/2 + buttonLevel + buttonSize/3/2, buttonSize*1.4, buttonSize/3/2, 
+        buttons.onlinePlayButton.state = false
+      buttons.accountInfo = new Button(CANX/2 - this.buttonSize*0.4 + this.spacing, CANY/2 - this.buttonLevel + b_height + this.spacing, this.buttonSize * 0.4 - this.spacing*2, b_height, 
+        function () {
+          if (!(this.mouseOver)) {
+            //image(this.buttonVars.image, this.spacial.x, this.spacial.y)
+          } else {
+            //image(this.buttonVars.tinted, this.spacial.x, this.spacial.y)
+          }
+
+          textAlign(LEFT, TOP)
+          fill(255)
+          rect(this.spacial.x, this.spacial.y, this.spacial.w, this.spacial.h)
+          fill(0)
+          text("Accoun\nt", this.spacial.x, this.spacial.y)
+
+        }, {
+          clickedFunction: function () {
+            //this.disable()
+            //ScenesManager.changeScene(STARTSCREEN, mainInterfaceSpeed)
+          }, mouseOverFunction: function () {
+
+          }
+        }, {
+          image: null,
+          tinted: null//.tint(55, 255, 255)
+        }
+      )
+      buttons.hubToMenu = new Button(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + b_height*2 + this.spacing*2+ this.spacing*2, this.buttonSize, b_height, 
         function () {
           if (!(this.mouseOver)) {
             //image(this.buttonVars.image, this.spacial.x, this.spacial.y)
@@ -213,39 +241,25 @@ function createScenes() {
           tinted: null//.tint(55, 255, 255)
         }
       )
-      buttons.accountInfo = new Button(CANX/2 - buttonSize*1.5 + buttonSize*1.4 * 0.6 + spacing, CANY/2 - buttonSize/3/2, buttonSize*1.4 * 0.4 - spacing, buttonSize/3, 
-        function () {
-          if (!(this.mouseOver)) {
-            //image(this.buttonVars.image, this.spacial.x, this.spacial.y)
-          } else {
-            //image(this.buttonVars.tinted, this.spacial.x, this.spacial.y)
-          }
-
-          textAlign(LEFT, TOP)
-          fill(255)
-          rect(this.spacial.x, this.spacial.y, this.spacial.w, this.spacial.h)
-          fill(0)
-          text("Account", this.spacial.x, this.spacial.y)
-
-        }, {
-          clickedFunction: function () {
-            //this.disable()
-            //ScenesManager.changeScene(STARTSCREEN, mainInterfaceSpeed)
-          }, mouseOverFunction: function () {
-
-          }
-        }, {
-          image: null,
-          tinted: null//.tint(55, 255, 255)
-        }
-      )
     },
     run: function() {
-      //background(255, 255, 255)
       image(ASSETS.namedImages.modeSelectBG, 0, 0)
 
-      //rect()
-    }
+      let b_height = this.buttonSize * this.heightMult
+
+      fill(255, 0, 255)
+      rect(CANX/2 - this.buttonSize - this.spacing - this.spacing, CANY/2 - this.buttonLevel - this.spacing, this.buttonSize*2 + this.spacing*2 + this.spacing*2, b_height*3 + this.spacing*4 + this.spacing*2)
+      
+      fill(0)
+      rect(CANX/2 + this.spacing, CANY/2 - this.buttonLevel, this.buttonSize, b_height*3 + this.spacing*4)
+      fill(255)
+      text("Highscores", CANX/2 + this.spacing, CANY/2 - this.buttonLevel)
+    },
+
+    buttonSize: 0,
+    buttonLevel: 0,
+    spacing: 0,
+    heightMult: 0
   }
 
   scenes[CHARACTERSELECT] = {
