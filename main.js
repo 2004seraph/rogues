@@ -40,8 +40,6 @@ function setup() {
   textAlign(CENTER, CENTER)
   textSize(28)
   noStroke()
-
-  console.log(createGraphics.toString())
 }
 
 function draw() {

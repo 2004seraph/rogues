@@ -27,7 +27,7 @@ class BoxCollider {
     rect(this.pos.x, this.pos.y, this.dimensions.w, this.dimensions.h)
     pop()
 
-    for (var object in this.sides) {
+    for (let object in this.sides) {
       let s = this.sides[object]
       if (s) {
         push()
@@ -44,7 +44,7 @@ class BoxCollider {
 
     let correction = createVector(0, 0)
 
-    for (var side in this.sides) {
+    for (let side in this.sides) {
       let s = this.sides[side]
 
       if (s === null) {

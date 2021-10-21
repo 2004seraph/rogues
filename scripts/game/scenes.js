@@ -128,6 +128,42 @@ function createScenes() {
   //MAINMENU
   scenes[MAINMENU] = {
     start: function() {
+      //background moving boxes
+      particleSystems.hubDataBoxes = new ParticleSystem(0, 0)
+      for (let i = 0; i < 300; i++) {
+        let dataBoxParameters = {
+          width: Math.random() * CANX,
+          height: Math.random() * 50 + 10,
+          speed: Math.random() * 5,
+          color: 180 + Math.random() * 180,
+          index: i,
+          alpha: Math.random()*1,
+          sat: 50 + Math.random() * 150
+        }
+        let dataBoxDisplay = function(worldPosition) {
+          push()
+          colorMode(HSB)
+          fill(this.parameters.color, this.parameters.sat, 255, this.parameters.alpha * Math.sin(frameCount/60 + this.parameters.index) ** 2)
+          noStroke()
+          rect(worldPosition.x + this.pos.x, worldPosition.x + this.pos.y, this.parameters.width, this.parameters.height)
+          pop()
+        }
+        let dataBoxUpdate = function(worldPosition) {
+          this.pos.x -= this.parameters.speed
+        }
+        let dataBoxDestroy = function() {
+          if (collideRectRect(this.pos.x, this.pos.y, this.parameters.width, this.parameters.height, 0, 0, CANX, CANY)) {
+            return false
+          } else {
+            this.pos = {
+              x: CANX - 0.01,
+              y: this.pos.y
+            }
+          }
+        }
+        particleSystems.hubDataBoxes.addParticle(Math.random() * CANX, Math.random() * CANY, {destroyFunction: dataBoxDestroy, displayFunction: dataBoxDisplay, updateFunction: dataBoxUpdate, parameters: dataBoxParameters})
+      }
+
       //online, offline, back, account
       this.buttonSize = 450
       this.spacing = 20
@@ -245,15 +281,19 @@ function createScenes() {
     run: function() {
       image(ASSETS.namedImages.modeSelectBG, 0, 0)
 
+      //updateParticleSystems()
+
       let b_height = this.buttonSize * this.heightMult
 
-      fill(255, 0, 255)
+      fill(55, 0, 55, 180)
+      stroke(0)
+      strokeWeight(2)
       rect(CANX/2 - this.buttonSize - this.spacing - this.spacing, CANY/2 - this.buttonLevel - this.spacing, this.buttonSize*2 + this.spacing*2 + this.spacing*2, b_height*3 + this.spacing*4 + this.spacing*2)
-      
+      noStroke()
       fill(0)
       rect(CANX/2 + this.spacing, CANY/2 - this.buttonLevel, this.buttonSize, b_height*3 + this.spacing*4)
       fill(255)
-      text("Highscores", CANX/2 + this.spacing, CANY/2 - this.buttonLevel)
+      text("Highscores and Info", CANX/2 + this.spacing, CANY/2 - this.buttonLevel)
     },
 
     buttonSize: 0,

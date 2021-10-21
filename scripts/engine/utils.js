@@ -33,6 +33,31 @@ function onScreen(x, y) {
 
   return false
 }
+function multiText(x, y, stringList=[]) {
+  push()
+  textAlign(LEFT, TOP)
+
+  let position = {x: x, y: y}
+  for (let [index, item] of stringList.entries()) {
+    fill(0)
+    if (item.hasOwnProperty("color")) {
+      fill(item.color[0], item.color[1], item.color[2], item.color[3])
+    }
+    if (item.hasOwnProperty("newline")) {
+      if (item.newline == true) {
+        position = {x: x, y: position.y + textAscent()}
+      }
+    }
+    if (item.hasOwnProperty("size")) {
+      textSize(item.size)
+    }
+    
+    text(item.text, position.x, position.y - textAscent())
+
+    position.x += textWidth(item.text)
+  }
+  pop()
+}
 
 //MATH
 function Logistic_S_Curve(x, shape=12) {
