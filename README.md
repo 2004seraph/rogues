@@ -1,6 +1,8 @@
 # **Rogues**
 My Computer Science project; a web-based 2D platform fighting game.
 
+Multiplayer is being added
+
 ## TODO List
  - [x] when you tab out and tab back in the colliders will break
  - [ ] try vector-midpoint collsion detection
