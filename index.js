@@ -1,11 +1,16 @@
+"use strict";
+
+require("./database.js")
+
 const socketio = require('socket.io')
 const express = require('express')
 
 const expressObject = express()
 
 //serve web page
+const PORT = process.env['PORT']
 expressObject.use(express.static('web'))
-const webServer = expressObject.listen(3000, function() {
+const webServer = expressObject.listen(PORT, function() {
  console.log("Started Rogues Server")
 })
 
@@ -21,7 +26,14 @@ io.on('connection', function(socket) {
   })
 
   //when packets happen
-  socket.on("message", function(data) {
-    io.emit("response", data)
+  socket.on("showAllTheMen", function(data) {
+    //io.emit("response", data)
+    // addUser("DogTurd", "assmda", function() {
+        // queryUsername("DogTurd", function(rec) {
+        // console.log(rec)
+    // })
+    printDatabase(function(rec) {
+      console.log(rec)
+    })
   })
 })

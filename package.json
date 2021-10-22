@@ -1,5 +1,5 @@
 {
-  "name": "rogues-2",
+  "name": "rogues-online",
   "version": "1.0.0",
   "description": "My Computer Science project; a web-based 2D platform fighting game.",
   "main": "index.js",
@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Sammot/rogues#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "socket.io": "^4.3.1"
+    "socket.io": "^4.3.1",
+    "sqlite3": "^5.0.2"
   }
 }
