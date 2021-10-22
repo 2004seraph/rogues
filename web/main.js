@@ -87,3 +87,11 @@ function mousePressed() {
   //console.log(mouseX, mouseY)
   userStartAudio()
 }
+
+
+/*
+socket.on("coord", function(data) {
+  //recieve
+})
+socket.emit("message", {data})
+*/

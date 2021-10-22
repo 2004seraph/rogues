@@ -22,6 +22,6 @@ io.on('connection', function(socket) {
 
   //when packets happen
   socket.on("message", function(data) {
-    io.emit("responce", data)
+    io.emit("response", data)
   })
 })
