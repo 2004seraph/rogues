@@ -137,7 +137,7 @@ function createScenes() {
           speed: Math.random() * 5,
           color: 180 + Math.random() * 180,
           index: i,
-          alpha: Math.random()*1,
+          alpha: Math.random(),
           sat: 50 + Math.random() * 150
         }
         let dataBoxDisplay = function(worldPosition) {
@@ -280,8 +280,10 @@ function createScenes() {
     },
     run: function() {
       image(ASSETS.namedImages.modeSelectBG, 0, 0)
-
-      //updateParticleSystems()
+      updateParticleSystems()
+      fill(Math.sin(frameCount/60)**2 * 255, 0, Math.cos(frameCount/60)**2 * 255, Math.cos(frameCount/60 + 90)**2 * 80 + 100)
+      rect(0, 0, CANX, CANY)
+      
 
       let b_height = this.buttonSize * this.heightMult
 
