@@ -41,6 +41,7 @@ class SceneManager {
 
         this.currentScene = this.transition.targetScene
         
+        //this.transition.frameDelta = this.transition.frameLimit + 1
         clearButtons()
         this.scenes[this.currentScene].start()
       }
@@ -49,6 +50,7 @@ class SceneManager {
       if (this.transition.frameDelta > 0) {
         this.transition.frameDelta -= timeScaler()
       } else {
+        this.transition.frameDelta = 0
         //transition over
       }
     }
