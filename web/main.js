@@ -1,5 +1,10 @@
 "use strict";
+//server connection
+var socket = io()
+p5.disableFriendlyErrors = true
+
 var CANX, CANY, Canvas, ScenesManager, Loader
+var resolutionMultiplier = 1
 
 var gameState = {
   currentLevel: null,
@@ -8,9 +13,6 @@ var gameState = {
   authorisedUser: null
 }
 
-p5.disableFriendlyErrors = true
-
-var resolutionMultiplier = 1
 
 function setup() {
   CANX = aspectRatio.w * screenScale// * resolutionMultiplier
