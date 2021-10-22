@@ -1,6 +1,8 @@
 "use strict";
 
-require("./database.js")
+const playerDatabase = require("./database.js")
+var PlayerDatabase = new playerDatabase()
+PlayerDatabase.initializeTable()
 
 const socketio = require('socket.io')
 const express = require('express')
@@ -32,7 +34,7 @@ io.on('connection', function(socket) {
         // queryUsername("DogTurd", function(rec) {
         // console.log(rec)
     // })
-    printDatabase(function(rec) {
+    PlayerDatabase.printDatabase(function(rec) {
       console.log(rec)
     })
   })
