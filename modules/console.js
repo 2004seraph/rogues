@@ -50,19 +50,3 @@ exports.cli = class CLI {
     this.consoleInput.resume()
   }
 }
-
-      //alias code - might be broken
-      // else {
-      //   for (let alias of this.commands[name].aliases) {
-      //     if (lineArguments[0].toUpperCase() == alias.toUpperCase()) {
-      //       lineArguments.shift()
-      //       this.commands[name].command(lineArguments)
-      //       ran = true
-      //     }
-      //   }
-      // }
-
-          // this.consoleInput.pause()
-    // this.consoleInput.write(args)
-    // this.consoleInput.write("\n")
-    // this.consoleInput.resume()

@@ -1,10 +1,10 @@
 "use strict";
 //set up CLI
-const consoleManager = require("./console.js")
-global.CLI = new consoleManager.cli(require('./commands.js').commands)
+const consoleManager = require("./modules/console.js")
+global.CLI = new consoleManager.cli(require('./modules/commands.js').commands)
 
 //set up player database
-const playerDatabase = require("./database.js")
+const playerDatabase = require("./modules/database.js")
 global.PlayerDatabase = new playerDatabase()
 PlayerDatabase.initializeTable(function() {
   CLI.prompt()//start CLI
@@ -24,7 +24,7 @@ const socketio = require('socket.io')
 const io = socketio(webServer)
 
 //load in server functions
-const {accountEvents, gameEvents} = require("./serverFunctions.js")
+const {accountEvents, gameEvents} = require("./modules/serverFunctions.js")
 global.GlobalServerInfo = {
   username: {
     min: 3,
