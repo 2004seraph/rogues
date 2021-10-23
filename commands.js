@@ -47,6 +47,12 @@ exports.commands = {
     "command": function(args) {
       CLI.printLine("Online Users: " + concurrentUsers)
     }
+  },
+  "evaluate": {
+    "command": function(args) {
+      let arbitraryCode = new Function (args[0])
+      CLI.printLine(arbitraryCode())
+    }
   }
 }
 
