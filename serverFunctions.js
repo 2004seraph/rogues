@@ -27,7 +27,7 @@ exports.accountEvents = {
   "requestLogin": function(data, io) {
     PlayerDatabase.queryUsername(data.username, function(rec) {
       if (rec) {//if that username exists
-        if (rec.PasswordHash == data.passwordHash) {
+        if (data.passwordHash.length == 32 && rec.PasswordHash == data.passwordHash) {
           PlayerDatabase.updateUserLoginDate(rec.ID, function() {
             io.emit("loginCode", {code: "successful", userID: rec.ID})
           })

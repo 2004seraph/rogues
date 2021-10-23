@@ -44,7 +44,7 @@ exports.cli = class CLI {
 
   printLine(args) {
     this.consoleInput.pause()
-    this.prompt(false)
+    this.prompt()
     console.log(args)
     this.prompt()
     this.consoleInput.resume()
