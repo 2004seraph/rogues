@@ -36,13 +36,7 @@ global.GlobalServerInfo = {
   }
 }
 
-// global.crypto = require('crypto')
-// global.sha256Hash = function(message) {
-//   const sha256HashObject = crypto.createHash('sha256')
-//   sha256HashObject.update(message)
-//   return sha256HashObject.digest("hex")
-// }
-
+//server globals
 global.allowSignups = true
 global.concurrentUsers = 0
 

@@ -17,7 +17,7 @@ exports.commands = {
   },
   "user": {
     "command": function(args) {
-      PlayerDatabase.addUser(args[0], args[1])
+      PlayerDatabase.addUser(args[0], sha256Hash(args[1]))
     }
   },
   "echo": {
@@ -48,4 +48,11 @@ exports.commands = {
       CLI.printLine("Online Users: " + concurrentUsers)
     }
   }
+}
+
+const crypto = require('crypto')
+const sha256Hash = function(message) {
+  const sha256HashObject = crypto.createHash('sha256')
+  sha256HashObject.update(message)
+  return sha256HashObject.digest("hex")
 }
