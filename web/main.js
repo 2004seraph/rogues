@@ -1,6 +1,12 @@
 "use strict";
 //server connection
 var socket = io()
+
+const globalServerInfo
+socket.on("globalServerInfo", function(data) {
+  globalServerInfo = data
+})
+
 p5.disableFriendlyErrors = true
 
 var CANX, CANY, Canvas, ScenesManager, Loader

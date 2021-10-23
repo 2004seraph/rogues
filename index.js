@@ -10,12 +10,12 @@ PlayerDatabase.initializeTable(function() {
 
 const socketio = require('socket.io')
 const express = require('express')
-const expressObject = express()
+const app = express()
 
 //serve web page
 const PORT = process.env['PORT']
-expressObject.use(express.static('web'))
-const webServer = expressObject.listen(PORT, function() {
+app.use(express.static('web'))
+const webServer = app.listen(PORT, function() {
   CLI.printLine("Started Rogues Server")
 })
 
@@ -26,10 +26,21 @@ const io = socketio(webServer)
 global.allowSignups = true
 
 const {accountEvents, gameEvents} = require("./serverFunctions.js")
+global.GlobalServerInfo = {
+    username: {
+      min: 3,
+      max: 12
+    },
+    password: {
+      min: 6,
+      max: 24
+    }
+  }
 
 io.on('connection', function(socket) {
   CLI.printLine("connected to " + socket.id)
   concurrentUsers++
+  io.emit("globalServerInfo", GlobalServerInfo)
 
   //disconnect
   socket.on('disconnect', function() {

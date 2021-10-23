@@ -5,7 +5,7 @@ exports.accountEvents = {
       let rUsername = data.username.toString().trim()
 
       //allow names within the mx length and only ascii characters
-      if (rUsername.length < process.env['usernameMaxLength'] && /^[\x00-\x7F]+$/.test(rUsername)) {
+      if (rUsername.length > GlobalServerInfo.username.min && rUsername.length < GlobalServerInfo.username.max && /^[\x00-\x7F]+$/.test(rUsername)) {
         PlayerDatabase.queryUsername(rUsername, function(rec) {
           if (rec == undefined) {//if there is no one with that username
             PlayerDatabase.addUser(rUsername, data.passwordHash, function() {
