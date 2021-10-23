@@ -40,6 +40,16 @@ exports.accountEvents = {
         io.emit("loginCode", {code: "badusername"})
       }
     })
+  },
+  "requestUserData": function(data, io) {
+    PlayerDatabase.queryUserID(data.ID, function(rec) {
+      if (rec) {//if that id exists
+        io.emit("userDataCode", {code: "successful", userData: rec})
+      } else {
+        //id does not exist
+        io.emit("userDataCode", {code: "badID"})
+      }
+    })
   }
 }
 
