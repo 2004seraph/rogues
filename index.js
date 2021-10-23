@@ -6,6 +6,7 @@ const playerDatabase = require("./database.js")
 var PlayerDatabase = new playerDatabase()
 PlayerDatabase.initializeTable(function() {
   CLIsystem.prompt()
+  commands.dumpDatabase.command()
 })
 
 const socketio = require('socket.io')
@@ -66,7 +67,7 @@ io.on('connection', function(socket) {
   //when packets happen
   socket.on("showAllTheMen", function(data) {
     //io.emit("response", data)
-    // addUser("DogTurd", "assmda", function() {
+    // addUser("Doge", "asmda", function() {
         // queryUsername("DogTurd", function(rec) {
         // console.log(rec)
     // })
