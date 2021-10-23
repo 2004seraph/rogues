@@ -24,20 +24,10 @@ exports.cli = class CLI {
     for (let name of commandNames) {
       if (lineArguments[0].toUpperCase() == name.toUpperCase()) {
         lineArguments.shift()
-        this.commands[name].command(lineArguments[0], lineArguments[1])
-        ran = true
+        this.commands[name].command(lineArguments)
+        ran = true//if error
         break
       }
-      //alias code - might be broken
-      // else {
-      //   for (let alias of this.commands[name].aliases) {
-      //     if (lineArguments[0].toUpperCase() == alias.toUpperCase()) {
-      //       lineArguments.shift()
-      //       this.commands[name].command(lineArguments)
-      //       ran = true
-      //     }
-      //   }
-      // }
     }
     if (!ran && line != "") {
       this.printLine("Invalid Rogues-Server command")
@@ -58,9 +48,21 @@ exports.cli = class CLI {
     console.log(args)
     this.prompt()
     this.consoleInput.resume()
-    // this.consoleInput.pause()
+  }
+}
+
+      //alias code - might be broken
+      // else {
+      //   for (let alias of this.commands[name].aliases) {
+      //     if (lineArguments[0].toUpperCase() == alias.toUpperCase()) {
+      //       lineArguments.shift()
+      //       this.commands[name].command(lineArguments)
+      //       ran = true
+      //     }
+      //   }
+      // }
+
+          // this.consoleInput.pause()
     // this.consoleInput.write(args)
     // this.consoleInput.write("\n")
     // this.consoleInput.resume()
-  }
-}

@@ -13,7 +13,6 @@ var gameState = {
   authorisedUser: null
 }
 
-
 function setup() {
   CANX = aspectRatio.w * screenScale// * resolutionMultiplier
   CANY = aspectRatio.h * screenScale// * resolutionMultiplier

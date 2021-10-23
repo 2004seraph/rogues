@@ -19,23 +19,27 @@ const webServer = expressObject.listen(PORT, function() {
   CLI.printLine("Started Rogues Server")
 })
 
+var concurrentUsers = 0
+
 //listen to the webserver's connection
 const io = socketio(webServer)
+global.allowSignups = true
+
+const {accountEvents, gameEvents} = require("./serverFunctions.js")
 
 io.on('connection', function(socket) {
   CLI.printLine("connected to " + socket.id)
+  concurrentUsers++
 
   //disconnect
   socket.on('disconnect', function() {
     CLI.printLine(socket.id + " disconnected")
+    concurrentUsers--
   })
 
   //when packets happen
-  socket.on("showAllTheMen", function(data) {
-    //io.emit("response", data)
-    // addUser("Doge", "asmda", function() {
-        // queryUsername("DogTurd", function(rec) {
-        // console.log(rec)
-    // })
-  })
+  let accountMethodNames = Object.keys(accountEvents)
+  for (let accountAction of accountMethodNames) {
+    socket.on(accountAction, (data) => {accountEvents[accountAction](data, io)})
+  }
 })

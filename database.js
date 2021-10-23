@@ -2,12 +2,12 @@
 const sqlite3 = require('sqlite3').verbose()
 
 module.exports = class PlayerDatabase {
-  constructor(db='PlayerDatabase.db') {
+  constructor(db='./serverData/PlayerDatabase.db') {
     this.database = new sqlite3.Database(db)
   }
 
   initializeTable(callback=function() {}) {
-    this.database.run("CREATE TABLE if not exists Players (ID INTEGER PRIMARY KEY autoincrement, JoinDate DEFAULT CURRENT_TIMESTAMP, Username char(12) DEFAULT player, PasswordHash char(30), Data TEXT DEFAULT '{}')", function(err) {
+    this.database.run("CREATE TABLE if not exists Players (ID INTEGER PRIMARY KEY autoincrement, JoinDate DEFAULT CURRENT_TIMESTAMP, Username char(12) DEFAULT player, PasswordHash char(30), LastLogin DEFAULT 'Never', Data TEXT DEFAULT '{}')", function(err) {
         if (err !== null) {
           CLI.printLine("Database Initialization Error:")
           CLI.printLine(err)
@@ -32,12 +32,31 @@ module.exports = class PlayerDatabase {
   }
 
   addUser(username, passwordHash, callback=function() {}) {
+    let date = new Date()
+    // Convert it to an ISO string
+    let sqliteDate = date.toISOString().replace(/T/, ' ').replace(/\..+/, '')
+
     this.database.run(`INSERT INTO Players(Username, PasswordHash) VALUES(?, ?)`, [username, passwordHash], function(err) {
       if (err) {
         CLI.printLine("Add User Error:")
         CLI.printLine(err)
       } else {
         CLI.printLine("Added Player " + username.toString() + " To Database")
+        callback()
+      }
+    })
+  }
+
+  updateUserLoginDate(userid, callback=function() {}) {
+    let date = new Date()
+    // Convert it to an ISO string
+    let sqliteDate = date.toISOString().replace(/T/, ' ').replace(/\..+/, '')
+
+    this.database.run(`UPDATE Players SET LastLogin=? WHERE ID=?`, [userid, sqliteDate], function(err) {
+      if (err) {
+        CLI.printLine("Login Date Update Error:")
+        CLI.printLine(err)
+      } else {
         callback()
       }
     })
