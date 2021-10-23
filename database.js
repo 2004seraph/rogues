@@ -1,6 +1,5 @@
 "use strict";
 const sqlite3 = require('sqlite3').verbose()
-var printLine = require("./console.js").printLine
 
 module.exports = class PlayerDatabase {
   constructor(db='PlayerDatabase.db') {
@@ -10,39 +9,67 @@ module.exports = class PlayerDatabase {
   initializeTable(callback=function() {}) {
     this.database.run("CREATE TABLE if not exists Players (ID INTEGER PRIMARY KEY autoincrement, JoinDate DEFAULT CURRENT_TIMESTAMP, Username char(12) DEFAULT player, PasswordHash char(30), Data TEXT DEFAULT '{}')", function(err) {
         if (err !== null) {
-          printLine("Database Initialization Error:", err)
+          CLI.printLine("Database Initialization Error:")
+          CLI.printLine(err)
         } else {
-          printLine("Loaded Database")
+          CLI.printLine("Loaded Database")
           callback()
         }
       }
     )
   }
 
+  deleteTable(callback=function() {}) {
+    this.database.run(`DROP TABLE IF EXISTS Players`, function(err) {
+      if (err) {
+        CLI.printLine("Delete Table Error:")
+        CLI.printLine(err)
+      } else {
+        CLI.printLine("Deleted Players Table")
+        callback()
+      }
+    })
+  }
+
   addUser(username, passwordHash, callback=function() {}) {
     this.database.run(`INSERT INTO Players(Username, PasswordHash) VALUES(?, ?)`, [username, passwordHash], function(err) {
       if (err) {
-        printLine("Add User Error:", err)
+        CLI.printLine("Add User Error:")
+        CLI.printLine(err)
       } else {
-        printLine("Added Player", username, "To Database")
+        CLI.printLine("Added Player " + username.toString() + " To Database")
+        callback()
+      }
+    })
+  }
+
+  removeUserID(id, callback=function() {}) {
+    this.database.run(`DELETE FROM Players WHERE ID=?`, id, function(err) {
+      if (err) {
+        CLI.printLine("Remove User Error:")
+        CLI.printLine(err)
+      } else {
+        CLI.printLine("Removed Player " + id.toString() + " From Database")
         callback()
       }
     })
   }
 
   queryUsername(username, callback=function(rec) {}) {
-    this.database.get(`SELECT * FROM Players WHERE Username='${username}'`, function(err, record) {
+    this.database.get(`SELECT * FROM Players WHERE Username=?`, username, function(err, record) {
       if (err) {
-        printLine("Username Query Error:", err)
+        CLI.printLine("Username Query Error:")
+        CLI.printLine(err)
       } else {
         callback(record)
       }
     })
   }
   queryUserID(userID, callback=function(rec) {}) {
-    this.database.get(`SELECT * FROM Players WHERE ID='${userID}'`, function(err, record) {
+    this.database.get(`SELECT * FROM Players WHERE ID=?`, userID, function(err, record) {
       if (err) {
-        printLine("User ID Query Error:", err)
+        CLI.printLine("User ID Query Error:")
+        CLI.printLine(err)
       } else {
         callback(record)
       }
@@ -52,7 +79,8 @@ module.exports = class PlayerDatabase {
   printDatabase(callback=function(rec) {}) {
     this.database.all(`SELECT * FROM Players`, function(err, record) {
       if (err) {
-        printLine("Database Print Error:", err)
+        CLI.printLine("Database Print Error:")
+        CLI.printLine(err)
       } else {
         record.forEach((reci) => {
           callback(reci)
