@@ -2,7 +2,7 @@
 //server connection
 var socket = io()
 
-const globalServerInfo
+var globalServerInfo
 socket.on("globalServerInfo", function(data) {
   globalServerInfo = data
 })
@@ -100,3 +100,5 @@ socket.on("coord", function(data) {
 })
 socket.emit("message", {data})
 */
+
+//hashMessage("sam").then((digest) => {console.log(digest)})
