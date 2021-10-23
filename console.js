@@ -1,8 +1,9 @@
 "use strict";
 const readline = require('readline')
 
-const printLine = function(...args) {
-  console.log("\n" + JSON.stringify(args).replace('"','').replace('[','').replace(']','').replace('"',''))
+const printLine = function(args) {
+  //console.log("\n" + JSON.stringify(args).replace('"','').replace('[','').replace(']','').replace('"',''))
+  console.log(args)
 }
 
 exports.printLine = printLine
@@ -11,7 +12,7 @@ exports.cli = class CLI {
   constructor(commands={}) {
     this.commands = commands
     this.consoleInput = readline.createInterface(process.stdin, process.stdout)
-    this.consoleInput.setPrompt('Rogues-Server> ')
+    //this.consoleInput.setPrompt('Rogues-Server> ')
     this.consoleInput.on('line', (line) => {
       this.lineReader(line)
     })
