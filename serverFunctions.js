@@ -50,6 +50,9 @@ exports.accountEvents = {
         io.emit("userDataCode", {code: "badID"})
       }
     })
+  },
+  "requestGameStatistics": function(data, io) {
+    //highscores and concurrent users
   }
 }
 

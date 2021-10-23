@@ -1,4 +1,5 @@
 "use strict";
+//quality of life CLI for testing and basic management
 exports.commands = {
   "stop": {
     "command": function(args) {
@@ -40,6 +41,11 @@ exports.commands = {
         allowSignups = true
       }
       CLI.printLine("Set Signups to " + allowSignups)
+    }
+  },
+  "users": {
+    "command": function(args) {
+      CLI.printLine("Online Users: " + concurrentUsers)
     }
   }
 }

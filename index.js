@@ -19,7 +19,7 @@ const webServer = expressObject.listen(PORT, function() {
   CLI.printLine("Started Rogues Server")
 })
 
-var concurrentUsers = 0
+global.concurrentUsers = 0
 
 //listen to the webserver's connection
 const io = socketio(webServer)
@@ -42,4 +42,9 @@ io.on('connection', function(socket) {
   for (let accountAction of accountMethodNames) {
     socket.on(accountAction, (data) => {accountEvents[accountAction](data, io)})
   }
+
+  // let gameMethodNames = Object.keys(gameEvents)
+  // for (let gameAction of gameMethodNames) {
+  //   socket.on(gameAction, (data) => {gameEvents[gameAction](data, io)})
+  // }
 })

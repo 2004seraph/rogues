@@ -7,7 +7,7 @@ module.exports = class PlayerDatabase {
   }
 
   initializeTable(callback=function() {}) {
-    this.database.run("CREATE TABLE if not exists Players (ID INTEGER PRIMARY KEY autoincrement, JoinDate DEFAULT CURRENT_TIMESTAMP, Username char(12) DEFAULT player, PasswordHash char(30), LastLogin DEFAULT 'Never', Data TEXT DEFAULT '{}')", function(err) {
+    this.database.run("CREATE TABLE if not exists Players (ID INTEGER PRIMARY KEY autoincrement, JoinDate DEFAULT CURRENT_TIMESTAMP, Username char(12) DEFAULT player, PasswordHash char(30), LastLogin DEFAULT 'Never', Data TEXT DEFAULT '{}', Elo INT DEFAULT 1000)", function(err) {
         if (err !== null) {
           CLI.printLine("Database Initialization Error:")
           CLI.printLine(err)
