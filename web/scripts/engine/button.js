@@ -3,8 +3,17 @@ var buttons = {}
 
 function updateButtons() {
   for (let prop in buttons) {
-    buttons[prop].run()
-    buttons[prop].update()
+    //if the buttons are cleared in a button function, stop execution
+    if (Object.keys(buttons).length > 0) {
+      buttons[prop].update()
+      buttons[prop].run()
+    }
+  }
+}
+
+function globalButtonState(s=false) {
+  for (let prop in buttons) {
+    buttons[prop].state = s
   }
 }
 

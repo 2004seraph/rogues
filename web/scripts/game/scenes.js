@@ -224,7 +224,8 @@ function createScenes() {
           tinted: null//.tint(55, 255, 255)
         }
       )
-        buttons.onlinePlayButton.state = false
+      buttons.onlinePlayButton.state = false
+
       buttons.accountInfo = new Button(CANX/2 - this.buttonSize*0.4 + this.spacing, CANY/2 - this.buttonLevel + b_height + this.spacing, this.buttonSize * 0.4 - this.spacing*2, b_height, 
         function () {
           if (!(this.mouseOver)) {
@@ -240,9 +241,12 @@ function createScenes() {
           text("Accoun\nt", this.spacial.x, this.spacial.y)
 
         }, {
-          clickedFunction: function () {
+          clickedFunction: () => {
             //this.disable()
             //ScenesManager.changeScene(STARTSCREEN, mainInterfaceSpeed)
+            globalButtonState(false)
+            this.showAccountBox = true
+            clearButtons()
           }, mouseOverFunction: function () {
 
           }
@@ -296,12 +300,23 @@ function createScenes() {
       rect(CANX/2 + this.spacing, CANY/2 - this.buttonLevel, this.buttonSize, b_height*3 + this.spacing*4)
       fill(255)
       text("Highscores and Info", CANX/2 + this.spacing, CANY/2 - this.buttonLevel)
-    },
 
+      if (this.showAccountBox) {
+        this.accountDialog()
+      }
+    },
+    accountDialog: function() {
+      //tint(0, 255, 0)
+      let b_height = this.buttonSize * this.heightMult
+      fill(100)
+      rect(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + b_height + this.spacing, this.buttonSize, b_height)
+    },
     buttonSize: 0,
     buttonLevel: 0,
     spacing: 0,
-    heightMult: 0
+    heightMult: 0,
+    showAccountBox: false,
+    accountBoxStuff: {}
   }
 
   scenes[CHARACTERSELECT] = {
