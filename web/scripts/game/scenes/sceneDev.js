@@ -2,7 +2,7 @@ function devScene() {
   ScenesManager.scenes[MAINMENU] = {
     start: function() {
       //background moving boxes
-      particleSystems.hubDataBoxes = new ParticleSystem(300, 0)
+      particleSystems.hubDataBoxes = new ParticleSystem(0, 0)
       for (let i = 0; i < 300; i++) {
         let dataBoxParameters = {
           width: Math.random() * CANX,
@@ -121,9 +121,10 @@ function devScene() {
             this.showAccountBox = true
             clearButtons()
 
-            let inter = 10
+            let inter = this.spacing/2
             let idfs = 270
 
+            //sign in
             this.accountBoxStuff.usernameInput = createInput()
               .attribute('placeholder', 'Username')
               .attribute('maxlength', globalServerInfo.username.max)
@@ -131,24 +132,88 @@ function devScene() {
               .attribute("spellcheck", false)
               .parent('P5Container')
               .size(idfs)
-            this.accountBoxStuff.usernameInput.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + b_height + this.spacing + inter)
+            this.accountBoxStuff.usernameInput.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + inter+ this.accountBoxStuff.usernameInput.size().height)
 
             this.accountBoxStuff.passwordInput = createInput('', 'password')
               .attribute('placeholder', 'Password')
-              .attribute('maxlength', globalServerInfo.username.max)
+              .attribute('maxlength', globalServerInfo.password.max)
               .attribute("autocomplete", "current-password")
               .attribute("spellcheck", false)
               .parent('P5Container')
               .size(idfs)
-            this.accountBoxStuff.passwordInput.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + b_height + this.spacing + inter*2 + this.accountBoxStuff.usernameInput.size().height)
-            //console.log(this.accountBoxStuff.usernameInput.size())
+            this.accountBoxStuff.passwordInput.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + inter*2 + this.accountBoxStuff.usernameInput.size().height*2)
+
             this.accountBoxStuff.login = createButton('Log In')
               .parent('P5Container')
               .size(this.buttonSize - idfs- this.spacing*2, this.accountBoxStuff.usernameInput.size().height*2 + inter)
-            this.accountBoxStuff.login.position(CANX/2 - this.buttonSize + inter + idfs, CANY/2 - this.buttonLevel + b_height + this.spacing + inter)
-            this.accountBoxStuff.login.mousePressed(logIn)
+            this.accountBoxStuff.login.position(CANX/2 - this.buttonSize + inter + idfs, CANY/2 - this.buttonLevel + inter+ this.accountBoxStuff.usernameInput.size().height)
+            this.accountBoxStuff.login.mousePressed(() => {
+              this.showAccountBox = false
+              logIn()
+              this.accountBoxStuff.back.hide()
+              this.accountBoxStuff.usernameInput.hide()
+              this.accountBoxStuff.passwordInput.hide()
+              this.accountBoxStuff.login.hide()
 
-            //buttons.login = new Button(CANX/2, CANY/2, 99.6, 80)
+              this.accountBoxStuff.usernameCreate.hide()
+              this.accountBoxStuff.passwordCreate1.hide()
+              this.accountBoxStuff.passwordCreate2.hide()
+              this.accountBoxStuff.createAccount.hide()
+              this.start()
+            })
+
+            //sign up
+            this.accountBoxStuff.usernameCreate = createInput()
+              .attribute('placeholder', 'Username')
+              .attribute('maxlength', globalServerInfo.username.max)
+              .attribute("autocomplete", "username")
+              .attribute("spellcheck", false)
+              .parent('P5Container')
+              .size(idfs)
+            this.accountBoxStuff.usernameCreate.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + b_height+ this.accountBoxStuff.usernameInput.size().height*2 + this.spacing + inter)
+
+            this.accountBoxStuff.passwordCreate1 = createInput('', 'password')
+              .attribute('placeholder', 'Password')
+              .attribute('maxlength', globalServerInfo.password.max)
+              .attribute("autocomplete", "new-password")
+              .attribute("spellcheck", false)
+              .parent('P5Container')
+              .size(idfs)
+            this.accountBoxStuff.passwordCreate1.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + b_height+ this.accountBoxStuff.usernameInput.size().height*3 + this.spacing + inter*2)
+            this.accountBoxStuff.passwordCreate2 = createInput('', 'password')
+              .attribute('placeholder', 'Confirm')
+              .attribute('maxlength', globalServerInfo.password.max)
+              .attribute("autocomplete", "new-password")
+              .attribute("spellcheck", false)
+              .parent('P5Container')
+              .size(idfs)
+            this.accountBoxStuff.passwordCreate2.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + b_height+ this.accountBoxStuff.usernameInput.size().height*4 + this.spacing + inter*3)
+            this.accountBoxStuff.createAccount = createButton('Sign Up')
+              .parent('P5Container')
+              .size(this.buttonSize - idfs- this.spacing*2, this.accountBoxStuff.usernameInput.size().height*3 + inter*2)
+            this.accountBoxStuff.createAccount.position(CANX/2 - this.buttonSize + inter + idfs, CANY/2 - this.buttonLevel + inter+ this.accountBoxStuff.usernameInput.size().height*2 + b_height + this.spacing)
+            this.accountBoxStuff.createAccount.mousePressed(() => {
+              signUp()
+            })
+
+            //back
+            this.accountBoxStuff.back = createButton('Back')
+              .parent('P5Container')
+              .size(this.buttonSize, this.accountBoxStuff.usernameInput.size().height)
+            this.accountBoxStuff.back.position(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + b_height*3 + this.spacing*2 + 2)
+            this.accountBoxStuff.back.mousePressed(() => {
+              this.showAccountBox = false
+              this.accountBoxStuff.back.hide()
+              this.accountBoxStuff.usernameInput.hide()
+              this.accountBoxStuff.passwordInput.hide()
+              this.accountBoxStuff.login.hide()
+
+              this.accountBoxStuff.usernameCreate.hide()
+              this.accountBoxStuff.passwordCreate1.hide()
+              this.accountBoxStuff.passwordCreate2.hide()
+              this.accountBoxStuff.createAccount.hide()
+              this.start()
+            })
           }
         }, {
           image: null,
@@ -211,11 +276,32 @@ function devScene() {
     },
     accountDialog: function() {
       let b_height = this.buttonSize * this.heightMult
-      fill(100)
-      rect(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + b_height + this.spacing, this.buttonSize, b_height)
+      push()
+      text("SIGN IN TO ROGUES", CANX/2 - this.buttonSize - this.spacing/2, CANY/2 - this.buttonLevel + this.spacing/2)
+      fill(0, 255, 255, 80)
+      stroke(255)
+      rect(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel, this.buttonSize, b_height+ this.accountBoxStuff.usernameInput.size().height)
+      pop()
+
+      push()
+      text("CREATE A ROGUES ID", CANX/2 - this.buttonSize - this.spacing/2, CANY/2 - this.buttonLevel + b_height+ this.accountBoxStuff.usernameInput.size().height + this.spacing + this.spacing/2)
+      fill(0, 255, 255, 80)
+      stroke(255)
+      rect(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + b_height+ this.accountBoxStuff.usernameInput.size().height + this.spacing, this.buttonSize, b_height*2 + this.spacing - this.accountBoxStuff.usernameInput.size().height)
+      pop()
 
       if (keyIsDown(ENTER)) {
-        //logIn()
+        logIn()
+        this.accountBoxStuff.back.hide()
+        this.accountBoxStuff.usernameInput.hide()
+        this.accountBoxStuff.passwordInput.hide()
+        this.accountBoxStuff.login.hide()
+        this.accountBoxStuff.usernameCreate.hide()
+        this.accountBoxStuff.passwordCreate1.hide()
+        this.accountBoxStuff.passwordCreate2.hide()
+        this.accountBoxStuff.createAccount.hide()
+        this.showAccountBox = false
+        this.start()
       }
     },
     buttonSize: 0,

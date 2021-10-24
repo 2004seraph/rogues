@@ -80,6 +80,9 @@ module.exports = class PlayerDatabase {
         CLI.printLine("Username Query Error:")
         CLI.printLine(err)
       } else {
+        if (record) {
+          record.Data = JSON.parse(record.Data)
+        }
         callback(record)
       }
     })
@@ -90,6 +93,9 @@ module.exports = class PlayerDatabase {
         CLI.printLine("User ID Query Error:")
         CLI.printLine(err)
       } else {
+        if (record) {
+          record.Data = JSON.parse(record.Data)
+        }
         callback(record)
       }
     })
@@ -102,6 +108,7 @@ module.exports = class PlayerDatabase {
         CLI.printLine(err)
       } else {
         record.forEach((reci) => {
+          reci.Data = JSON.parse(reci.Data)
           callback(reci)
         })
       }
