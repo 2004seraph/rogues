@@ -39,6 +39,8 @@ class SceneManager {
       if (this.transition.frameDelta > this.transition.frameLimit || this.transition.frameLimit == 0) {
         this.transition.transitioning = false
 
+        textFont("joystixmonospace")
+
         this.currentScene = this.transition.targetScene
         
         //this.transition.frameDelta = this.transition.frameLimit + 1

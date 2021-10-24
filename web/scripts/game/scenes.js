@@ -11,6 +11,7 @@ function createScenes() {
       if (Loader.complete() && gameLoaded == false) {
         gameLoaded = true
         ScenesManager.changeScene(STARTSCREEN, mainInterfaceSpeed * 3)
+        
       }
     }
   }
@@ -18,8 +19,7 @@ function createScenes() {
   //STARTSCREEN
   scenes[STARTSCREEN] = {
     start: function() {
-      textFont(ASSETS.fonts.common)
-
+      //ASSETS.fonts.common
       buttons.playButton = new Button(CANX - 512 + 140, CANY - 250, 512, 64, 
         function () {
           if (!(this.mouseOver)) {
@@ -247,8 +247,29 @@ function createScenes() {
             globalButtonState(false)
             this.showAccountBox = true
             clearButtons()
-          }, mouseOverFunction: function () {
 
+            let inter = 10
+            let idfs = 270
+
+            this.accountBoxStuff.usernameInput = createInput()
+              .attribute('placeholder', 'Username')
+              .attribute('maxlength', globalServerInfo.username.max)
+              .attribute("autocomplete", "username")
+              .attribute("spellcheck", false)
+              .parent('P5Container')
+              .size(idfs)
+            this.accountBoxStuff.usernameInput.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + b_height + this.spacing + inter)
+
+            this.accountBoxStuff.passwordInput = createInput('', 'password')
+              .attribute('placeholder', 'Password')
+              .attribute('maxlength', globalServerInfo.username.max)
+              .attribute("autocomplete", "current-password")
+              .attribute("spellcheck", false)
+              .parent('P5Container')
+              .size(idfs)
+            this.accountBoxStuff.passwordInput.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 + 43 - this.buttonLevel + b_height + this.spacing + inter)
+
+            //buttons.login = new Button(CANX/2, CANY/2, 99.6, 80)
           }
         }, {
           image: null,
@@ -268,7 +289,6 @@ function createScenes() {
           rect(this.spacial.x, this.spacial.y, this.spacial.w, this.spacial.h)
           fill(0)
           text("Back", this.spacial.x, this.spacial.y)
-
         }, {
           clickedFunction: function () {
             this.disable()
@@ -281,9 +301,14 @@ function createScenes() {
           tinted: null//.tint(55, 255, 255)
         }
       )
+      this.flippedBg = ASSETS.namedImages.modeSelectBG.tint(0, 255, 0)
     },
     run: function() {
-      image(ASSETS.namedImages.modeSelectBG, 0, 0)
+      if (this.showAccountBox) {
+        image(this.flippedBg, 0, 0)
+      } else {
+        image(ASSETS.namedImages.modeSelectBG, 0, 0)
+      }
       updateParticleSystems()
       fill(Math.sin(frameCount/60)**2 * 255, 0, Math.cos(frameCount/60)**2 * 255, Math.cos(frameCount/60 + 90)**2 * 80 + 100)
       rect(0, 0, CANX, CANY)
@@ -306,7 +331,6 @@ function createScenes() {
       }
     },
     accountDialog: function() {
-      //tint(0, 255, 0)
       let b_height = this.buttonSize * this.heightMult
       fill(100)
       rect(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + b_height + this.spacing, this.buttonSize, b_height)
@@ -316,7 +340,8 @@ function createScenes() {
     spacing: 0,
     heightMult: 0,
     showAccountBox: false,
-    accountBoxStuff: {}
+    accountBoxStuff: {},
+    flippedBg: null
   }
 
   scenes[CHARACTERSELECT] = {

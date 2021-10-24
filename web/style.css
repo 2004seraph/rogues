@@ -1,6 +1,8 @@
-html {
-  //overflow: hidden;
+@font-face {
+  font-family: joystixmonospace;
+  src: url(assets/joystixmonospace.ttf);
 }
+
 body {
   margin: 10px;
   display: flex;
@@ -8,8 +10,34 @@ body {
 
   justify-content: center;
   align-items: center;
+
+  font-family: joystixmonospace;
 }
 #P5Container {
   position: relative;
   background-color: rgba(0, 0, 0, 0)
+}
+input {
+  font-family: joystixmonospace, Arial, Helvetica, sans-serif;
+  font-size: 24px;
+  background-color: black;
+  color: cyan;
+}
+
+input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: rgb(78, 66, 187);
+  opacity: 1; /* Firefox */
+}
+input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: rgb(78, 66, 187);
+}
+input::-ms-input-placeholder { /* Microsoft Edge */
+  color: rgb(78, 66, 187);
+}
+
+button {
+  font-family: joystixmonospace, Arial, Helvetica, sans-serif;
+  font-size: 24px;
+  background-color: rgb(54, 54, 54);
+  color: rgb(0, 255, 213);
 }

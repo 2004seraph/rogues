@@ -1,5 +1,5 @@
 "use strict";
-let rootJSONFiles = 5//just the count of json files
+let rootJSONFiles = 4//5//just the count of json files
 
 var ASSETS = {
   levelImages: {},
@@ -15,7 +15,7 @@ var gameLoaded = false
 let fontParse, levels, namedImagesParse, soundsParse, characters
 
 function loadGameAssets() {
-  fontParse = loadJSON("scripts/game/JSON/fonts.json", continueFontLoading)
+  //fontParse = loadJSON("scripts/game/JSON/fonts.json", continueFontLoading)
   levels = loadJSON("scripts/game/JSON/levels.json", continueLevelLoading)
   namedImagesParse = loadJSON("scripts/game/JSON/images.json", continueNamedAssetsLoading)
   soundsParse = loadJSON("scripts/game/JSON/jukebox.json", continueSoundLoading)

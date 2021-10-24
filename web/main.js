@@ -43,6 +43,7 @@ function setup() {
   Loader = new LoadingBar(50, CANY/2 - 50, CANX - 100, 100, rootJSONFiles)
   loadGameAssets()
   ScenesManager = new SceneManager(createScenes(), LOADINGSCREEN)
+  devScene()
 
   textAlign(CENTER, CENTER)
   textSize(28)
@@ -79,10 +80,12 @@ function keyPressed() {
   }
   
   //prevent default for ALL player controls
-  for (let scheme = 0; scheme < controlSchemes.length; scheme++) {
-    for (let schemeKey in controlSchemes[scheme]) {
-      if (controlSchemes[scheme][schemeKey] == keyCode) {
-        return false
+  if (ScenesManager.currentScene == GAME) {
+    for (let scheme = 0; scheme < controlSchemes.length; scheme++) {
+      for (let schemeKey in controlSchemes[scheme]) {
+        if (controlSchemes[scheme][schemeKey] == keyCode) {
+          return false
+        }
       }
     }
   }
