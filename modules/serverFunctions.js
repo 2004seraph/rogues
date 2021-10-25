@@ -2,13 +2,13 @@
 exports.accountEvents = {
   "requestSignup": function(data, io) {
     if (allowSignups) {
-      let rUsername = data.username.toString().trim()
+      let rUsername = data.username.toString().trim().toUpperCase()
 
       //allow names within the mx length and only ascii characters
       if (rUsername.length > GlobalServerInfo.username.min && rUsername.length < GlobalServerInfo.username.max && /^[\x00-\x7F]+$/.test(rUsername)) {
         PlayerDatabase.queryUsername(rUsername, function(rec) {
           if (rec == undefined) {//if there is no one with that username
-            PlayerDatabase.addUser(rUsername.toString().toUpperCase(), data.passwordHash, function() {
+            PlayerDatabase.addUser(rUsername, data.passwordHash, function() {
               PlayerDatabase.queryUsername(rUsername, function(rec) {
                 io.emit("signupCode", {code: "successful", userID: rec.ID, autoLogin: true})
               })
@@ -25,7 +25,7 @@ exports.accountEvents = {
     }
   },
   "requestLogin": function(data, io) {
-    PlayerDatabase.queryUsername(data.username, function(rec) {
+    PlayerDatabase.queryUsername(data.username.toString().toUpperCase(), function(rec) {
       if (rec) {//if that username exists
         if (data.passwordHash.length == 64 && rec.PasswordHash === data.passwordHash) {
           PlayerDatabase.updateUserLoginDate(rec.ID, function() {

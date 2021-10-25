@@ -14,9 +14,11 @@ function signUp() {
   let password1 = ScenesManager.scenes[MAINMENU].accountBoxStuff.passwordCreate1.value()
   let password2 = ScenesManager.scenes[MAINMENU].accountBoxStuff.passwordCreate2.value()
 
-  if (password1 == password2) {
-    hashMessage(password1).then((digest) => {
-      socket.emit("requestSignup", {username: username.toString().toUpperCase(), passwordHash: digest})
-    })
+  if (password1 == password2 && password1.length > globalServerInfo.password.min && password1.length < globalServerInfo.password.max) {
+    if (username.length > globalServerInfo.username.min && username.length < globalServerInfo.username.max) {
+      hashMessage(password1).then((digest) => {
+        socket.emit("requestSignup", {username: username.toString().toUpperCase(), passwordHash: digest})
+      })
+    }
   }
 }
