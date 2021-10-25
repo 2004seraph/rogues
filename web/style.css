@@ -11,9 +11,10 @@ body {
   justify-content: center;
   align-items: center;
 
-  font-family: joystixmonospace;
+  font-family: joystixmonospace, Arial, Helvetica, sans-serif;
 }
 #P5Container {
+  font-family: joystixmonospace, Arial, Helvetica, sans-serif;
   position: relative;
   background-color: rgba(0, 0, 0, 0)
 }
