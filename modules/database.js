@@ -52,7 +52,7 @@ module.exports = class PlayerDatabase {
     // Convert it to an ISO string
     let sqliteDate = date.toISOString().replace(/T/, ' ').replace(/\..+/, '')
 
-    this.database.run(`UPDATE Players SET LastLogin=? WHERE ID=?`, [userid, sqliteDate], function(err) {
+    this.database.run(`UPDATE Players SET LastLogin=? WHERE ID=?`, [sqliteDate, userid], function(err) {
       if (err) {
         CLI.printLine("Login Date Update Error:")
         CLI.printLine(err)
