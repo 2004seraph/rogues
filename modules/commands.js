@@ -50,8 +50,12 @@ exports.commands = {
   },
   "evaluate": {
     "command": function(args) {
-      let arbitraryCode = new Function (args[0])
-      CLI.printLine(arbitraryCode())
+      try {
+        let arbitraryCode = new Function (args[0])
+        CLI.printLine(arbitraryCode())
+      } catch (err) {
+        CLI.printLine(err)
+      }
     }
   }
 }
