@@ -45,189 +45,113 @@ function devScene() {
 
       let b_height = this.buttonSize * this.heightMult
 
-      buttons.offlinePlayButton = new Button(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel, this.buttonSize, b_height, 
-        function () {
-          if (!(this.mouseOver)) {
-            //image(this.buttonVars.image, this.spacial.x, this.spacial.y)
-          } else {
-            //image(this.buttonVars.tinted, this.spacial.x, this.spacial.y)
-          }
+      gameButtons.offlinePlayButton = createButton("Offline Play")
+        .parent('P5Container')
+        .position(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel)
+        .size(this.buttonSize, b_height).mousePressed(() => {
+          ScenesManager.changeScene(CHARACTERSELECT, mainInterfaceSpeed)
+      })
 
-          textAlign(LEFT, TOP)
-          fill(255)
-          rect(this.spacial.x, this.spacial.y, this.spacial.w, this.spacial.h)
-          fill(0)
-          text("Local Play", this.spacial.x, this.spacial.y)
+      gameButtons.onlinePlayButton = createButton("Online Play")
+        .parent('P5Container')
+        .position(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + b_height + this.spacing)
+        .size(this.buttonSize * 0.6 + this.spacing, b_height)
+        .mousePressed(() => {
+      })
 
-        }, {
-          clickedFunction: function () {
-            this.disable()
-            ScenesManager.changeScene(CHARACTERSELECT, mainInterfaceSpeed)
-          }, mouseOverFunction: function () {
+      gameButtons.accountInfo = createButton("Account")
+        .parent('P5Container')
+        .position(CANX/2 - this.buttonSize*0.4 + this.spacing, CANY/2 - this.buttonLevel + b_height + this.spacing)
+        .size(this.buttonSize * 0.4 - this.spacing*2, b_height)
+        .mousePressed(() => {
+          this.showAccountBox = true
+          clearButtons()
 
-          }
-        }, {
-          image: null,
-          tinted: null//.tint(55, 255, 255)
-        }
-      )
-      buttons.onlinePlayButton = new Button(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + b_height + this.spacing, this.buttonSize * 0.6 + this.spacing, b_height, 
-        function () {
-          if (!(this.mouseOver)) {
-            //image(this.buttonVars.image, this.spacial.x, this.spacial.y)
-          } else {
-            //image(this.buttonVars.tinted, this.spacial.x, this.spacial.y)
-          }
+          let inter = this.spacing/2
+          let idfs = 270
 
-          textAlign(LEFT, TOP)
-          fill(255)
-          rect(this.spacial.x, this.spacial.y, this.spacial.w, this.spacial.h)
-          fill(0)
-          text("Online Play", this.spacial.x, this.spacial.y)
+          //sign in
+          this.accountBoxStuff.usernameInput = createInput()
+            .attribute('placeholder', 'Username')
+            .attribute('maxlength', globalServerInfo.username.max)
+            .attribute("autocomplete", "username")
+            .attribute("spellcheck", false)
+            .parent('P5Container')
+            .size(idfs)
+          this.accountBoxStuff.usernameInput.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + inter+ this.accountBoxStuff.usernameInput.size().height)
 
-        }, {
-          clickedFunction: function () {
-            //this.disable()
-            //ScenesManager.changeScene(GAME, mainInterfaceSpeed)
-          }, mouseOverFunction: function () {
+          this.accountBoxStuff.passwordInput = createInput('', 'password')
+            .attribute('placeholder', 'Password')
+            .attribute('maxlength', globalServerInfo.password.max)
+            .attribute("autocomplete", "current-password")
+            .attribute("spellcheck", false)
+            .parent('P5Container')
+            .size(idfs)
+          this.accountBoxStuff.passwordInput.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + inter*2 + this.accountBoxStuff.usernameInput.size().height*2)
 
-          }
-        }, {
-          image: null,
-          tinted: null//.tint(55, 255, 255)
-        }
-      )
-      buttons.onlinePlayButton.state = false
+          this.accountBoxStuff.login = createButton('Log In')
+            .parent('P5Container')
+            .size(this.buttonSize - idfs- this.spacing*2, this.accountBoxStuff.usernameInput.size().height*2 + inter)
+          this.accountBoxStuff.login.position(CANX/2 - this.buttonSize + inter + idfs, CANY/2 - this.buttonLevel + inter+ this.accountBoxStuff.usernameInput.size().height)
+          this.accountBoxStuff.login.mousePressed(() => {
+            logIn()
+            //this.logDone()
+          })
 
-      buttons.accountInfo = new Button(CANX/2 - this.buttonSize*0.4 + this.spacing, CANY/2 - this.buttonLevel + b_height + this.spacing, this.buttonSize * 0.4 - this.spacing*2, b_height, 
-        function () {
-          if (!(this.mouseOver)) {
-            //image(this.buttonVars.image, this.spacial.x, this.spacial.y)
-          } else {
-            //image(this.buttonVars.tinted, this.spacial.x, this.spacial.y)
-          }
+          //sign up
+          this.accountBoxStuff.usernameCreate = createInput()
+            .attribute('placeholder', 'Username')
+            .attribute('maxlength', globalServerInfo.username.max)
+            .attribute("autocomplete", "username")
+            .attribute("spellcheck", false)
+            .parent('P5Container')
+            .size(idfs)
+          this.accountBoxStuff.usernameCreate.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + b_height+ this.accountBoxStuff.usernameInput.size().height*2 + this.spacing + inter)
 
-          textAlign(LEFT, TOP)
-          fill(255)
-          rect(this.spacial.x, this.spacial.y, this.spacial.w, this.spacial.h)
-          fill(0)
-          text("Accoun\nt", this.spacial.x, this.spacial.y)
+          this.accountBoxStuff.passwordCreate1 = createInput('', 'password')
+            .attribute('placeholder', 'Password')
+            .attribute('maxlength', globalServerInfo.password.max)
+            .attribute("autocomplete", "new-password")
+            .attribute("spellcheck", false)
+            .parent('P5Container')
+            .size(idfs)
+          this.accountBoxStuff.passwordCreate1.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + b_height+ this.accountBoxStuff.usernameInput.size().height*3 + this.spacing + inter*2)
+          this.accountBoxStuff.passwordCreate2 = createInput('', 'password')
+            .attribute('placeholder', 'Confirm')
+            .attribute('maxlength', globalServerInfo.password.max)
+            .attribute("autocomplete", "new-password")
+            .attribute("spellcheck", false)
+            .parent('P5Container')
+            .size(idfs)
+          this.accountBoxStuff.passwordCreate2.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + b_height+ this.accountBoxStuff.usernameInput.size().height*4 + this.spacing + inter*3)
+          this.accountBoxStuff.createAccount = createButton('Sign Up')
+            .parent('P5Container')
+            .size(this.buttonSize - idfs- this.spacing*2, this.accountBoxStuff.usernameInput.size().height*3 + inter*2)
+          this.accountBoxStuff.createAccount.position(CANX/2 - this.buttonSize + inter + idfs, CANY/2 - this.buttonLevel + inter+ this.accountBoxStuff.usernameInput.size().height*2 + b_height + this.spacing)
+          this.accountBoxStuff.createAccount.mousePressed(() => {
+            signUp()
+          })
 
-        }, {
-          clickedFunction: () => {
-            //this.disable()
-            //ScenesManager.changeScene(STARTSCREEN, mainInterfaceSpeed)
-            globalButtonState(false)
-            this.showAccountBox = true
-            clearButtons()
-
-            let inter = this.spacing/2
-            let idfs = 270
-
-            //sign in
-            this.accountBoxStuff.usernameInput = createInput()
-              .attribute('placeholder', 'Username')
-              .attribute('maxlength', globalServerInfo.username.max)
-              .attribute("autocomplete", "username")
-              .attribute("spellcheck", false)
-              .parent('P5Container')
-              .size(idfs)
-            this.accountBoxStuff.usernameInput.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + inter+ this.accountBoxStuff.usernameInput.size().height)
-
-            this.accountBoxStuff.passwordInput = createInput('', 'password')
-              .attribute('placeholder', 'Password')
-              .attribute('maxlength', globalServerInfo.password.max)
-              .attribute("autocomplete", "current-password")
-              .attribute("spellcheck", false)
-              .parent('P5Container')
-              .size(idfs)
-            this.accountBoxStuff.passwordInput.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + inter*2 + this.accountBoxStuff.usernameInput.size().height*2)
-
-            this.accountBoxStuff.login = createButton('Log In')
-              .parent('P5Container')
-              .size(this.buttonSize - idfs- this.spacing*2, this.accountBoxStuff.usernameInput.size().height*2 + inter)
-            this.accountBoxStuff.login.position(CANX/2 - this.buttonSize + inter + idfs, CANY/2 - this.buttonLevel + inter+ this.accountBoxStuff.usernameInput.size().height)
-            this.accountBoxStuff.login.mousePressed(() => {
-              logIn()
-              //this.logDone()
-            })
-
-            //sign up
-            this.accountBoxStuff.usernameCreate = createInput()
-              .attribute('placeholder', 'Username')
-              .attribute('maxlength', globalServerInfo.username.max)
-              .attribute("autocomplete", "username")
-              .attribute("spellcheck", false)
-              .parent('P5Container')
-              .size(idfs)
-            this.accountBoxStuff.usernameCreate.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + b_height+ this.accountBoxStuff.usernameInput.size().height*2 + this.spacing + inter)
-
-            this.accountBoxStuff.passwordCreate1 = createInput('', 'password')
-              .attribute('placeholder', 'Password')
-              .attribute('maxlength', globalServerInfo.password.max)
-              .attribute("autocomplete", "new-password")
-              .attribute("spellcheck", false)
-              .parent('P5Container')
-              .size(idfs)
-            this.accountBoxStuff.passwordCreate1.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + b_height+ this.accountBoxStuff.usernameInput.size().height*3 + this.spacing + inter*2)
-            this.accountBoxStuff.passwordCreate2 = createInput('', 'password')
-              .attribute('placeholder', 'Confirm')
-              .attribute('maxlength', globalServerInfo.password.max)
-              .attribute("autocomplete", "new-password")
-              .attribute("spellcheck", false)
-              .parent('P5Container')
-              .size(idfs)
-            this.accountBoxStuff.passwordCreate2.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + b_height+ this.accountBoxStuff.usernameInput.size().height*4 + this.spacing + inter*3)
-            this.accountBoxStuff.createAccount = createButton('Sign Up')
-              .parent('P5Container')
-              .size(this.buttonSize - idfs- this.spacing*2, this.accountBoxStuff.usernameInput.size().height*3 + inter*2)
-            this.accountBoxStuff.createAccount.position(CANX/2 - this.buttonSize + inter + idfs, CANY/2 - this.buttonLevel + inter+ this.accountBoxStuff.usernameInput.size().height*2 + b_height + this.spacing)
-            this.accountBoxStuff.createAccount.mousePressed(() => {
-              signUp()
-            })
-
-            //back
-            this.accountBoxStuff.back = createButton('Back')
-              .parent('P5Container')
-              .size(this.buttonSize, this.accountBoxStuff.usernameInput.size().height)
-            this.accountBoxStuff.back.position(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + b_height*3 + this.spacing*2 + 2)
-            this.accountBoxStuff.back.mousePressed(() => {
-              this.logDone()
-            })
-          }
-        }, {
-          image: null,
-          tinted: null//.tint(55, 255, 255)
-        }
-      )
-      buttons.hubToMenu = new Button(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + b_height*2 + this.spacing*2+ this.spacing*2, this.buttonSize, b_height, 
-        function () {
-          if (!(this.mouseOver)) {
-            //image(this.buttonVars.image, this.spacial.x, this.spacial.y)
-          } else {
-            //image(this.buttonVars.tinted, this.spacial.x, this.spacial.y)
-          }
-
-          textAlign(LEFT, TOP)
-          fill(255)
-          rect(this.spacial.x, this.spacial.y, this.spacial.w, this.spacial.h)
-          fill(0)
-          text("Back", this.spacial.x, this.spacial.y)
-        }, {
-          clickedFunction: function () {
-            this.disable()
+          //back
+          this.accountBoxStuff.back = createButton('Back')
+            .parent('P5Container')
+            .size(this.buttonSize, this.accountBoxStuff.usernameInput.size().height)
+          this.accountBoxStuff.back.position(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + b_height*3 + this.spacing*2 + 2)
+          this.accountBoxStuff.back.mousePressed(() => {
+            this.logDone()
+          })
+      })
+      gameButtons.hubToMenu = createButton('Back')
+        .parent('P5Container')
+        .position(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + b_height*2 + this.spacing*2+ this.spacing*2) 
+        .size(this.buttonSize, b_height)
+        .mousePressed(() => {
             ScenesManager.changeScene(STARTSCREEN, mainInterfaceSpeed)
-          }, mouseOverFunction: function () {
-
-          }
-        }, {
-          image: null,
-          tinted: null//.tint(55, 255, 255)
-        }
-      )
+      })
       this.flippedBg = ASSETS.namedImages.modeSelectBG.tint(0, 255, 0)
     },
     run: function() {
+      textAlign(LEFT, TOP)
       if (this.showAccountBox) {
         image(this.flippedBg, 0, 0)
       } else {

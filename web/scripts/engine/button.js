@@ -1,4 +1,5 @@
 "use strict";
+var gameButtons = {}
 var buttons = {}
 
 function updateButtons() {
@@ -25,7 +26,10 @@ function globalButtonState(s=false) {
 }
 
 function clearButtons() {
-  buttons = {}
+  let butts = Object.keys(gameButtons)
+  for (let butty of butts) {
+    gameButtons[butty].remove()
+  }
 }
 
 class Button {

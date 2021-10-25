@@ -37,6 +37,8 @@ class SceneManager {
   _present() {
     if (this.transition.transitioning == true) {
       if (this.transition.frameDelta > this.transition.frameLimit || this.transition.frameLimit == 0) {
+        clearButtons()
+        
         this.transition.transitioning = false
 
         textFont("joystixmonospace")
@@ -44,7 +46,6 @@ class SceneManager {
         this.currentScene = this.transition.targetScene
         
         //this.transition.frameDelta = this.transition.frameLimit + 1
-        clearButtons()
         this.scenes[this.currentScene].start()
       }
       this.transition.frameDelta += timeScaler()
