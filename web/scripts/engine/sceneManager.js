@@ -13,6 +13,15 @@ class SceneManager {
     this._firstRun = autoInitialize
   }
 
+  preCompute() {
+    let sceneKeys = Object.keys(this.scenes)
+    for (let scene of sceneKeys) {
+      if (this.scenes[scene].hasOwnProperty("preCompute")) {
+        this.scenes[scene].preCompute()
+      }
+    }
+  }
+
   update() {
     if (this.currentScene > -1) {
       if (this._firstRun) {

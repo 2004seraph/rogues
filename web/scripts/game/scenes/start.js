@@ -1,6 +1,15 @@
 loadScenes.startScene = function() {
   ScenesManager.scenes[STARTSCREEN] = {
+    preCompute: function() {
+      for (let i = 0; i < 100; i++) {
+        this.titleImgs.push(ASSETS.namedImages.titleImg.tint(i/100 * 255, 255, 255))
+      }
+      for (let i = 0; i < 100; i++) {
+        this.titleImgs.push(ASSETS.namedImages.titleImg.tint(255 - i/100 * 255, 255, 255))
+      }
+    },
     start: function() {
+      textFont("joystixmonospace")
       //ASSETS.fonts.common
       gameButtons.playButton = createButton('Play')
         .parent('P5Container')
@@ -17,14 +26,6 @@ loadScenes.startScene = function() {
         .mousePressed(() => {
           ScenesManager.changeScene(CREDITS, mainInterfaceSpeed)
       })
-
-      for (let i = 0; i < 100; i++) {
-        this.titleImgs.push(ASSETS.namedImages.titleImg.tint(i/100 * 255, 255, 255))
-      }
-      for (let i = 0; i < 100; i++) {
-        this.titleImgs.push(ASSETS.namedImages.titleImg.tint(255 - i/100 * 255, 255, 255))
-      }
-
       //ASSETS.sounds.introSong.loop()
     },
     run: function() {

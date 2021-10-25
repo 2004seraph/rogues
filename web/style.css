@@ -18,13 +18,13 @@ body {
   position: relative;
   background-color: rgba(0, 0, 0, 0)
 }
+
 input {
   font-family: joystixmonospace, Arial, Helvetica, sans-serif;
   font-size: 24px;
   background-color: black;
   color: cyan;
 }
-
 input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: rgb(78, 66, 187);
   opacity: 1; /* Firefox */
@@ -39,6 +39,6 @@ input::-ms-input-placeholder { /* Microsoft Edge */
 button {
   font-family: joystixmonospace, Arial, Helvetica, sans-serif;
   font-size: 24px;
-  background-color: rgb(54, 54, 54);
+  background-image: linear-gradient(red, rgb(255, 0, 191));
   color: rgb(0, 255, 213);
 }
