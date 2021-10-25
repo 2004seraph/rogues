@@ -21,7 +21,7 @@ class SceneManager {
       }
 
       this.scenes[this.currentScene].run()
-      updateButtons()
+      //updateButtons()
     }
     this._present()
   }
@@ -40,8 +40,6 @@ class SceneManager {
         clearButtons()
         
         this.transition.transitioning = false
-
-        textFont("joystixmonospace")
 
         this.currentScene = this.transition.targetScene
         

@@ -1,27 +1,9 @@
 "use strict";
 var gameButtons = {}
-var buttons = {}
-
-function updateButtons() {
-  let bk = Object.keys(buttons)
-  for (let prop in buttons) {
-    //if the buttons are cleared in a button function, stop execution
-    if (Object.keys(buttons).length > 0) {
-      buttons[prop].update()
-    } else {
-      break
-    }
-    if (Object.keys(buttons).length > 0) {
-      buttons[prop].run()
-    } else {
-      break
-    }
-  }
-}
 
 function globalButtonState(s=false) {
-  for (let prop in buttons) {
-    buttons[prop].state = s
+  for (let prop in gameButtons) {
+    gameButtons[prop].attribute("disabled")
   }
 }
 
@@ -32,6 +14,23 @@ function clearButtons() {
   }
 }
 
+// function updateButtons() {
+//   let bk = Object.keys(buttons)
+//   for (let prop in buttons) {
+//     //if the buttons are cleared in a button function, stop execution
+//     if (Object.keys(buttons).length > 0) {
+//       buttons[prop].update()
+//     } else {
+//       break
+//     }
+//     if (Object.keys(buttons).length > 0) {
+//       buttons[prop].run()
+//     } else {
+//       break
+//     }
+//   }
+// }
+/*
 class Button {
   constructor(x, y, w, h, 
     displayFunction=null, 
@@ -227,3 +226,4 @@ class Button {
     this.pressed = false
   }
 }
+*/

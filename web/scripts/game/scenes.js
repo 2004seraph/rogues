@@ -3,7 +3,6 @@ var loadScenes = {}
 
 function createScenes() {
   let loadScenesKeys = Object.keys(loadScenes)
-  console.log(loadScenesKeys)
   for (let sceneLoadFunction of loadScenesKeys) {
     loadScenes[sceneLoadFunction]()
   }

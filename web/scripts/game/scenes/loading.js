@@ -8,7 +8,6 @@ loadScenes.loadingScene = function() {
       if (Loader.complete() && gameLoaded == false) {
         gameLoaded = true
         ScenesManager.changeScene(STARTSCREEN, mainInterfaceSpeed * 3)
-        
       }
     }
   }

@@ -2,68 +2,34 @@ loadScenes.charScene = function() {
   ScenesManager.scenes[CHARACTERSELECT] = {
     start: function() {
       let cornerWidth = 240
-      buttons.back = new Button(10, 10, cornerWidth, 50, 
-        function () {
-          textAlign(LEFT, TOP)
-          fill(255)
-          rect(this.spacial.x, this.spacial.y, this.spacial.w, this.spacial.h)
-          fill(0)
-          text("Back", this.spacial.x, this.spacial.y)
-
-        }, {
-          clickedFunction: function () {
-            this.disable()
-            ScenesManager.changeScene(MAINMENU, mainInterfaceSpeed)
-          }, mouseOverFunction: function () {
-
-          }
-        }
-      )
-      buttons.continueSelection = new Button(CANX - cornerWidth - 10, 10, cornerWidth, 50, 
-        function () {
-          textAlign(LEFT, TOP)
+      gameButtons.back = createButton("Back")
+        .parent('P5Container')
+        .position(10, 10)
+        .size(cornerWidth, 50)
+        .mousePressed(() => {
+          ScenesManager.changeScene(MAINMENU, mainInterfaceSpeed)
+      })
+      gameButtons.continueSelection = createButton("Continue")
+        .parent('P5Container')
+        .position(CANX - cornerWidth - 10, 10)
+        .size(cornerWidth, 50)
+        .mousePressed(() => {
           if (ScenesManager.scenes[CHARACTERSELECT].selection.player1 !== null && ScenesManager.scenes[CHARACTERSELECT].selection.player2 !== null) {
-            fill(255)
-          } else {
-            fill(80)
+            ScenesManager.changeScene(LEVELSELECT, mainInterfaceSpeed)
           }
-          rect(this.spacial.x, this.spacial.y, this.spacial.w, this.spacial.h)
-          fill(0)
-          text("Continue", this.spacial.x, this.spacial.y)
-
-        }, {
-          clickedFunction: function () {
-            if (ScenesManager.scenes[CHARACTERSELECT].selection.player1 !== null && ScenesManager.scenes[CHARACTERSELECT].selection.player2 !== null) {
-              this.disable()
-              ScenesManager.changeScene(LEVELSELECT, mainInterfaceSpeed)
-            }
-            }, mouseOverFunction: function () {
-
-            }
-          }
-      )
+      })
 
       let resetWidth = 400
-      buttons.resetSelection = new Button(CANX/2 - resetWidth/2, 10, resetWidth, 50, 
-        function () {
+      gameButtons.resetSelection = createButton("Reset Selection")
+        .parent('P5Container')
+        .position(CANX/2 - resetWidth/2, 10)
+        .size(resetWidth, 50)
+        .mousePressed(() => {
           if (ScenesManager.scenes[CHARACTERSELECT].selection.player1 !== null) {
-            textAlign(LEFT, TOP)
-            fill(255)
-            rect(this.spacial.x, this.spacial.y, this.spacial.w, this.spacial.h)
-            fill(0)
-            text("Reset Selection", this.spacial.x, this.spacial.y)
+            ScenesManager.scenes[CHARACTERSELECT].selection.player1 = null
+            ScenesManager.scenes[CHARACTERSELECT].selection.player2 = null
           }
-        }, {
-          clickedFunction: function () {
-            if (ScenesManager.scenes[CHARACTERSELECT].selection.player1 !== null) {
-              ScenesManager.scenes[CHARACTERSELECT].selection.player1 = null
-              ScenesManager.scenes[CHARACTERSELECT].selection.player2 = null
-            }
-            }, mouseOverFunction: function () {
-
-            }
-          }
-      )
+      })
 
       this.readyStar = ASSETS.namedImages.starEmbelum
       this.unreadyStar = ASSETS.namedImages.starEmbelum.tint(0, 80, 0)
@@ -79,23 +45,19 @@ loadScenes.charScene = function() {
         let x = CANX/2 - (this.amountOfCharacters/2) * this.playerCard + i * (this.playerCard + this.cardSpacing) - this.cardSpacing/2
         let y = 140
 
-        buttons[("characterSelect" + (i).toString())] = new Button(x, y, this.playerCard, this.playerCardheight, 
-          function () {
-          }, {
-            clickedFunction: function () {
-              if (ScenesManager.scenes[CHARACTERSELECT].selection.player1 === null) {
-                ScenesManager.scenes[CHARACTERSELECT].selection.player1 = this.buttonVars.character
-              } else {
-                if (ScenesManager.scenes[CHARACTERSELECT].selection.player2 === null) {
-                  ScenesManager.scenes[CHARACTERSELECT].selection.player2 = this.buttonVars.character
-                }
-              }
-            }, mouseOverFunction: function () {
+        gameButtons[("characterSelect" + (i).toString())] = createButton(i)
+        .parent('P5Container')
+        .position(x, y)
+        .size(this.playerCard, this.playerCardheight)
+        .mousePressed(() => {
+          if (ScenesManager.scenes[CHARACTERSELECT].selection.player1 === null) {
+            ScenesManager.scenes[CHARACTERSELECT].selection.player1 = i
+          } else {
+            if (ScenesManager.scenes[CHARACTERSELECT].selection.player2 === null) {
+              ScenesManager.scenes[CHARACTERSELECT].selection.player2 = i
             }
-          }, {
-            character: i
           }
-        )
+        })
       }
 
       this.showStats = function(char, x, y) {

@@ -1,7 +1,7 @@
 loadScenes.gameScene = function() {
   ScenesManager.scenes[GAME] = {
     start: function() {
-      initialiseLevel(scenes[LEVELSELECT].selection, scenes[CHARACTERSELECT].selection.player1, scenes[CHARACTERSELECT].selection.player2)
+      initialiseLevel(ScenesManager.scenes[LEVELSELECT].selection, ScenesManager.scenes[CHARACTERSELECT].selection.player1, ScenesManager.scenes[CHARACTERSELECT].selection.player2)
     },
     run: function() {
       background(100)

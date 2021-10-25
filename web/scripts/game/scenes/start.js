@@ -2,62 +2,21 @@ loadScenes.startScene = function() {
   ScenesManager.scenes[STARTSCREEN] = {
     start: function() {
       //ASSETS.fonts.common
-      buttons.playButton = new Button(CANX - 512 + 140, CANY - 250, 512, 64, 
-        function () {
-          if (!(this.mouseOver)) {
-            image(this.buttonVars.image, this.spacial.x - Logistic_S_Curve(this.buttonVars.change * timeScaler()) * 40, this.spacial.y)
-          } else {
-            image(this.buttonVars.tinted, this.spacial.x - Logistic_S_Curve(this.buttonVars.change * timeScaler()) * 40, this.spacial.y)
-          }
-          if (this.mouseOver == false) {
-            if (this.buttonVars.change > 0) {
-              this.buttonVars.change -= this.buttonVars.rate
-            }
-          }
-        }, {
-          clickedFunction: function () {
-            this.disable()
-            ScenesManager.changeScene(MAINMENU, mainInterfaceSpeed)
-          }, mouseOverFunction: function () {
-            if (this.buttonVars.change < 1) {
-              this.buttonVars.change += this.buttonVars.rate
-            }
-          }
-        }, {
-          image: ASSETS.namedImages.playImg,
-          change: 0,
-          rate: 0.06,
-          tinted: ASSETS.namedImages.playImg.tint(55, 255, 255)
-        }
-      )
-      buttons.creditsButton = new Button(CANX - 256 + 50, CANY - 180, 512, 64, 
-        function () {
-          if (!(this.mouseOver)) {
-            image(this.buttonVars.image, this.spacial.x - Logistic_S_Curve(this.buttonVars.change * timeScaler()) * 40, this.spacial.y)
-          } else {
-            image(this.buttonVars.tinted, this.spacial.x - Logistic_S_Curve(this.buttonVars.change * timeScaler()) * 40, this.spacial.y)
-          }
-          if (this.mouseOver == false) {
-            if (this.buttonVars.change > 0) {
-              this.buttonVars.change -= this.buttonVars.rate
-            }
-          }
-        }, {
-          clickedFunction: function () {
-            //this.disable()
-            //ScenesManager.changeScene(CREDITS, mainInterfaceSpeed)
-          }, mouseOverFunction: function () {
-            if (this.buttonVars.change < 1) {
-              this.buttonVars.change += this.buttonVars.rate
-            }
-          }
-        }, {
-          image: ASSETS.namedImages.creditImg,
-          change: 0,
-          rate: 0.06,
-          tinted: ASSETS.namedImages.creditImg.tint(55, 255, 255)
-        }
-      )
+      gameButtons.playButton = createButton('Play')
+        .parent('P5Container')
+        .position(CANX - 512 + 140, CANY - 250)
+        .size(512, 64)
+        .mousePressed(() => {
+          ScenesManager.changeScene(MAINMENU, mainInterfaceSpeed)
+      })
+
+      gameButtons.creditsButton = createButton('Credits')
+        .parent('P5Container')
+        .position(CANX - 256 + 50, CANY - 180)
+        .size(512, 64)
+        .mousePressed(() => {
+          ScenesManager.changeScene(CREDITS, mainInterfaceSpeed)
+      })
 
       for (let i = 0; i < 100; i++) {
         this.titleImgs.push(ASSETS.namedImages.titleImg.tint(i/100 * 255, 255, 255))
@@ -106,6 +65,4 @@ loadScenes.startScene = function() {
     mouseDirection: createVector(0, 0),
     spin: 0
   }
-
-  
 }
