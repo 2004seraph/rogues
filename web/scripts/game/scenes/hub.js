@@ -62,6 +62,10 @@ loadScenes.hubScene = function() {
         .mousePressed(() => {
       })
 
+      if (accountData == null) {
+        gameButtons.onlinePlayButton.attribute("disabled", "")
+      }
+
       gameButtons.accountInfo = createButton("Account")
         .parent('P5Container')
         .position(CANX/2 - this.buttonSize*0.4 + this.spacing, CANY/2 - this.buttonLevel + b_height + this.spacing)
@@ -142,8 +146,12 @@ loadScenes.hubScene = function() {
           this.accountBoxStuff.back.position(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + b_height*3 + this.spacing*2 + 2)
           this.accountBoxStuff.back.mousePressed(() => {
             this.logDone()
+            this.start()
           })
       })
+      if (socket.connected == false) {
+        gameButtons.accountInfo.attribute("disabled", "")
+      }
       gameButtons.hubToMenu = createButton('Back')
         .parent('P5Container')
         .position(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + b_height*2 + this.spacing*2+ this.spacing*2) 
@@ -178,16 +186,24 @@ loadScenes.hubScene = function() {
 
       fill(255)
       text("Highscores and Info", CANX/2 + this.spacing, CANY/2 - this.buttonLevel)
-
+      
       if (this.showAccountBox) {
         this.accountDialog()
       }
 
+      push()
+      textAlign(LEFT, BOTTOM)
       if (gameState.authorisedUser != null && accountData != null) {
-        push()
-        textAlign(LEFT, BOTTOM)
         text("Signed into: " + accountData.Username.toString(), CANX/2 - this.buttonSize - this.spacing*2, CANY/2 - this.buttonLevel - this.spacing)
-        pop()
+      } else {
+        text("Not Signed In", CANX/2 - this.buttonSize - this.spacing*2, CANY/2 - this.buttonLevel - this.spacing)
+      }
+      pop()
+
+      if (socket.connected == false) {
+        gameButtons.accountInfo.attribute("disabled", "")
+      } else {
+        gameButtons.accountInfo.removeAttribute("disabled")
       }
     },
     accountDialog: function() {
@@ -221,17 +237,26 @@ loadScenes.hubScene = function() {
                 socket.emit("requestUserData", {ID: gameState.authorisedUser})
                 break
               case "badpassword":
+                console.log("bad password")
                 break
               case "badusername":
+                console.log("bad username")
                 break
             }
             break
           case "signupCode":
+            switch (currentPacket.data.code) {
+              case "successful":
+                break
+              case "usernameTaken":
+                break
+            }
             break
           case "userDataCode":
             switch (currentPacket.data.code) {
               case "successful":
                 accountData = currentPacket.data.userData
+                //this.logDone()
                 break
               case "badID":
                 window.close()
@@ -260,8 +285,6 @@ loadScenes.hubScene = function() {
       this.accountBoxStuff.passwordCreate1.hide()
       this.accountBoxStuff.passwordCreate2.hide()
       this.accountBoxStuff.createAccount.hide()
-
-      this.start()
     }
   }
 }

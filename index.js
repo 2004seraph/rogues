@@ -33,14 +33,25 @@ global.GlobalServerInfo = {
   password: {
     min: 6,
     max: 24
+  },
+  transmission: {
+    wait: 1000
   }
 }
 
 //server globals
 global.allowSignups = true
 global.concurrentUsers = 0
+var connectionsLimit = 40
 
 io.on('connection', function(socket) {
+  //limit connections to protect server
+  if (io.engine.clientsCount > connectionsLimit) {
+    socket.emit("blocked", {code: "maxOnlineUsers"})
+    socket.disconnect()
+    return
+  }
+  
   CLI.printLine("connected to " + socket.conn.remoteAddress)
   concurrentUsers++
   io.emit("globalServerInfo", GlobalServerInfo)

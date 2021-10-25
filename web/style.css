@@ -41,4 +41,16 @@ button {
   font-size: 24px;
   background-image: linear-gradient(rgb(75, 0, 173), rgb(255, 0, 212));
   color: rgb(0, 255, 213);
+
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+button[disabled=disabled], button:disabled {
+  background-image: linear-gradient(rgb(104, 0, 240), rgb(110, 0, 92));
+  color: rgb(89, 59, 255);
 }
