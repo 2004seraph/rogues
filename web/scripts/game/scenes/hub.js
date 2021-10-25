@@ -1,4 +1,4 @@
-function devScene() {
+loadScenes.hubScene = function() {
   ScenesManager.scenes[MAINMENU] = {
     start: function() {
       //background moving boxes

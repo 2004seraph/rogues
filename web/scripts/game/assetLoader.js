@@ -1,5 +1,6 @@
 "use strict";
 let rootJSONFiles = 4//5//just the count of json files
+var loadScenes = {}
 
 var ASSETS = {
   levelImages: {},

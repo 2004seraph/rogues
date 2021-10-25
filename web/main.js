@@ -41,8 +41,8 @@ function setup() {
 
   Loader = new LoadingBar(50, CANY/2 - 50, CANX - 100, 100, rootJSONFiles)
   loadGameAssets()
-  ScenesManager = new SceneManager(createScenes(), LOADINGSCREEN)
-  devScene()
+  ScenesManager = new SceneManager({}, LOADINGSCREEN)
+  createScenes()
 
   textAlign(CENTER, CENTER)
   textSize(28)
