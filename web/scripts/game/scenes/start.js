@@ -1,3 +1,4 @@
+"use strict";
 loadScenes.startScene = function() {
   ScenesManager.scenes[STARTSCREEN] = {
     preCompute: function() {
@@ -14,15 +15,15 @@ loadScenes.startScene = function() {
       gameButtons.playButton = createButton('Play')
         .parent('P5Container')
         .position(CANX - 512 + 140, CANY - 250)
-        .size(512, 64)
+        .size(512-140, 64)
         .mousePressed(() => {
           ScenesManager.changeScene(MAINMENU, mainInterfaceSpeed)
       })
 
       gameButtons.creditsButton = createButton('Credits')
         .parent('P5Container')
-        .position(CANX - 256 + 50, CANY - 180)
-        .size(512, 64)
+        .position(CANX - 512 + 140, CANY - 180)
+        .size(512-140, 64)
         .mousePressed(() => {
           ScenesManager.changeScene(CREDITS, mainInterfaceSpeed)
       })

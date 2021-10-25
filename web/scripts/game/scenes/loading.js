@@ -1,3 +1,4 @@
+"use strict";
 loadScenes.loadingScene = function() {
   ScenesManager.scenes[LOADINGSCREEN] = {
     start: function() {},

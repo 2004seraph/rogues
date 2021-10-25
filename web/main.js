@@ -1,10 +1,4 @@
 "use strict";
-//server connection
-
-var globalServerInfo
-socket.on("globalServerInfo", function(data) {
-  globalServerInfo = data
-})
 
 p5.disableFriendlyErrors = true
 

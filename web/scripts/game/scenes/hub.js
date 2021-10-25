@@ -1,6 +1,7 @@
+"use strict";
 loadScenes.hubScene = function() {
   ScenesManager.scenes[MAINMENU] = {
-    start: function() {
+    preCompute: function() {
       //background moving boxes
       particleSystems.hubDataBoxes = new ParticleSystem(0, 0)
       for (let i = 0; i < 300; i++) {
@@ -36,13 +37,15 @@ loadScenes.hubScene = function() {
         }
         particleSystems.hubDataBoxes.addParticle(Math.random() * CANX, Math.random() * CANY, {destroyFunction: dataBoxDestroy, displayFunction: dataBoxDisplay, updateFunction: dataBoxUpdate, parameters: dataBoxParameters})
       }
+      this.flippedBg = ASSETS.namedImages.modeSelectBG.tint(0, 255, 0)
 
       //online, offline, back, account
       this.buttonSize = 450
       this.spacing = 20
       this.buttonLevel = 170//lower = bottom
       this.heightMult = 1/4.5
-
+    },
+    start: function() {
       let b_height = this.buttonSize * this.heightMult
 
       gameButtons.offlinePlayButton = createButton("Offline Play")
@@ -148,7 +151,6 @@ loadScenes.hubScene = function() {
         .mousePressed(() => {
             ScenesManager.changeScene(STARTSCREEN, mainInterfaceSpeed)
       })
-      this.flippedBg = ASSETS.namedImages.modeSelectBG.tint(0, 255, 0)
     },
     run: function() {
       textAlign(LEFT, TOP)
@@ -157,25 +159,35 @@ loadScenes.hubScene = function() {
       } else {
         image(ASSETS.namedImages.modeSelectBG, 0, 0)
       }
+
       updateParticleSystems()
+
       fill(Math.sin(frameCount/60)**2 * 255, 0, Math.cos(frameCount/60)**2 * 255, Math.cos(frameCount/60 + 90)**2 * 80 + 100)
       rect(0, 0, CANX, CANY)
       
-
       let b_height = this.buttonSize * this.heightMult
 
       fill(55, 0, 55, 180)
       stroke(0)
       strokeWeight(2)
-      rect(CANX/2 - this.buttonSize - this.spacing - this.spacing, CANY/2 - this.buttonLevel - this.spacing, this.buttonSize*2 + this.spacing*2 + this.spacing*2, b_height*3 + this.spacing*4 + this.spacing*2)
+      rect(CANX/2 - this.buttonSize - this.spacing*2, CANY/2 - this.buttonLevel - this.spacing, this.buttonSize*2 + this.spacing*4, b_height*3 + this.spacing*6)
+
       noStroke()
       fill(0)
       rect(CANX/2 + this.spacing, CANY/2 - this.buttonLevel, this.buttonSize, b_height*3 + this.spacing*4)
+
       fill(255)
       text("Highscores and Info", CANX/2 + this.spacing, CANY/2 - this.buttonLevel)
 
       if (this.showAccountBox) {
         this.accountDialog()
+      }
+
+      if (gameState.authorisedUser != null && accountData != null) {
+        push()
+        textAlign(LEFT, BOTTOM)
+        text("Signed into: " + accountData.Username.toString(), CANX/2 - this.buttonSize - this.spacing*2, CANY/2 - this.buttonLevel - this.spacing)
+        pop()
       }
     },
     accountDialog: function() {
@@ -202,10 +214,29 @@ loadScenes.hubScene = function() {
       if (!(currentPacket == null)) {
         switch (currentPacket.name) {
           case "loginCode":
-            console.log("loggy", currentPacket)
+            switch (currentPacket.data.code) {
+              case "successful":
+                gameState.authorisedUser = currentPacket.data.userID
+                //console.log("Logged into:", gameState.authorisedUser)
+                socket.emit("requestUserData", {ID: gameState.authorisedUser})
+                break
+              case "badpassword":
+                break
+              case "badusername":
+                break
+            }
             break
           case "signupCode":
-            console.log("sinny", currentPacket)
+            break
+          case "userDataCode":
+            switch (currentPacket.data.code) {
+              case "successful":
+                accountData = currentPacket.data.userData
+                break
+              case "badID":
+                window.close()
+                break
+            }
             break
         }
         resetPacket()

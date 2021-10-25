@@ -1,5 +1,17 @@
+"use strict";
 loadScenes.charScene = function() {
   ScenesManager.scenes[CHARACTERSELECT] = {
+    preCompute: function() {
+      this.readyStar = ASSETS.namedImages.starEmbelum
+      this.unreadyStar = ASSETS.namedImages.starEmbelum.tint(0, 80, 0)
+
+      this.playerCard = 200
+      this.playerCardheight = 230
+      this.cardSpacing = 60
+      this.amountOfCharacters = Object.keys(characters).length
+
+      this.screendivider = 100
+    },
     start: function() {
       let cornerWidth = 240
       gameButtons.back = createButton("Back")
@@ -31,16 +43,6 @@ loadScenes.charScene = function() {
           }
       })
 
-      this.readyStar = ASSETS.namedImages.starEmbelum
-      this.unreadyStar = ASSETS.namedImages.starEmbelum.tint(0, 80, 0)
-
-      this.playerCard = 200
-      this.playerCardheight = 230
-      this.cardSpacing = 60
-      this.amountOfCharacters = Object.keys(characters).length
-
-      this.screendivider = 100
-
       for (let i = 0; i < this.amountOfCharacters; i++) {
         let x = CANX/2 - (this.amountOfCharacters/2) * this.playerCard + i * (this.playerCard + this.cardSpacing) - this.cardSpacing/2
         let y = 140
@@ -59,28 +61,27 @@ loadScenes.charScene = function() {
           }
         })
       }
+    },
+    showStats: function(char, x, y) {
+      let seperation = (CANX/2 - 20)/2
 
-      this.showStats = function(char, x, y) {
-        let seperation = (CANX/2 - 20)/2
+      let nameString = characters[char].name
+      fill(255)
+      text(nameString, x + seperation - textWidth(nameString)/2, y)
 
-        let nameString = characters[char].name
-        fill(255)
-        text(nameString, x + seperation - textWidth(nameString)/2, y)
-
-        let statsObject = {
-          "Size:": Math.floor((characters[char].dimensions.width * characters[char].dimensions.height) / 10).toString(),
-          "Weight:": (Math.floor(characters[char].physics.mass * characters[char].physics.maxFallSpeed)).toString(),
-          "Speed:": (Math.floor((characters[char].physics.maxSpeedLR) * (characters[char].physics.acceleration))).toString(),
-          "Jumps:": characters[char].physics.totalJumps.toString(),
-          "Power:": "-",
-          "Defense:": characters[char].game.defence.toString()
-        }
-        fill(0)
-        let statKeys = Object.keys(statsObject)
-        for (let i = 0; i < statKeys.length; i++) {
-          text(statKeys[i], x + 10, y + 10 + textAscent() * i + textAscent())
-          text(statsObject[statKeys[i]], x + 10 + seperation, y + 10 + textAscent() * i + textAscent())
-        }
+      let statsObject = {
+        "Size:": Math.floor((characters[char].dimensions.width * characters[char].dimensions.height) / 10).toString(),
+        "Weight:": (Math.floor(characters[char].physics.mass * characters[char].physics.maxFallSpeed)).toString(),
+        "Speed:": (Math.floor((characters[char].physics.maxSpeedLR) * (characters[char].physics.acceleration))).toString(),
+        "Jumps:": characters[char].physics.totalJumps.toString(),
+        "Power:": "-",
+        "Defense:": characters[char].game.defence.toString()
+      }
+      fill(0)
+      let statKeys = Object.keys(statsObject)
+      for (let i = 0; i < statKeys.length; i++) {
+        text(statKeys[i], x + 10, y + 10 + textAscent() * i + textAscent())
+        text(statsObject[statKeys[i]], x + 10 + seperation, y + 10 + textAscent() * i + textAscent())
       }
     },
     run: function() {
@@ -151,7 +152,6 @@ loadScenes.charScene = function() {
     selection: {
       player1: null,
       player2: null
-    },
-    showStats: function() {}
+    }
   }
 }

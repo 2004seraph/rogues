@@ -3,6 +3,21 @@ var socket = io()
 
 var currentPacket = null
 
+var globalServerInfo
+socket.on("globalServerInfo", function(data) {
+  globalServerInfo = data
+})
+
+let packetHeaders = ["loginCode", "signupCode", "userDataCode"]
+for (let header of packetHeaders) {
+  socket.on(header, function(data) {
+    //console.log("loginCode", data)
+    currentPacket = {name: header, data: data}
+  })
+}
+
+var accountData = null
+
 function resetPacket() {
   currentPacket = null
 }
@@ -28,15 +43,6 @@ function signUp() {
       })
     }
   }
-}
-
-let packetHeaders = ["loginCode", "signupCode", "userDataCode"]
-
-for (let header of packetHeaders) {
-  socket.on(header, function(data) {
-    //console.log("loginCode", data)
-    currentPacket = {name: header, data: data}
-  })
 }
 
 // socket.on("loginCode", function(data) {

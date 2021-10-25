@@ -1,3 +1,4 @@
+"use strict";
 loadScenes.stageScene = function() {
   ScenesManager.scenes[LEVELSELECT] = {
     start: function() {

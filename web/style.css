@@ -39,6 +39,6 @@ input::-ms-input-placeholder { /* Microsoft Edge */
 button {
   font-family: joystixmonospace, Arial, Helvetica, sans-serif;
   font-size: 24px;
-  background-image: linear-gradient(red, rgb(255, 0, 191));
+  background-image: linear-gradient(rgb(75, 0, 173), rgb(255, 0, 212));
   color: rgb(0, 255, 213);
 }
