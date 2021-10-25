@@ -1,6 +1,5 @@
 "use strict";
 //server connection
-var socket = io()
 
 var globalServerInfo
 socket.on("globalServerInfo", function(data) {
@@ -95,16 +94,6 @@ function mousePressed() {
   //console.log(mouseX, mouseY)
   userStartAudio()
 }
-
-socket.on("loginCode", function(data) {
-  console.log("loginCode", data)
-})
-socket.on("signupCode", function(data) {
-  console.log("signupCode", data)
-})
-socket.on("userDataCode", function(data) {
-  console.log("userDataCode", data)
-})
 /*
 
 socket.emit("message", {data})

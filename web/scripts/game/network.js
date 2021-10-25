@@ -1,4 +1,11 @@
 "use strict";
+var socket = io()
+
+var currentPacket = null
+
+function resetPacket() {
+  currentPacket = null
+}
 
 function logIn() {
   let username = ScenesManager.scenes[MAINMENU].accountBoxStuff.usernameInput.value()
@@ -22,3 +29,25 @@ function signUp() {
     }
   }
 }
+
+let packetHeaders = ["loginCode", "signupCode", "userDataCode"]
+
+for (let header of packetHeaders) {
+  socket.on(header, function(data) {
+    //console.log("loginCode", data)
+    currentPacket = {name: header, data: data}
+  })
+}
+
+// socket.on("loginCode", function(data) {
+//   //console.log("loginCode", data)
+//   currentPacket = {name: "loginCode", data: data}
+// })
+// socket.on("signupCode", function(data) {
+//   //console.log("signupCode", data)
+//   currentPacket = {name: "signupCode", data: data}
+// })
+// socket.on("userDataCode", function(data) {
+//   //console.log("userDataCode", data)
+//   currentPacket = {name: "userDataCode", data: data}
+// })

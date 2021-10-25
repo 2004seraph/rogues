@@ -149,7 +149,7 @@ function devScene() {
             this.accountBoxStuff.login.position(CANX/2 - this.buttonSize + inter + idfs, CANY/2 - this.buttonLevel + inter+ this.accountBoxStuff.usernameInput.size().height)
             this.accountBoxStuff.login.mousePressed(() => {
               logIn()
-              this.logDone()
+              //this.logDone()
             })
 
             //sign up
@@ -193,7 +193,6 @@ function devScene() {
             this.accountBoxStuff.back.position(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + b_height*3 + this.spacing*2 + 2)
             this.accountBoxStuff.back.mousePressed(() => {
               this.logDone()
-              logIn()
             })
           }
         }, {
@@ -272,8 +271,20 @@ function devScene() {
       pop()
 
       if (keyIsDown(ENTER)) {
-        logIn()
-        this.logDone()
+        //logIn()
+        //this.logDone()
+      }
+
+      if (!(currentPacket == null)) {
+        switch (currentPacket.name) {
+          case "loginCode":
+            console.log("loggy", currentPacket)
+            break
+          case "signupCode":
+            console.log("sinny", currentPacket)
+            break
+        }
+        resetPacket()
       }
     },
     buttonSize: 0,
@@ -284,16 +295,18 @@ function devScene() {
     accountBoxStuff: {},
     flippedBg: null,
     logDone: function() {
-      // this.showAccountBox = false
-      // this.accountBoxStuff.back.hide()
-      // this.accountBoxStuff.usernameInput.hide()
-      // this.accountBoxStuff.passwordInput.hide()
-      // this.accountBoxStuff.login.hide()
+      this.showAccountBox = false
+      this.accountBoxStuff.back.hide()
+      this.accountBoxStuff.usernameInput.hide()
+      this.accountBoxStuff.passwordInput.hide()
+      this.accountBoxStuff.login.hide()
 
-      // this.accountBoxStuff.usernameCreate.hide()
-      // this.accountBoxStuff.passwordCreate1.hide()
-      // this.accountBoxStuff.passwordCreate2.hide()
-      // this.accountBoxStuff.createAccount.hide()
+      this.accountBoxStuff.usernameCreate.hide()
+      this.accountBoxStuff.passwordCreate1.hide()
+      this.accountBoxStuff.passwordCreate2.hide()
+      this.accountBoxStuff.createAccount.hide()
+
+      this.start()
     }
   }
 }
