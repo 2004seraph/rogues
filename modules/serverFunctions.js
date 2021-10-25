@@ -49,6 +49,7 @@ exports.accountEvents = {
       } else {
         //id does not exist
         io.emit("userDataCode", {code: "badID"})
+        //kill connection? malicious traffic?
       }
     })
   },

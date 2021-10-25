@@ -148,18 +148,8 @@ function devScene() {
               .size(this.buttonSize - idfs- this.spacing*2, this.accountBoxStuff.usernameInput.size().height*2 + inter)
             this.accountBoxStuff.login.position(CANX/2 - this.buttonSize + inter + idfs, CANY/2 - this.buttonLevel + inter+ this.accountBoxStuff.usernameInput.size().height)
             this.accountBoxStuff.login.mousePressed(() => {
-              this.showAccountBox = false
               logIn()
-              this.accountBoxStuff.back.hide()
-              this.accountBoxStuff.usernameInput.hide()
-              this.accountBoxStuff.passwordInput.hide()
-              this.accountBoxStuff.login.hide()
-
-              this.accountBoxStuff.usernameCreate.hide()
-              this.accountBoxStuff.passwordCreate1.hide()
-              this.accountBoxStuff.passwordCreate2.hide()
-              this.accountBoxStuff.createAccount.hide()
-              this.start()
+              this.logDone()
             })
 
             //sign up
@@ -202,17 +192,8 @@ function devScene() {
               .size(this.buttonSize, this.accountBoxStuff.usernameInput.size().height)
             this.accountBoxStuff.back.position(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + b_height*3 + this.spacing*2 + 2)
             this.accountBoxStuff.back.mousePressed(() => {
-              this.showAccountBox = false
-              this.accountBoxStuff.back.hide()
-              this.accountBoxStuff.usernameInput.hide()
-              this.accountBoxStuff.passwordInput.hide()
-              this.accountBoxStuff.login.hide()
-
-              this.accountBoxStuff.usernameCreate.hide()
-              this.accountBoxStuff.passwordCreate1.hide()
-              this.accountBoxStuff.passwordCreate2.hide()
-              this.accountBoxStuff.createAccount.hide()
-              this.start()
+              this.logDone()
+              logIn()
             })
           }
         }, {
@@ -292,16 +273,7 @@ function devScene() {
 
       if (keyIsDown(ENTER)) {
         logIn()
-        this.accountBoxStuff.back.hide()
-        this.accountBoxStuff.usernameInput.hide()
-        this.accountBoxStuff.passwordInput.hide()
-        this.accountBoxStuff.login.hide()
-        this.accountBoxStuff.usernameCreate.hide()
-        this.accountBoxStuff.passwordCreate1.hide()
-        this.accountBoxStuff.passwordCreate2.hide()
-        this.accountBoxStuff.createAccount.hide()
-        this.showAccountBox = false
-        this.start()
+        this.logDone()
       }
     },
     buttonSize: 0,
@@ -310,6 +282,18 @@ function devScene() {
     heightMult: 0,
     showAccountBox: false,
     accountBoxStuff: {},
-    flippedBg: null
+    flippedBg: null,
+    logDone: function() {
+      // this.showAccountBox = false
+      // this.accountBoxStuff.back.hide()
+      // this.accountBoxStuff.usernameInput.hide()
+      // this.accountBoxStuff.passwordInput.hide()
+      // this.accountBoxStuff.login.hide()
+
+      // this.accountBoxStuff.usernameCreate.hide()
+      // this.accountBoxStuff.passwordCreate1.hide()
+      // this.accountBoxStuff.passwordCreate2.hide()
+      // this.accountBoxStuff.createAccount.hide()
+    }
   }
 }
