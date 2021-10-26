@@ -24,6 +24,7 @@ input {
   font-size: 24px;
   background-color: black;
   color: cyan;
+  z-index: 1;
 }
 input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: rgb(78, 66, 187);
@@ -49,6 +50,7 @@ button {
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
+  z-index: 1;
 }
 button[disabled=disabled], button:disabled {
   background-image: linear-gradient(rgb(104, 0, 240), rgb(110, 0, 92));

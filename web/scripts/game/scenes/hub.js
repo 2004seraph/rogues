@@ -146,7 +146,6 @@ loadScenes.hubScene = function() {
           this.accountBoxStuff.back.position(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + b_height*3 + this.spacing*2 + 2)
           this.accountBoxStuff.back.mousePressed(() => {
             this.logDone()
-            this.start()
           })
       })
       if (socket.connected == false) {
@@ -223,7 +222,6 @@ loadScenes.hubScene = function() {
       pop()
 
       if (keyIsDown(ENTER)) {
-        //this.logDone()
         if (this.accountBoxStuff.usernameInput.elt === document.activeElement || this.accountBoxStuff.passwordInput.elt === document.activeElement) {
           logIn()
         } else if (this.accountBoxStuff.usernameCreate.elt === document.activeElement || this.accountBoxStuff.passwordCreate1.elt === document.activeElement || this.accountBoxStuff.passwordCreate2.elt === document.activeElement) {
@@ -266,7 +264,7 @@ loadScenes.hubScene = function() {
             switch (currentPacket.data.code) {
               case "successful":
                 accountData = currentPacket.data.userData
-                //this.logDone()
+                this.logDone()
                 break
               case "badID":
                 window.close()
@@ -290,6 +288,7 @@ loadScenes.hubScene = function() {
       for (let key of keys) {
         this.accountBoxStuff[key].remove()
       }
+      this.start()
     }
   }
 }

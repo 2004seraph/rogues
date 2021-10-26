@@ -2,7 +2,7 @@
 
 p5.disableFriendlyErrors = true
 
-var CANX, CANY, Canvas, ScenesManager, Loader
+var CANX, CANY, Canvas, ScenesManager, Loader, OtherCanvas, faderP5Instance
 var resolutionMultiplier = 1
 
 var gameState = {
@@ -16,7 +16,7 @@ function setup() {
   CANX = aspectRatio.w * screenScale// * resolutionMultiplier
   CANY = aspectRatio.h * screenScale// * resolutionMultiplier
 
-  Canvas = createCanvas(CANX, CANY)
+  Canvas = createCanvas(CANX, CANY).style("z-index: 0")
   Canvas.parent("P5Container")
   
   frameRate(FRAMERATE)

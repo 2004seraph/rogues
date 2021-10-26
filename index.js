@@ -78,7 +78,7 @@ io.on('connection', function(socket) {
   for (let accountAction of accountMethodNames) {
     socket.on(accountAction, (data) => {
       if (Date.now() - lastRequest < GlobalServerInfo.transmission.wait - data.latency*2 && spamStop == true) {
-        CLI.printLine("blocked")
+        //CLI.printLine("blocked")
         return
       }
       accountEvents[accountAction](data, io)

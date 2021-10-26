@@ -11,3 +11,4 @@ Multiplayer is being added
  - [ ] update attacks as they are made
  - [ ] update everything else every 10 frames
  - [ ] 2^n stepped resolution changes
+ - [ ] add all login prompts

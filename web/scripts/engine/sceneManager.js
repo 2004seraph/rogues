@@ -5,7 +5,20 @@ class SceneManager {
       frameDelta: 0,
       frameLimit: 0,
       targetScene: null,
-      transitioning: false
+      transitioning: false,
+      faderP5Instance: new p5(( sketch ) => {
+        sketch.setup = () => {
+          OtherCanvas = sketch.createCanvas(CANX, CANY)
+          OtherCanvas.parent("P5Container")
+            .position(0, 0)
+            .style("z-index: 2")
+            .style("pointer-events: none")
+        }
+        sketch.draw = () => {
+          sketch.clear()
+          sketch.background(0, 0, 0, map(this.transition.frameDelta, 0, this.transition.frameLimit + 1, 0, 255))
+        }
+      })
     }
 
     this.scenes = scenesObject
@@ -66,10 +79,10 @@ class SceneManager {
     }
 
     //fading
-    push()
-    noStroke()
-    fill(0, 0, 0, map(this.transition.frameDelta, 0, this.transition.frameLimit + 1, 0, 255))
-    rect(0, 0, CANX, CANY)
-    pop()
+    // push()
+    // noStroke()
+    // fill(0, 0, 0, map(this.transition.frameDelta, 0, this.transition.frameLimit + 1, 0, 255))
+    // rect(0, 0, CANX, CANY)
+    // pop()
   }
 }
