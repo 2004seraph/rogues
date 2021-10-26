@@ -51,6 +51,7 @@ exports.accountEvents = {
         io.emit("userDataCode", {code: "badID"})
         //kill connection? malicious traffic?
       }
+      updateLastRequest()
     })
   },
   "requestGameStatistics": function(data, io) {

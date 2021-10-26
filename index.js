@@ -42,7 +42,11 @@ global.GlobalServerInfo = {
 //server globals
 global.allowSignups = true
 global.concurrentUsers = 0
-var connectionsLimit = 40
+global.connectionsLimit = 10
+
+var lastRequest = null
+global.updateLastRequest = function() {lastRequest = Date.now()}
+global.spamStop = true
 
 io.on('connection', function(socket) {
   //limit connections to protect server
@@ -51,21 +55,34 @@ io.on('connection', function(socket) {
     socket.disconnect()
     return
   }
+
+  updateLastRequest()
   
-  CLI.printLine("connected to " + socket.conn.remoteAddress)
+  CLI.printLine("connected to " + socket.id)
   concurrentUsers++
   io.emit("globalServerInfo", GlobalServerInfo)
 
   //disconnect
   socket.on('disconnect', function() {
-    CLI.printLine(socket.conn.remoteAddress + " disconnected")
+    CLI.printLine(socket.id + " disconnected")
     concurrentUsers--
+  })
+
+  //latency
+  socket.on("ping", (cb) => {
+    cb()
   })
 
   //when packets happen
   let accountMethodNames = Object.keys(accountEvents)
   for (let accountAction of accountMethodNames) {
-    socket.on(accountAction, (data) => {accountEvents[accountAction](data, io)})
+    socket.on(accountAction, (data) => {
+      if (Date.now() - lastRequest < GlobalServerInfo.transmission.wait - data.latency*2 && spamStop == true) {
+        CLI.printLine("blocked")
+        return
+      }
+      accountEvents[accountAction](data, io)
+    })
   }
 
   // let gameMethodNames = Object.keys(gameEvents)
@@ -73,5 +90,3 @@ io.on('connection', function(socket) {
   //   socket.on(gameAction, (data) => {gameEvents[gameAction](data, io)})
   // }
 })
-
-

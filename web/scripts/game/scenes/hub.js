@@ -164,15 +164,15 @@ loadScenes.hubScene = function() {
       textAlign(LEFT, TOP)
       if (this.showAccountBox) {
         image(this.flippedBg, 0, 0)
+        fill(0, 0, 255, 140)
       } else {
         image(ASSETS.namedImages.modeSelectBG, 0, 0)
+        fill(125, 0, 215, 120)
       }
-
       updateParticleSystems()
-
-      fill(Math.sin(frameCount/60)**2 * 255, 0, Math.cos(frameCount/60)**2 * 255, Math.cos(frameCount/60 + 90)**2 * 80 + 100)
+      //fill(Math.sin(frameCount/60)**2 * 255, 0, Math.cos(frameCount/60)**2 * 255, Math.cos(frameCount/60 + 90)**2 * 80 + 100)
       rect(0, 0, CANX, CANY)
-      
+
       let b_height = this.buttonSize * this.heightMult
 
       fill(55, 0, 55, 180)
@@ -234,7 +234,7 @@ loadScenes.hubScene = function() {
               case "successful":
                 gameState.authorisedUser = currentPacket.data.userID
                 //console.log("Logged into:", gameState.authorisedUser)
-                socket.emit("requestUserData", {ID: gameState.authorisedUser})
+                socket.emit("requestUserData", {ID: gameState.authorisedUser, latency: latency})
                 break
               case "badpassword":
                 console.log("bad password")

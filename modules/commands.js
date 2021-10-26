@@ -57,6 +57,30 @@ exports.commands = {
         CLI.printLine(err)
       }
     }
+  },
+  "limitUsers": {
+    "command": function(args) {
+      try {
+        if (args.length == 0) {
+          CLI.printLine("Connections are limited to " + connectionsLimit.toString())
+        } else {
+          connectionsLimit = parseInt(args[0])
+          CLI.printLine("Limited connections to " + connectionsLimit.toString())
+        }
+      } catch (err) {
+        CLI.printLine(err)
+      }
+    }
+  },
+  "detectSpam": {
+    "command": function(args) {
+      if (args.length == 0) {
+        spamStop = true
+      } else {
+        spamStop = false
+      }
+      CLI.printLine("Set spam detection to: " + spamStop)
+    }
   }
 }
 
