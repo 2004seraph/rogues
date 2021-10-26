@@ -62,14 +62,14 @@ function logIn() {
   //   return
   // }
 
-  if (password.length > globalServerInfo.password.min && password.length < globalServerInfo.password.max) {
-    if (username.length > globalServerInfo.username.min && username.length < globalServerInfo.username.max) {
+  if (username.length > globalServerInfo.username.min && username.length < globalServerInfo.username.max) {
+    if (password.length > globalServerInfo.password.min && password.length < globalServerInfo.password.max) {
     } else {
-      setPrompt(new Prompt(10, 10, "Invalid username", 300))
+      setPrompt(new Prompt(10, 10, "Invalid Password", 300))
       return
     }
   } else {
-    setPrompt(new Prompt(10, 10, "Invalid Password", 300))
+    setPrompt(new Prompt(10, 10, "Invalid Username", 300))
     return
   }
 

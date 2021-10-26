@@ -70,7 +70,7 @@ function keyPressed() {
   userStartAudio()
   switch (keyCode) {
     case SHIFT:
-      gotoGame()
+      //gotoGame()
       break
   }
   
