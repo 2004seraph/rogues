@@ -52,24 +52,24 @@ function logIn() {
 
   if (accountData != null) {
     if (username == accountData.Username) {
-      ScenesManager.scenes[MAINMENU].prompts.push(new Prompt(10, 10, "Already logged in", 300))
+      setPrompt(new Prompt(10, 10, "Already logged in", 300))
       return
     }
   }
   //stop spam requests
   // if (lastTransmission != null && Date.now() - lastTransmission < globalServerInfo.transmission.wait) {
-  //   ScenesManager.scenes[MAINMENU].prompts.push(new Prompt(10, 10, "Too many requests", 300))
+  //   setPrompt(new Prompt(10, 10, "Too many requests", 300)))
   //   return
   // }
 
   if (password.length > globalServerInfo.password.min && password.length < globalServerInfo.password.max) {
     if (username.length > globalServerInfo.username.min && username.length < globalServerInfo.username.max) {
     } else {
-      ScenesManager.scenes[MAINMENU].prompts.push(new Prompt(10, 10, "Invalid username", 300))
+      setPrompt(new Prompt(10, 10, "Invalid username", 300))
       return
     }
   } else {
-    ScenesManager.scenes[MAINMENU].prompts.push(new Prompt(10, 10, "Invalid Password", 300))
+    setPrompt(new Prompt(10, 10, "Invalid Password", 300))
     return
   }
 
@@ -83,7 +83,7 @@ function logOut() {
   accountData = null
   gameState.authorisedUser = null
   socket.emit("signOut", {latency: latency})
-  ScenesManager.scenes[MAINMENU].prompts.push(new Prompt(10, 10, "Logged out", 300))
+  setPrompt(new Prompt(10, 10, "Logged out", 300))
 }
 
 function signUp() {
@@ -94,13 +94,21 @@ function signUp() {
   if (lastTransmission != null && Date.now() - lastTransmission < globalServerInfo.transmission.wait) {
     return
   }
-
-  if (password1 == password2 && password1.length > globalServerInfo.password.min && password1.length < globalServerInfo.password.max) {
-    if (username.length > globalServerInfo.username.min && username.length < globalServerInfo.username.max) {
-      hashMessage(password1).then((digest) => {
-        updateTransmission()
-        socket.emit("requestSignup", {username: username.toString().toUpperCase(), passwordHash: digest, latency: latency})
-      })
+  
+  if (username.length > globalServerInfo.username.min && username.length < globalServerInfo.username.max) {
+    if (password1 == password2) {
+      if (password1.length > globalServerInfo.password.min && password1.length < globalServerInfo.password.max) {
+        hashMessage(password1).then((digest) => {
+          updateTransmission()
+          socket.emit("requestSignup", {username: username.toString().toUpperCase(), passwordHash: digest, latency: latency})
+        })
+      } else {
+        setPrompt(new Prompt(10, 10, "Bad password length", 300))
+      }
+    } else {
+      setPrompt(new Prompt(10, 10, "Passwords don't match", 300))
     }
+  } else {
+    setPrompt(new Prompt(10, 10, "Bad username length", 300))
   }
 }

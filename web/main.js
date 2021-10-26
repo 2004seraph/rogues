@@ -47,6 +47,7 @@ function setup() {
 function draw() {
   resetGameMatrix()
   ScenesManager.update()
+  promptsUpdate()
 }
 
 function resetGameMatrix() {

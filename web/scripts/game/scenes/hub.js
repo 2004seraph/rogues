@@ -296,10 +296,6 @@ loadScenes.hubScene = function() {
         gameButtons.logoutButton.attribute("disabled", "")
         gameButtons.onlinePlayButton.attribute("disabled", "").attribute("title", "Sign in to play online")
       }
-
-      for (let p of this.prompts) {
-        p.update()
-      }
     },
     accountDialog: function() {
       let b_height = this.buttonSize * this.heightMult
@@ -343,13 +339,13 @@ loadScenes.hubScene = function() {
                 gameState.authorisedUser = currentPacket.data.userID
                 //console.log("Logged into:", gameState.authorisedUser)
                 socket.emit("requestUserData", {ID: gameState.authorisedUser, latency: latency})
-                this.prompts.push(new Prompt(10, 10, "Signed in", 300))
+                setPrompt(new Prompt(10, 10, "Signed in", 300))
                 break
               case "badpassword":
-                ScenesManager.scenes[MAINMENU].prompts.push(new Prompt(10, 10, "Wrong password", 300))
+                setPrompt(new Prompt(10, 10, "Wrong password", 300))
                 break
               case "badusername":
-                ScenesManager.scenes[MAINMENU].prompts.push(new Prompt(10, 10, "Wrong username", 300))
+                setPrompt(new Prompt(10, 10, "Wrong username", 300))
                 break
             }
             resetPacket()
@@ -357,10 +353,10 @@ loadScenes.hubScene = function() {
           case "signupCode":
             switch (currentPacket.data.code) {
               case "successful":
-                ScenesManager.scenes[MAINMENU].prompts.push(new Prompt(10, 10, "Account created", 300))
+                setPrompt(new Prompt(10, 10, "Account created", 300))
                 break
               case "usernameTaken":
-                ScenesManager.scenes[MAINMENU].prompts.push(new Prompt(10, 10, "Username taken", 300))
+                setPrompt(new Prompt(10, 10, "Username taken", 300))
                 break
             }
             resetPacket()
@@ -397,36 +393,6 @@ loadScenes.hubScene = function() {
     },
     rankings: null,
     onlineUsers: null,
-    accountOnlineImg: null,
-    prompts: [],
-    clearPrompts: function() {
-      this.prompts = []
-    }
-  }
-}
-
-class Prompt {
-  constructor(x, y, t, l) {
-    this.lifeSpan = l
-    this.lifeTime = 0
-
-    let b_height = ScenesManager.scenes[MAINMENU].buttonSize * ScenesManager.scenes[MAINMENU].heightMult
-
-    this.element = createElement("div", t)
-      .position(x, y)
-      .class("prompt")
-      .parent("P5Container")
-      .attribute("title", "Click to remove")
-      .size(ScenesManager.scenes[MAINMENU].buttonSize, 60)//270
-      .mouseClicked(() => {
-        this.element.remove()
-      })
-  }
-
-  update() {
-    this.lifeTime++
-    if (this.lifeTime > this.lifeSpan) {
-      this.element.remove()
-    }
+    accountOnlineImg: null
   }
 }
