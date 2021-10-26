@@ -79,9 +79,10 @@ loadScenes.charScene = function() {
       }
       fill(0)
       let statKeys = Object.keys(statsObject)
+      let t = 30
       for (let i = 0; i < statKeys.length; i++) {
-        text(statKeys[i], x + 10, y + 10 + textAscent() * i + textAscent())
-        text(statsObject[statKeys[i]], x + 10 + seperation, y + 10 + textAscent() * i + textAscent())
+        text(statKeys[i], x + 10, y + 10 + t * i + t)
+        text(statsObject[statKeys[i]], x + 10 + seperation, y + 10 + t * i + t)
       }
     },
     run: function() {

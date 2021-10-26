@@ -50,6 +50,21 @@ loadScenes.hubScene = function() {
     start: function() {
       let b_height = this.buttonSize * this.heightMult
 
+      gameButtons.logoutButton = createButton("Logout")
+        .parent('P5Container')
+        .attribute("title", "Sign out")
+        .size(this.buttonSize*0.4, this.spacing*2)
+        .position(CANX/2 + this.buttonSize + this.spacing*2 - this.buttonSize*0.4, CANY/2 - this.buttonLevel - this.spacing*3)
+        .mousePressed(() => {
+          logOut()
+      })
+
+      if (accountData != null || gameState.authorisedUser != null) {
+
+      } else {
+        gameButtons.logoutButton.attribute("disabled", "")
+      }
+
       gameButtons.offlinePlayButton = createButton("Offline Play")
         .parent('P5Container')
         .position(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel)
@@ -156,6 +171,7 @@ loadScenes.hubScene = function() {
       })
       if (socket.connected == false) {
         gameButtons.accountInfo.attribute("disabled", "")
+        gameButtons.logoutButton.attribute("disabled", "")
       }
       gameButtons.hubToMenu = createButton('Back')
         .parent('P5Container')
@@ -176,12 +192,11 @@ loadScenes.hubScene = function() {
         fill(125, 0, 215, 120)
       }
       updateParticleSystems()
-      //fill(Math.sin(frameCount/60)**2 * 255, 0, Math.cos(frameCount/60)**2 * 255, Math.cos(frameCount/60 + 90)**2 * 80 + 100)
-      rect(0, 0, CANX, CANY)
+      rect(0, 0, CANX, CANY)//tint everything to tie it together
 
       let b_height = this.buttonSize * this.heightMult
       
-      //wrapper
+      //main wrapper
       push()
       fill(55, 0, 55, 195)
       stroke(0)
@@ -209,13 +224,14 @@ loadScenes.hubScene = function() {
       //wrapper
       fill(0)
       rect(CANX/2 + this.spacing, CANY/2 - this.buttonLevel, this.buttonSize, b_height*3 + this.spacing*4)
-      //server info
+      //server info wrapper
       fill(255)
       rect(CANX/2 + this.spacing + inter, CANY/2 - this.buttonLevel + inter, this.buttonSize - inter*2, b_height - inter*2)
       fill(0)
       textAlign(CENTER, TOP)
       text("Server Info", CANX/2 + this.spacing + inter + (this.buttonSize - inter*2)/2, CANY/2 - this.buttonLevel + inter*2)
       image(this.accountOnlineImg, CANX/2 + this.spacing + inter*2, CANY/2 - this.buttonLevel + inter + b_height/2 - inter, 32, 32)
+
       textAlign(LEFT, CENTER)
       if (this.onlineUsers != null) {
         text(this.onlineUsers.toString() + " Online Players", CANX/2 + this.spacing + inter*3 + 32, CANY/2 - this.buttonLevel + inter*1.75 + b_height/2)
@@ -229,12 +245,21 @@ loadScenes.hubScene = function() {
       fill(0)
       if (this.rankings != null) {
         text("Rankings", CANX/2 + this.spacing + inter + (this.buttonSize - inter*2)/2, CANY/2 - this.buttonLevel + b_height + inter)
+        //show the top 9 players
         for (let r = 0; r < this.rankings.length; r++) {
           let record = this.rankings[r]
           textAlign(LEFT, TOP)
           text((r + 1).toString() + ". " + record.Username, CANX/2 + this.spacing + inter*2, CANY/2 - this.buttonLevel + b_height + this.spacing * r + this.spacing*2)
           textAlign(RIGHT, TOP)
           text(record.Elo, CANX/2 + this.spacing + this.buttonSize - inter*2, CANY/2 - this.buttonLevel + b_height + this.spacing * r + this.spacing*2)
+        }
+
+        //then add the current player's ranking below
+        if (accountData != null && gameState.authorisedUser != null) {
+          textAlign(LEFT, TOP)
+          text(accountData.Username + "[YOU]", CANX/2 + this.spacing + inter*2, CANY/2 - this.buttonLevel + b_height + this.spacing * 9 + this.spacing*2 + inter)
+          textAlign(RIGHT, TOP)
+          text(accountData.Elo, CANX/2 + this.spacing + this.buttonSize - inter*2, CANY/2 - this.buttonLevel + b_height + this.spacing * 9 + this.spacing*2 + inter)
         }
       } else {
         text("Retrieving...", CANX/2 + this.spacing + inter + (this.buttonSize - inter*2)/2, CANY/2 - this.buttonLevel + b_height + inter)
@@ -258,11 +283,22 @@ loadScenes.hubScene = function() {
 
       if (socket.connected == false) {
         gameButtons.accountInfo.attribute("disabled", "")
+        gameButtons.logoutButton.attribute("disabled", "")
+        this.rankings = null
+        this.onlineUsers = null
       } else {
         gameButtons.accountInfo.removeAttribute("disabled")
         if (frameCount % 200 == 0) {
           socket.emit("requestGameStatistics", {latency: latency})
         }
+      }
+      if (accountData == null && gameState.authorisedUser == null) {
+        gameButtons.logoutButton.attribute("disabled", "")
+        gameButtons.onlinePlayButton.attribute("disabled", "").attribute("title", "Sign in to play online")
+      }
+
+      for (let p of this.prompts) {
+        p.update()
       }
     },
     accountDialog: function() {
@@ -307,12 +343,13 @@ loadScenes.hubScene = function() {
                 gameState.authorisedUser = currentPacket.data.userID
                 //console.log("Logged into:", gameState.authorisedUser)
                 socket.emit("requestUserData", {ID: gameState.authorisedUser, latency: latency})
+                this.prompts.push(new Prompt(10, 10, "Signed in", 300))
                 break
               case "badpassword":
-                console.log("bad password")
+                ScenesManager.scenes[MAINMENU].prompts.push(new Prompt(10, 10, "Wrong password", 300))
                 break
               case "badusername":
-                console.log("bad username")
+                ScenesManager.scenes[MAINMENU].prompts.push(new Prompt(10, 10, "Wrong username", 300))
                 break
             }
             resetPacket()
@@ -320,8 +357,10 @@ loadScenes.hubScene = function() {
           case "signupCode":
             switch (currentPacket.data.code) {
               case "successful":
+                ScenesManager.scenes[MAINMENU].prompts.push(new Prompt(10, 10, "Account created", 300))
                 break
               case "usernameTaken":
+                ScenesManager.scenes[MAINMENU].prompts.push(new Prompt(10, 10, "Username taken", 300))
                 break
             }
             resetPacket()
@@ -358,6 +397,36 @@ loadScenes.hubScene = function() {
     },
     rankings: null,
     onlineUsers: null,
-    accountOnlineImg: null
+    accountOnlineImg: null,
+    prompts: [],
+    clearPrompts: function() {
+      this.prompts = []
+    }
+  }
+}
+
+class Prompt {
+  constructor(x, y, t, l) {
+    this.lifeSpan = l
+    this.lifeTime = 0
+
+    let b_height = ScenesManager.scenes[MAINMENU].buttonSize * ScenesManager.scenes[MAINMENU].heightMult
+
+    this.element = createElement("div", t)
+      .position(x, y)
+      .class("prompt")
+      .parent("P5Container")
+      .attribute("title", "Click to remove")
+      .size(ScenesManager.scenes[MAINMENU].buttonSize, 60)//270
+      .mouseClicked(() => {
+        this.element.remove()
+      })
+  }
+
+  update() {
+    this.lifeTime++
+    if (this.lifeTime > this.lifeSpan) {
+      this.element.remove()
+    }
   }
 }

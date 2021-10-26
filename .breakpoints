@@ -1,3 +1,12 @@
 {
-  "files": {}
+  "files": {
+    "web/scripts/game/network.js": [
+      {
+        "id": "4aa96ca7-0b0e-45da-aea2-709e44cf300c",
+        "line": 60,
+        "version": 1362,
+        "index": 1576
+      }
+    ]
+  }
 }

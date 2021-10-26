@@ -91,6 +91,11 @@ exports.commands = {
     "command": function(args) {
       PlayerDatabase.getRankings()
     }
+  },
+  "removeUser": {
+    "command": function(args) {
+      PlayerDatabase.removeUserID(args[0])
+    }
   }
 }
 

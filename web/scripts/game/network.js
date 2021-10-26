@@ -52,21 +52,24 @@ function logIn() {
 
   if (accountData != null) {
     if (username == accountData.Username) {
-      console.log("already logged in")
+      ScenesManager.scenes[MAINMENU].prompts.push(new Prompt(10, 10, "Already logged in", 300))
       return
     }
   }
   //stop spam requests
-  if (lastTransmission != null && Date.now() - lastTransmission < globalServerInfo.transmission.wait) {
-    return
-  }
+  // if (lastTransmission != null && Date.now() - lastTransmission < globalServerInfo.transmission.wait) {
+  //   ScenesManager.scenes[MAINMENU].prompts.push(new Prompt(10, 10, "Too many requests", 300))
+  //   return
+  // }
 
   if (password.length > globalServerInfo.password.min && password.length < globalServerInfo.password.max) {
     if (username.length > globalServerInfo.username.min && username.length < globalServerInfo.username.max) {
     } else {
+      ScenesManager.scenes[MAINMENU].prompts.push(new Prompt(10, 10, "Invalid username", 300))
       return
     }
   } else {
+    ScenesManager.scenes[MAINMENU].prompts.push(new Prompt(10, 10, "Invalid Password", 300))
     return
   }
 
@@ -74,6 +77,13 @@ function logIn() {
     updateTransmission()
     socket.emit("requestLogin", {username: username, passwordHash: digest, latency: latency})
   })
+}
+
+function logOut() {
+  accountData = null
+  gameState.authorisedUser = null
+  socket.emit("signOut", {latency: latency})
+  ScenesManager.scenes[MAINMENU].prompts.push(new Prompt(10, 10, "Logged out", 300))
 }
 
 function signUp() {

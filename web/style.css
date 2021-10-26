@@ -61,3 +61,13 @@ button[disabled=disabled], button:disabled {
   background-image: linear-gradient(rgb(104, 0, 240), rgb(110, 0, 92));
   color: rgb(89, 59, 255);
 }
+.prompt {
+  background-image: linear-gradient(rgb(77, 124, 255), rgb(255, 0, 106));
+  color: rgb(0, 255, 213);
+  font-family: joystixmonospace, Arial, Helvetica, sans-serif;
+  font-size: 24px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

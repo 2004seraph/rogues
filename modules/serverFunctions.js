@@ -4,11 +4,11 @@ exports.accountEvents = {
     if (allowSignups) {
       let rUsername = data.username.toString().trim().toUpperCase()
 
-      //allow names within the mx length and only ascii characters
+      //allow names within the mx length and only ascii characters, doesnt block spaces
       if (rUsername.length > GlobalServerInfo.username.min && rUsername.length < GlobalServerInfo.username.max && /^[\x00-\x7F]+$/.test(rUsername)) {
         PlayerDatabase.queryUsername(rUsername, function(rec) {
           if (rec == undefined) {//if there is no one with that username
-            PlayerDatabase.addUser(rUsername, data.passwordHash, function() {
+            PlayerDatabase.addUser(rUsername, data.passwordHash, 1000, function() {
               PlayerDatabase.queryUsername(rUsername, function(rec) {
                 socket.emit("signupCode", {code: "successful", userID: rec.ID, autoLogin: true})
               })
@@ -81,7 +81,7 @@ exports.accountEvents = {
   },
   "signOut": function(data, io, socket) {
     concurrentOnlineUsers--
-    //store who this connection identifies as
+    //remove who this connection identifies as
     socket.authorised = null
   }
 }
