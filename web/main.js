@@ -66,9 +66,9 @@ function timeScaler() {
 function keyPressed() {
   //console.log(keyCode, key)
   userStartAudio()
-  switch (key) {
-    case "l":
-      gotoGame()
+  switch (keyCode) {
+    case SHIFT:
+      //gotoGame()
       break
   }
   

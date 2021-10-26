@@ -42,7 +42,7 @@ global.GlobalServerInfo = {
 //server globals
 global.allowSignups = true
 global.concurrentUsers = 0
-global.connectionsLimit = 10
+global.connectionsLimit = 8
 
 var lastRequest = null
 global.updateLastRequest = function() {lastRequest = Date.now()}

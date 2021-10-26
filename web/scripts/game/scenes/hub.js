@@ -223,8 +223,18 @@ loadScenes.hubScene = function() {
       pop()
 
       if (keyIsDown(ENTER)) {
-        //logIn()
         //this.logDone()
+        if (this.accountBoxStuff.usernameInput.elt === document.activeElement || this.accountBoxStuff.passwordInput.elt === document.activeElement) {
+          logIn()
+        } else if (this.accountBoxStuff.usernameCreate.elt === document.activeElement || this.accountBoxStuff.passwordCreate1.elt === document.activeElement || this.accountBoxStuff.passwordCreate2.elt === document.activeElement) {
+          signUp()
+        } else {
+          if (this.accountBoxStuff.usernameInput.value().length > this.accountBoxStuff.usernameCreate.value().length) {
+            logIn()
+          } else {
+            signUp()
+          }
+        }
       }
 
       if (!(currentPacket == null)) {
@@ -276,15 +286,10 @@ loadScenes.hubScene = function() {
     flippedBg: null,
     logDone: function() {
       this.showAccountBox = false
-      this.accountBoxStuff.back.hide()
-      this.accountBoxStuff.usernameInput.hide()
-      this.accountBoxStuff.passwordInput.hide()
-      this.accountBoxStuff.login.hide()
-
-      this.accountBoxStuff.usernameCreate.hide()
-      this.accountBoxStuff.passwordCreate1.hide()
-      this.accountBoxStuff.passwordCreate2.hide()
-      this.accountBoxStuff.createAccount.hide()
+      let keys = Object.keys(this.accountBoxStuff)
+      for (let key of keys) {
+        this.accountBoxStuff[key].remove()
+      }
     }
   }
 }
