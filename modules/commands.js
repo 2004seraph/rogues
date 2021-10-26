@@ -17,7 +17,7 @@ exports.commands = {
   },
   "user": {
     "command": function(args) {
-      PlayerDatabase.addUser(args[0], sha256Hash(args[1]))
+      PlayerDatabase.addUser(args[0], sha256Hash(args[1]), args[2])
     }
   },
   "echo": {
@@ -80,6 +80,11 @@ exports.commands = {
         spamStop = false
       }
       CLI.printLine("Set spam detection to: " + spamStop)
+    }
+  },
+  "rankings": {
+    "command": function(args) {
+      PlayerDatabase.getRankings()
     }
   }
 }

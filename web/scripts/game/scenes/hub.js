@@ -66,10 +66,11 @@ loadScenes.hubScene = function() {
         gameButtons.onlinePlayButton.attribute("disabled", "")
       }
 
-      gameButtons.accountInfo = createButton("Account")
+      gameButtons.accountInfo = createButton("")
         .parent('P5Container')
         .position(CANX/2 - this.buttonSize*0.4 + this.spacing, CANY/2 - this.buttonLevel + b_height + this.spacing)
         .size(this.buttonSize * 0.4 - this.spacing*2, b_height)
+        .id("accountButton")
         .mousePressed(() => {
           this.showAccountBox = true
           clearButtons()
@@ -109,7 +110,7 @@ loadScenes.hubScene = function() {
           this.accountBoxStuff.usernameCreate = createInput()
             .attribute('placeholder', 'Username')
             .attribute('maxlength', globalServerInfo.username.max)
-            .attribute("autocomplete", "username")
+            .attribute("autocomplete", "nickname")
             .attribute("spellcheck", false)
             .parent('P5Container')
             .size(idfs)
@@ -173,23 +174,38 @@ loadScenes.hubScene = function() {
       rect(0, 0, CANX, CANY)
 
       let b_height = this.buttonSize * this.heightMult
-
-      fill(55, 0, 55, 180)
+      
+      //wrapper
+      fill(55, 0, 55, 195)
       stroke(0)
       strokeWeight(2)
       rect(CANX/2 - this.buttonSize - this.spacing*2, CANY/2 - this.buttonLevel - this.spacing, this.buttonSize*2 + this.spacing*4, b_height*3 + this.spacing*6)
 
+      //highscores board
+      if (!(currentPacket == null)) {
+        switch (currentPacket.name) {
+          case "gameStatisticsCode":
+            switch (currentPacket.data.code) {
+              case "successful":
+                this.rankings = currentPacket.data.rankings
+                this.onlineUsers = currentPacket.data.onlineUsers
+                break
+            }
+            resetPacket()
+            break
+        }
+      }
       noStroke()
       fill(0)
       rect(CANX/2 + this.spacing, CANY/2 - this.buttonLevel, this.buttonSize, b_height*3 + this.spacing*4)
-
       fill(255)
-      text("Highscores and Info", CANX/2 + this.spacing, CANY/2 - this.buttonLevel)
+      //text("Highscores and Info", CANX/2 + this.spacing, CANY/2 - this.buttonLevel)
       
       if (this.showAccountBox) {
         this.accountDialog()
       }
 
+      //ACCOUNT STATUS
       push()
       textAlign(LEFT, BOTTOM)
       if (gameState.authorisedUser != null && accountData != null) {
@@ -203,22 +219,29 @@ loadScenes.hubScene = function() {
         gameButtons.accountInfo.attribute("disabled", "")
       } else {
         gameButtons.accountInfo.removeAttribute("disabled")
+        if (frameCount % 200 == 0) {
+          socket.emit("requestGameStatistics", {latency: latency})
+        }
       }
     },
     accountDialog: function() {
       let b_height = this.buttonSize * this.heightMult
       push()
-      text("SIGN IN TO ROGUES", CANX/2 - this.buttonSize - this.spacing/2, CANY/2 - this.buttonLevel + this.spacing/2)
-      fill(0, 255, 255, 80)
+      fill(111, 90, 250, 130)
       stroke(255)
       rect(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel, this.buttonSize, b_height+ this.accountBoxStuff.usernameInput.size().height)
+      noStroke()
+      fill(245, 196, 255)
+      text("SIGN IN TO ROGUES", CANX/2 - this.buttonSize - this.spacing/2, CANY/2 - this.buttonLevel + this.spacing/2)
       pop()
 
       push()
-      text("CREATE A ROGUES ID", CANX/2 - this.buttonSize - this.spacing/2, CANY/2 - this.buttonLevel + b_height+ this.accountBoxStuff.usernameInput.size().height + this.spacing + this.spacing/2)
-      fill(0, 255, 255, 80)
+      fill(111, 90, 250, 130)
       stroke(255)
       rect(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + b_height+ this.accountBoxStuff.usernameInput.size().height + this.spacing, this.buttonSize, b_height*2 + this.spacing - this.accountBoxStuff.usernameInput.size().height)
+      noStroke()
+      fill(245, 196, 255)
+      text("CREATE A ROGUES ID", CANX/2 - this.buttonSize - this.spacing/2, CANY/2 - this.buttonLevel + b_height+ this.accountBoxStuff.usernameInput.size().height + this.spacing + this.spacing/2)
       pop()
 
       if (keyIsDown(ENTER)) {
@@ -251,6 +274,7 @@ loadScenes.hubScene = function() {
                 console.log("bad username")
                 break
             }
+            resetPacket()
             break
           case "signupCode":
             switch (currentPacket.data.code) {
@@ -259,6 +283,7 @@ loadScenes.hubScene = function() {
               case "usernameTaken":
                 break
             }
+            resetPacket()
             break
           case "userDataCode":
             switch (currentPacket.data.code) {
@@ -270,9 +295,9 @@ loadScenes.hubScene = function() {
                 window.close()
                 break
             }
+            resetPacket()
             break
         }
-        resetPacket()
       }
     },
     buttonSize: 0,
@@ -289,6 +314,8 @@ loadScenes.hubScene = function() {
         this.accountBoxStuff[key].remove()
       }
       this.start()
-    }
+    },
+    rankings: null,
+    onlineUsers: null
   }
 }

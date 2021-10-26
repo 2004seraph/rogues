@@ -21,7 +21,7 @@ socket.on("globalServerInfo", function(data) {
   globalServerInfo = data
 })
 
-let packetHeaders = ["loginCode", "signupCode", "userDataCode"]
+let packetHeaders = ["loginCode", "signupCode", "userDataCode", "gameStatisticsCode"]
 for (let header of packetHeaders) {
   socket.on(header, function(data) {
     currentPacket = {name: header, data: data}

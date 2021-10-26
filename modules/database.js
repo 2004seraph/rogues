@@ -31,12 +31,12 @@ module.exports = class PlayerDatabase {
     })
   }
 
-  addUser(username, passwordHash, callback=function() {}) {
+  addUser(username, passwordHash, elo, callback=function() {}) {
     let date = new Date()
     // Convert it to an ISO string
     let sqliteDate = date.toISOString().replace(/T/, ' ').replace(/\..+/, '')
 
-    this.database.run(`INSERT INTO Players(Username, PasswordHash) VALUES(?, ?)`, [username, passwordHash], function(err) {
+    this.database.run(`INSERT INTO Players(Username, PasswordHash, Elo) VALUES(?, ?, ?)`, [username, passwordHash, elo], function(err) {
       if (err) {
         CLI.printLine("Add User Error:")
         CLI.printLine(err)
@@ -97,6 +97,27 @@ module.exports = class PlayerDatabase {
           record.Data = JSON.parse(record.Data)
         }
         callback(record)
+      }
+    })
+  }
+
+  getRankings(first=0, last=10, callback=function(sel) {}) {
+    this.database.all("SELECT Username, Elo FROM Players ORDER BY Elo DESC", (err, rows) => {
+      if (err) {
+        CLI.printLine("Ranking Query Error:")
+        CLI.printLine(err)
+      } else {
+        let rowIndex = 0
+        let selection = []
+        rows.forEach((row) => {
+          if (rowIndex >= first && rowIndex < last) {
+            selection.push(row)
+          }
+          rowIndex++
+        })
+
+        //CLI.printLine(selection)
+        callback(selection)
       }
     })
   }

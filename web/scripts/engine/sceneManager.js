@@ -1,18 +1,24 @@
 "use strict";
 class SceneManager {
-  constructor(scenesObject, startingScene=0, autoInitialize=false) {
+  constructor(scenesObject, startingScene=0, autoInitialize=false, faderCanvas) {
     this.transition = {
       frameDelta: 0,
       frameLimit: 0,
       targetScene: null,
       transitioning: false,
-      faderP5Instance: new p5(( sketch ) => {
+      faderP5Instance: new p5((sketch) => {
         sketch.setup = () => {
-          OtherCanvas = sketch.createCanvas(CANX, CANY)
-          OtherCanvas.parent("P5Container")
+          faderCanvas = sketch.createCanvas(CANX, CANY)
+          faderCanvas.parent("P5Container")
             .position(0, 0)
             .style("z-index: 2")
             .style("pointer-events: none")
+          
+          try {
+            sketch.getAudioContext().suspend()
+          } catch (err) {
+            console.log(err)
+          }
         }
         sketch.draw = () => {
           sketch.clear()

@@ -7,7 +7,6 @@ var ASSETS = {
   characterImages: {},
   namedImages: {},
   animations: {},
-  fonts: {},
   sounds: {}
 }
 
@@ -22,15 +21,15 @@ function loadGameAssets() {
   soundsParse = loadJSON("scripts/game/JSON/jukebox.json", continueSoundLoading)
   characters = loadJSON("scripts/game/JSON/characters.json", continueCharacterLoading)
 }
-function continueFontLoading() {
-  Loader.changeLimit(Object.keys(fontParse).length)
-  loadUp()
+// function continueFontLoading() {
+//   Loader.changeLimit(Object.keys(fontParse).length)
+//   loadUp()
 
-  for (let f in fontParse) {
-    let fontPath = fontParse[f]
-    ASSETS.fonts[f] = loadFont(fontPath, loadUp)
-  }
-}
+//   for (let f in fontParse) {
+//     let fontPath = fontParse[f]
+//     ASSETS.fonts[f] = loadFont(fontPath, loadUp)
+//   }
+// }
 function continueLevelLoading() {
   Loader.changeLimit(Object.keys(levels).length * 4)
   loadUp()

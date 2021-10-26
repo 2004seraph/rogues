@@ -16,6 +16,7 @@ loadScenes.startScene = function() {
         .parent('P5Container')
         .position(CANX - 512 + 140, CANY - 250)
         .size(512-140, 64)
+        .class("startButtons")
         .mousePressed(() => {
           ScenesManager.changeScene(MAINMENU, mainInterfaceSpeed)
       })
@@ -24,6 +25,7 @@ loadScenes.startScene = function() {
         .parent('P5Container')
         .position(CANX - 512 + 140, CANY - 180)
         .size(512-140, 64)
+        .class("startButtons")
         .mousePressed(() => {
           ScenesManager.changeScene(CREDITS, mainInterfaceSpeed)
       })

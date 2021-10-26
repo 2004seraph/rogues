@@ -56,6 +56,9 @@ exports.accountEvents = {
   },
   "requestGameStatistics": function(data, io) {
     //highscores and concurrent users
+    PlayerDatabase.getRankings(0, 10, function(sel) {
+      io.emit("gameStatisticsCode", {code: "successful", onlineUsers: concurrentUsers, rankings: sel})
+    })
   }
 }
 

@@ -42,11 +42,11 @@ global.GlobalServerInfo = {
 //server globals
 global.allowSignups = true
 global.concurrentUsers = 0
-global.connectionsLimit = 8
+global.connectionsLimit = 10
 
 var lastRequest = null
 global.updateLastRequest = function() {lastRequest = Date.now()}
-global.spamStop = true
+global.spamStop = false
 
 io.on('connection', function(socket) {
   //limit connections to protect server
@@ -77,10 +77,10 @@ io.on('connection', function(socket) {
   let accountMethodNames = Object.keys(accountEvents)
   for (let accountAction of accountMethodNames) {
     socket.on(accountAction, (data) => {
-      if (Date.now() - lastRequest < GlobalServerInfo.transmission.wait - data.latency*2 && spamStop == true) {
-        //CLI.printLine("blocked")
-        return
-      }
+      // if (Date.now() - lastRequest < GlobalServerInfo.transmission.wait - data.latency*2 && spamStop == true) {
+      //   //CLI.printLine("blocked")
+      //   return
+      // }
       accountEvents[accountAction](data, io)
     })
   }

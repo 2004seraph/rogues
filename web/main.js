@@ -2,7 +2,7 @@
 
 p5.disableFriendlyErrors = true
 
-var CANX, CANY, Canvas, ScenesManager, Loader, OtherCanvas, faderP5Instance
+var CANX, CANY, Canvas, ScenesManager, Loader, FaderCanvas
 var resolutionMultiplier = 1
 
 var gameState = {
@@ -35,7 +35,8 @@ function setup() {
 
   Loader = new LoadingBar(50, CANY/2 - 50, CANX - 100, 100, rootJSONFiles)
   loadGameAssets()
-  ScenesManager = new SceneManager({}, LOADINGSCREEN)
+
+  ScenesManager = new SceneManager({}, LOADINGSCREEN, FaderCanvas)
   createScenes()
 
   textAlign(CENTER, CENTER)
@@ -68,7 +69,7 @@ function keyPressed() {
   userStartAudio()
   switch (keyCode) {
     case SHIFT:
-      //gotoGame()
+      gotoGame()
       break
   }
   
