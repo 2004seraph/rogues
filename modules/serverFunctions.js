@@ -28,13 +28,15 @@ exports.accountEvents = {
     PlayerDatabase.queryUsername(data.username.toString().toUpperCase(), function(rec) {
       if (rec) {//if that username exists
         if (data.passwordHash.length == 64 && rec.PasswordHash === data.passwordHash) {
-          PlayerDatabase.updateUserLoginDate(rec.ID, function() {
-            socket.emit("loginCode", {code: "successful", userID: rec.ID})
-            CLI.printLine(rec.ID.toString() + " logged in!")
-            concurrentOnlineUsers++
-            //store who this connection identifies as
-            socket.authorised = rec.ID
-          })
+          if (socket.authorised != rec.ID) {//are they signing into an account theyve signed into (bug)
+            PlayerDatabase.updateUserLoginDate(rec.ID, function() {
+              socket.emit("loginCode", {code: "successful", userID: rec.ID})
+              CLI.printLine(rec.ID.toString() + " logged in!")
+              concurrentOnlineUsers++
+              //store who this connection identifies as
+              socket.authorised = rec.ID
+            })
+          }
         } else {
           //wrong password
           socket.emit("loginCode", {code: "badpassword"})

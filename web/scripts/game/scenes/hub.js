@@ -325,8 +325,10 @@ loadScenes.hubScene = function() {
         } else {
           if (this.accountBoxStuff.usernameInput.value().length > this.accountBoxStuff.usernameCreate.value().length) {
             logIn()
-          } else {
+          } else if (this.accountBoxStuff.usernameInput.value().length < this.accountBoxStuff.usernameCreate.value().length) {
             signUp()
+          } else {
+            //nothing
           }
         }
       }

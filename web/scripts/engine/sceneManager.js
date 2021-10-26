@@ -72,6 +72,7 @@ class SceneManager {
         this.currentScene = this.transition.targetScene
         
         //this.transition.frameDelta = this.transition.frameLimit + 1
+        clearPrompt()
         this.scenes[this.currentScene].start()
       }
       this.transition.frameDelta += timeScaler()

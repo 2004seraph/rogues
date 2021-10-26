@@ -2,10 +2,15 @@
 
 var currentPrompt = null
 
-function setPrompt(p) {
+function clearPrompt() {
   if (currentPrompt != null) {
     currentPrompt.element.remove()
   }
+  currentPrompt = null
+}
+
+function setPrompt(p) {
+  clearPrompt()
   currentPrompt = p
 }
 
