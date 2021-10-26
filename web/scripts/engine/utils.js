@@ -7,12 +7,12 @@ p5.Image.prototype.tint = function (r, g, b, a=255) {
   
   return tintedImage
 }
-p5.Image.prototype.resize = function (x, y) {
-  let newImage = createGraphics(x, y)
-	newImage.image(this, 0, 0, x, y)
+// p5.Image.prototype.resize = function (x, y) {
+//   let newImage = createGraphics(x, y)
+// 	newImage.image(this, 0, 0, x, y)
   
-  return newImage
-}
+//   return newImage
+// }
 p5.Image.prototype.flip = function (dir) {
   let newImage = createGraphics(this.width, this.height)
   if (dir == X) {

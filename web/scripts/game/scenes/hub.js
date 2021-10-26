@@ -38,6 +38,8 @@ loadScenes.hubScene = function() {
         particleSystems.hubDataBoxes.addParticle(Math.random() * CANX, Math.random() * CANY, {destroyFunction: dataBoxDestroy, displayFunction: dataBoxDisplay, updateFunction: dataBoxUpdate, parameters: dataBoxParameters})
       }
       this.flippedBg = ASSETS.namedImages.modeSelectBG.tint(0, 255, 0)
+      this.accountOnlineImg = ASSETS.namedImages.account.tint(0, 0, 0)
+      //this.accountOnlineImg = this.accountOnlineImg.resize(16, 16)
 
       //online, offline, back, account
       this.buttonSize = 450
@@ -51,6 +53,7 @@ loadScenes.hubScene = function() {
       gameButtons.offlinePlayButton = createButton("Offline Play")
         .parent('P5Container')
         .position(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel)
+        .attribute("title", "Play on the same keyboard")
         .size(this.buttonSize, b_height).mousePressed(() => {
           ScenesManager.changeScene(CHARACTERSELECT, mainInterfaceSpeed)
       })
@@ -59,11 +62,12 @@ loadScenes.hubScene = function() {
         .parent('P5Container')
         .position(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + b_height + this.spacing)
         .size(this.buttonSize * 0.6 + this.spacing, b_height)
+        .attribute("title", "Play with someone across the world")
         .mousePressed(() => {
       })
 
       if (accountData == null) {
-        gameButtons.onlinePlayButton.attribute("disabled", "")
+        gameButtons.onlinePlayButton.attribute("disabled", "").attribute("title", "Sign in to play online")
       }
 
       gameButtons.accountInfo = createButton("")
@@ -71,6 +75,7 @@ loadScenes.hubScene = function() {
         .position(CANX/2 - this.buttonSize*0.4 + this.spacing, CANY/2 - this.buttonLevel + b_height + this.spacing)
         .size(this.buttonSize * 0.4 - this.spacing*2, b_height)
         .id("accountButton")
+        .attribute("title", "Account")
         .mousePressed(() => {
           this.showAccountBox = true
           clearButtons()
@@ -162,6 +167,7 @@ loadScenes.hubScene = function() {
     },
     run: function() {
       textAlign(LEFT, TOP)
+      noStroke()
       if (this.showAccountBox) {
         image(this.flippedBg, 0, 0)
         fill(0, 0, 255, 140)
@@ -176,12 +182,17 @@ loadScenes.hubScene = function() {
       let b_height = this.buttonSize * this.heightMult
       
       //wrapper
+      push()
       fill(55, 0, 55, 195)
       stroke(0)
       strokeWeight(2)
       rect(CANX/2 - this.buttonSize - this.spacing*2, CANY/2 - this.buttonLevel - this.spacing, this.buttonSize*2 + this.spacing*4, b_height*3 + this.spacing*6)
+      pop()
 
       //highscores board
+      push()
+      textSize(24)
+      let inter = this.spacing/2
       if (!(currentPacket == null)) {
         switch (currentPacket.name) {
           case "gameStatisticsCode":
@@ -195,18 +206,48 @@ loadScenes.hubScene = function() {
             break
         }
       }
-      noStroke()
+      //wrapper
       fill(0)
       rect(CANX/2 + this.spacing, CANY/2 - this.buttonLevel, this.buttonSize, b_height*3 + this.spacing*4)
+      //server info
       fill(255)
-      //text("Highscores and Info", CANX/2 + this.spacing, CANY/2 - this.buttonLevel)
-      
+      rect(CANX/2 + this.spacing + inter, CANY/2 - this.buttonLevel + inter, this.buttonSize - inter*2, b_height - inter*2)
+      fill(0)
+      textAlign(CENTER, TOP)
+      text("Server Info", CANX/2 + this.spacing + inter + (this.buttonSize - inter*2)/2, CANY/2 - this.buttonLevel + inter*2)
+      image(this.accountOnlineImg, CANX/2 + this.spacing + inter*2, CANY/2 - this.buttonLevel + inter + b_height/2 - inter, 32, 32)
+      textAlign(LEFT, CENTER)
+      if (this.onlineUsers != null) {
+        text(this.onlineUsers.toString() + " Online Players", CANX/2 + this.spacing + inter*3 + 32, CANY/2 - this.buttonLevel + inter*1.75 + b_height/2)
+      } else {
+        text("Retrieving...", CANX/2 + this.spacing + inter*3 + 32, CANY/2 - this.buttonLevel + inter*1.75 + b_height/2)
+      }
+      //rankings
+      fill(255)
+      rect(CANX/2 + this.spacing + inter, CANY/2 - this.buttonLevel + b_height, this.buttonSize - inter*2, b_height*3 - inter*3)
+      textAlign(CENTER, TOP)
+      fill(0)
+      if (this.rankings != null) {
+        text("Rankings", CANX/2 + this.spacing + inter + (this.buttonSize - inter*2)/2, CANY/2 - this.buttonLevel + b_height + inter)
+        for (let r = 0; r < this.rankings.length; r++) {
+          let record = this.rankings[r]
+          textAlign(LEFT, TOP)
+          text((r + 1).toString() + ". " + record.Username, CANX/2 + this.spacing + inter*2, CANY/2 - this.buttonLevel + b_height + this.spacing * r + this.spacing*2)
+          textAlign(RIGHT, TOP)
+          text(record.Elo, CANX/2 + this.spacing + this.buttonSize - inter*2, CANY/2 - this.buttonLevel + b_height + this.spacing * r + this.spacing*2)
+        }
+      } else {
+        text("Retrieving...", CANX/2 + this.spacing + inter + (this.buttonSize - inter*2)/2, CANY/2 - this.buttonLevel + b_height + inter)
+      }
+      pop()
+
       if (this.showAccountBox) {
         this.accountDialog()
       }
 
       //ACCOUNT STATUS
       push()
+      fill(255)
       textAlign(LEFT, BOTTOM)
       if (gameState.authorisedUser != null && accountData != null) {
         text("Signed into: " + accountData.Username.toString(), CANX/2 - this.buttonSize - this.spacing*2, CANY/2 - this.buttonLevel - this.spacing)
@@ -316,6 +357,7 @@ loadScenes.hubScene = function() {
       this.start()
     },
     rankings: null,
-    onlineUsers: null
+    onlineUsers: null,
+    accountOnlineImg: null
   }
 }

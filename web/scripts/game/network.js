@@ -4,6 +4,13 @@ socket.on("blocked", function(data) {
   console.warn("#############################################")
   console.warn("CONNECTION TO THE SERVER WAS BLOCKED, REASON:", data.code)
   console.warn("#############################################")
+  accountData = null
+  gameState.authorisedUser = null
+})
+socket.on("disconnect", function(data) {
+  console.warn("server connection lost")
+  accountData = null
+  gameState.authorisedUser = null
 })
 
 var latency = null

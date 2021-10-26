@@ -42,7 +42,8 @@ global.GlobalServerInfo = {
 //server globals
 global.allowSignups = true
 global.concurrentUsers = 0
-global.connectionsLimit = 10
+global.concurrentOnlineUsers = 0
+global.connectionsLimit = 6
 
 var lastRequest = null
 global.updateLastRequest = function() {lastRequest = Date.now()}
@@ -55,16 +56,23 @@ io.on('connection', function(socket) {
     socket.disconnect()
     return
   }
-
+  
+  //set last packet time
   updateLastRequest()
+
+  //they are not signed in
+  socket.authorised = null
   
   CLI.printLine("connected to " + socket.id)
   concurrentUsers++
-  io.emit("globalServerInfo", GlobalServerInfo)
+  socket.emit("globalServerInfo", GlobalServerInfo)
 
   //disconnect
-  socket.on('disconnect', function() {
-    CLI.printLine(socket.id + " disconnected")
+  socket.on('disconnect', (reason) => {
+    CLI.printLine(socket.id + " disconnected: " + reason)
+    if (socket.authorised != null) {
+      concurrentOnlineUsers--
+    }
     concurrentUsers--
   })
 
@@ -77,11 +85,11 @@ io.on('connection', function(socket) {
   let accountMethodNames = Object.keys(accountEvents)
   for (let accountAction of accountMethodNames) {
     socket.on(accountAction, (data) => {
-      // if (Date.now() - lastRequest < GlobalServerInfo.transmission.wait - data.latency*2 && spamStop == true) {
-      //   //CLI.printLine("blocked")
-      //   return
-      // }
-      accountEvents[accountAction](data, io)
+      if (Date.now() - lastRequest < GlobalServerInfo.transmission.wait - data.latency*2 && spamStop == true) {
+        //CLI.printLine("blocked")
+        return
+      }
+      accountEvents[accountAction](data, io, socket)
     })
   }
 

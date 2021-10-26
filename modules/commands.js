@@ -17,7 +17,7 @@ exports.commands = {
   },
   "user": {
     "command": function(args) {
-      PlayerDatabase.addUser(args[0], sha256Hash(args[1]), args[2])
+      PlayerDatabase.addUser(args[0].toString().trim().toUpperCase(), sha256Hash(args[1]), args[2])
     }
   },
   "echo": {
@@ -45,7 +45,12 @@ exports.commands = {
   },
   "users": {
     "command": function(args) {
-      CLI.printLine("Online Users: " + concurrentUsers)
+      CLI.printLine("Users: " + concurrentUsers)
+    }
+  },
+  "online": {
+    "command": function(args) {
+      CLI.printLine("Online Users: " + concurrentOnlineUsers)
     }
   },
   "evaluate": {
