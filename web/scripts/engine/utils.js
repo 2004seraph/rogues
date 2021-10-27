@@ -13,8 +13,11 @@ p5.Image.prototype.tint = function (r, g, b, a=255) {
   
 //   return newImage
 // }
-p5.Image.prototype.flip = function (dir) {
+p5.Image.prototype.flip = function (dir, doTint=false, tintLevels=[255, 255, 255, 255]) {
   let newImage = createGraphics(this.width, this.height)
+  if (doTint) {
+    newImage.tint(tintLevels[0], tintLevels[1], tintLevels[2], tintLevels[3])
+  }
   if (dir == X) {
     newImage.scale(-1, 1)
     newImage.image(this, 0, 0, -this.width, this.height)

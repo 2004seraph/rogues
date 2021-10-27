@@ -38,7 +38,20 @@ loadScenes.gameScene = function() {
       for (let player in gameState.players) {
         let p = gameState.players[player]
         p.show()
-        p.update()
+        if (this.gameOver == null) {
+          p.update()
+        }
+        
+        //if they are in the death zone
+        if (!collideRectRect(p.pos.x, p.pos.y, p.character.dimensions.width, p.character.dimensions.height, -100, -100, CANX + 200, CANY + 200)) {
+          // console.log(player + " is out")
+          // p.death()
+          if (p.death()) {
+            console.log(player, "has lost")
+            this.gameOver = player
+            this.createGameOverButtons()
+          }
+        }
 
         //GAMER TAGS
         push()
@@ -61,35 +74,50 @@ loadScenes.gameScene = function() {
         }
         pop()
         
-        drawDamageBox(CANX / totalPlayers * index + (CANX / totalPlayers)/2, CANY - 100, p)
+        this.drawDamageBox(CANX / totalPlayers * index + (CANX / totalPlayers)/2, CANY - 100, p)
         index++
       }
+
+      if (this.gameOver != null) {
+        this.gameOverScreen()
+      }
     },
-    parallax: {x: 0, y: 0}
+    parallax: {x: 0, y: 0},
+    gameOver: null,
+    gameOverStuff: [],
+    createGameOverButtons: function() {
+
+    },
+    gameOverScreen: function() {
+
+    },
+    drawDamageBox: function(x, y, player) {
+      push()
+      resetGameMatrix()
+      textSize(20)
+      let location = {x: x - 100, y: y, w: 200, h: 70}
+
+      strokeWeight(3)
+      stroke(255)
+      fill(0, 0, 60, 180)
+      rect(location.x, location.y, location.w, location.h)
+      textAlign(RIGHT, TOP)
+      fill(0, 255, 255, 255)
+      noStroke()
+      text(player.damage.toString() + "% DMG", location.x + location.w - 10, location.y + 10)
+      if (player.lives > 0) {
+        text(player.lives.toString() + " Lives", location.x + location.w - 10, location.y + 35)
+      } else {
+        text("Dead", location.x + location.w - 10, location.y + 35)
+      }
+      strokeWeight(3)
+      stroke(255)
+      fill(0, 0, 0, 255)
+      rect(location.x + 5, location.y + 5, location.h - 10, location.h - 10)
+      let pfpImage = ASSETS.characterImages[player.character.profilePicture]
+      let resize = 2
+      image(pfpImage, location.x + 5 + resize, location.y + 5 + resize, location.h - 10 - resize*2, location.h - 10 - resize*2, 0, 0, location.h - 10, location.h - 10)
+      pop()
+    }
   }
-}
-
-function drawDamageBox(x, y, player) {
-  push()
-  resetGameMatrix()
-  textSize(20)
-  let location = {x: x - 100, y: y, w: 200, h: 70}
-
-  strokeWeight(3)
-  stroke(255)
-  fill(0, 0, 60, 130)
-  rect(location.x, location.y, location.w, location.h)
-  textAlign(RIGHT, TOP)
-  fill(0, 255, 255, 255)
-  noStroke()
-  text(player.damage.toString() + "% DMG", location.x + location.w - 10, location.y + 10)
-  text(player.lives.toString() + " Lives", location.x + location.w - 10, location.y + 35)
-  strokeWeight(3)
-  stroke(255)
-  fill(0, 0, 0, 255)
-  rect(location.x + 5, location.y + 5, location.h - 10, location.h - 10)
-  let pfpImage = ASSETS.characterImages[player.character.profilePicture]
-  let resize = 2
-  image(pfpImage, location.x + 5 + resize, location.y + 5 + resize, location.h - 10 - resize*2, location.h - 10 - resize*2, 0, 0, location.h - 10, location.h - 10)
-  pop()
 }

@@ -33,9 +33,6 @@ global.GlobalServerInfo = {
   password: {
     min: 6,
     max: 24
-  },
-  transmission: {
-    wait: 5000
   }
 }
 
@@ -75,6 +72,7 @@ io.on('connection', function(socket) {
   
   CLI.printLine("connected to " + socket.id)
   concurrentUsers++
+  //handshake
   socket.emit("globalServerInfo", GlobalServerInfo)
 
   //disconnect

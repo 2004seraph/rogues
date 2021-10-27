@@ -34,18 +34,71 @@ class Player {
     this.moveAnimation = false
     this.attackAnimation = false
 
-    this.stunAnimation = new Animation()
+    this.stunAnimation = null
+
+    this.dead = false
+  }
+
+  death() {
+    //game variables
+    this.lives--
+    this.damage = 0
+
+    //reset all their stuff
+    this.queuedHitboxes = []
+    this.activeHitboxes = []
+
+    this.facingDirection = RIGHT
+    this.queuedPropulsion = {
+      delta: 0,
+      move: false
+    }
+    this.moveAnimation = false
+    this.attackAnimation = false
+    this.jumpLock = false
+    this.deltaJumps = 1000
+    this.jumpCooldown = 0
+    this.moveCoolDown = 0
+    this.velocity = createVector(0, 0)
+
+    this.invulnerable = 100
+    this.stunned = 20
+
+    //respawn them
+    this.pos = createVector(Math.random() * CANX, -50)
+
+    //have they lost the game?
+    if (this.lives < 1) {
+      return true
+    } else {
+      return false
+    }
   }
 
   setCharacter(id) {
     this.charID = id
     this.character = characters[this.charID]
 
-    // let stunnedAnimationFrames = []
-    // let tintLevels = 30
-    // for (let i = 0; i < tintLevels; i++) {
-    //   stunnedAnimationFrames.push(ASSETS.animations[this.charID].movement.idle.tint(i/tintLevels * 255, 255, 1 - i/tintLevels * 255))
-    // }
+    //frankenstein a stun animation together
+    this.stunAnimation = new Animation()
+    let stunnedAnimationFrames = []
+    let stunnedAnimationFramesFlipped = []
+    let stunnedAnimationData = {frames: {}}
+    let level = 100
+    for (let i = 0; i < 10; i += 2) {
+      stunnedAnimationFrames.push(ASSETS.animations[this.charID].movement.idle.frames[0].tint(255 - level, 255 - level, 255 - level))
+      stunnedAnimationData.frames[i] = {duration: 60}
+      stunnedAnimationFrames.push(ASSETS.animations[this.charID].movement.idle.frames[0].tint(255, 0, 255))
+      stunnedAnimationData.frames[i + 1] = {duration: 30}
+
+      stunnedAnimationFramesFlipped.push(ASSETS.animations[this.charID].movement.idle.frames[0].flip(X, true, [255 - level, 255 - level, 255 - level]))//.tint(255 - level, 255 - level, 255 - level))
+      stunnedAnimationFramesFlipped.push(ASSETS.animations[this.charID].movement.idle.frames[0].flip(X, true, [255, 0, 255]))//.tint(255, 0, 255))
+    }
+    this.stunAnimation.frames = stunnedAnimationFrames
+    this.stunAnimation.flippedFrames = stunnedAnimationFramesFlipped
+    this.stunAnimation.animationData = stunnedAnimationData
+    console.log(this.stunAnimation.flippedFrames)
+    this.stunAnimation.repeat = true
   }
 
   move() {
@@ -218,14 +271,18 @@ class Player {
 
   show() {
     //show an attack animation first (if there is one) and if there is no current attack, show the movement animation (if there is one)
-    if (this.attackAnimation != false) {
-      this.attackAnimation.play(this.pos.x, this.pos.y, (this.facingDirection == RIGHT) ? null : this.character.dimensions.width)
-      if (this.attackAnimation.isComplete()) {
-        this.attackAnimation = false
-      }
+    if (this.stunned != 0) {
+      this.stunAnimation.play(this.pos.x, this.pos.y, (this.facingDirection == RIGHT) ? null : this.character.dimensions.width)
     } else {
-      if (this.moveAnimation instanceof Animation) {
-        this.moveAnimation.play(this.pos.x, this.pos.y, (this.facingDirection == RIGHT) ? null : this.character.dimensions.width)//this.character
+      if (this.attackAnimation != false) {
+        this.attackAnimation.play(this.pos.x, this.pos.y, (this.facingDirection == RIGHT) ? null : this.character.dimensions.width)
+        if (this.attackAnimation.isComplete()) {
+          this.attackAnimation = false
+        }
+      } else {
+        if (this.moveAnimation instanceof Animation) {
+          this.moveAnimation.play(this.pos.x, this.pos.y, (this.facingDirection == RIGHT) ? null : this.character.dimensions.width)//this.character
+        }
       }
     }
 
@@ -249,6 +306,16 @@ class Player {
       for (let hitbox of this.activeHitboxes) {
         rect(this.pos.x + hitbox.move.area.x, this.pos.y + hitbox.move.area.y, hitbox.move.area.w, hitbox.move.area.h)
       }
+      pop()
+    }
+
+    //shield effect
+    if (this.invulnerable != 0) {
+      let shieldSize = Math.max(this.character.dimensions.width, this.character.dimensions.height)
+      push()
+      stroke(255, 255, 255, 170)
+      fill(0, 0, 255, (Math.sin(frameCount/3) + 1) * 60 + 70)
+      ellipse(this.pos.x + this.character.dimensions.width/2, this.pos.y + this.character.dimensions.height/2, shieldSize, shieldSize)
       pop()
     }
   }

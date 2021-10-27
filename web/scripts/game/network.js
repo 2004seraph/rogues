@@ -62,11 +62,6 @@ function logIn() {
       return
     }
   }
-  //stop spam requests
-  // if (lastTransmission != null && Date.now() - lastTransmission < globalServerInfo.transmission.wait) {
-  //   setPrompt(new Prompt(10, 10, "Too many requests", 300)))
-  //   return
-  // }
 
   if (username.length > globalServerInfo.username.min && username.length < globalServerInfo.username.max) {
     if (password.length > globalServerInfo.password.min && password.length < globalServerInfo.password.max) {
@@ -97,10 +92,6 @@ function signUp() {
   let username = ScenesManager.scenes[MAINMENU].accountBoxStuff.usernameCreate.value()
   let password1 = ScenesManager.scenes[MAINMENU].accountBoxStuff.passwordCreate1.value()
   let password2 = ScenesManager.scenes[MAINMENU].accountBoxStuff.passwordCreate2.value()
-  //stop spam requests
-  // if (lastTransmission != null && Date.now() - lastTransmission < globalServerInfo.transmission.wait) {
-  //   return
-  // }
   
   if (username.length > globalServerInfo.username.min && username.length < globalServerInfo.username.max) {
     if (password1 == password2) {

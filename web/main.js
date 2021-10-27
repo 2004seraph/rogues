@@ -1,5 +1,4 @@
 "use strict";
-
 p5.disableFriendlyErrors = true
 
 var CANX, CANY, Canvas, ScenesManager, Loader, FaderCanvas
@@ -16,7 +15,8 @@ function setup() {
   CANX = aspectRatio.w * screenScale// * resolutionMultiplier
   CANY = aspectRatio.h * screenScale// * resolutionMultiplier
 
-  Canvas = createCanvas(CANX, CANY).style("z-index: 0")
+  Canvas = createCanvas(CANX, CANY)
+    .style("z-index: 0")
   Canvas.parent("P5Container")
   
   frameRate(FRAMERATE)
@@ -73,6 +73,7 @@ function keyPressed() {
       //gotoGame()
       break
     case ENTER:
+      //the code is here because it needs to fire only on one press
       if (ScenesManager.currentScene == MAINMENU) {
         if (ScenesManager.scenes[MAINMENU].accountBoxStuff.usernameInput.elt === document.activeElement || ScenesManager.scenes[MAINMENU].accountBoxStuff.passwordInput.elt === document.activeElement) {
           logIn()

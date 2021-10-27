@@ -1,5 +1,4 @@
 "use strict";
-
 var currentPrompt = null
 
 function clearPrompt() {
