@@ -353,6 +353,9 @@ loadScenes.hubScene = function() {
               case "usernameTaken":
                 setPrompt(new Prompt(10, 10, "Username taken", 300))
                 break
+              case "creationCooldown":
+                setPrompt(new Prompt(10, 10, "Too Many sign ups", 300))
+                break
             }
             resetPacket()
             break

@@ -62,6 +62,16 @@ io.on('connection', function(socket) {
 
   //they are not signed in
   socket.authorised = null
+  //cooldowns
+  socket.accountCooldown = {
+    timer: setInterval(function() {
+      if (socket.accountCooldown.time > 0) {
+        socket.accountCooldown.time -= 100
+        //console.log(socket.accountCooldown.time)
+      }
+    }, 100),
+    time: 0
+  }
   
   CLI.printLine("connected to " + socket.id)
   concurrentUsers++
@@ -85,10 +95,6 @@ io.on('connection', function(socket) {
   let accountMethodNames = Object.keys(accountEvents)
   for (let accountAction of accountMethodNames) {
     socket.on(accountAction, (data) => {
-      if (Date.now() - lastRequest < GlobalServerInfo.transmission.wait && spamStop == true) {
-        //CLI.printLine("blocked")
-        return
-      }
       accountEvents[accountAction](data, io, socket)
     })
   }

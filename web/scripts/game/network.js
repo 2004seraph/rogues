@@ -12,6 +12,12 @@ socket.on("disconnect", function(data) {
   accountData = null
   gameState.authorisedUser = null
 })
+socket.on("refreshUpdate", function(data) {
+  console.warn("Server Update")
+  accountData = null
+  gameState.authorisedUser = null
+  location.reload()
+})
 
 var latency = null
 setInterval(() => {
@@ -92,9 +98,9 @@ function signUp() {
   let password1 = ScenesManager.scenes[MAINMENU].accountBoxStuff.passwordCreate1.value()
   let password2 = ScenesManager.scenes[MAINMENU].accountBoxStuff.passwordCreate2.value()
   //stop spam requests
-  if (lastTransmission != null && Date.now() - lastTransmission < globalServerInfo.transmission.wait) {
-    return
-  }
+  // if (lastTransmission != null && Date.now() - lastTransmission < globalServerInfo.transmission.wait) {
+  //   return
+  // }
   
   if (username.length > globalServerInfo.username.min && username.length < globalServerInfo.username.max) {
     if (password1 == password2) {

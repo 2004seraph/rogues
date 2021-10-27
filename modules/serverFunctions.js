@@ -4,15 +4,21 @@ exports.accountEvents = {
     if (allowSignups) {
       let rUsername = data.username.toString().trim().toUpperCase()
 
-      //allow names within the mx length and only ascii characters, doesnt block spaces
+      //allow names within the max length and only ascii characters, doesnt block spaces
       if (rUsername.length > GlobalServerInfo.username.min && rUsername.length < GlobalServerInfo.username.max && /^[\x00-\x7F]+$/.test(rUsername)) {
         PlayerDatabase.queryUsername(rUsername, function(rec) {
           if (rec == undefined) {//if there is no one with that username
-            PlayerDatabase.addUser(rUsername, data.passwordHash, 1000, function() {
-              PlayerDatabase.queryUsername(rUsername, function(rec) {
-                socket.emit("signupCode", {code: "successful", userID: rec.ID, autoLogin: true})
+            if (socket.accountCooldown.time == 0) {//if they are not in cooldown
+              PlayerDatabase.addUser(rUsername, data.passwordHash, 1000, function() {
+                PlayerDatabase.queryUsername(rUsername, function(rec) {
+                  socket.emit("signupCode", {code: "successful", userID: rec.ID, autoLogin: true})
+                  socket.accountCooldown.time = 10000
+                })
               })
-            })
+            } else {
+              //bro stop spamming plz
+              socket.emit("signupCode", {code: "creationCooldown"})
+            }
           } else {
             //username taken
             socket.emit("signupCode", {code: "usernameTaken"})
@@ -103,14 +109,14 @@ exports.accountEvents = {
             socket.authorised = id//store who this connection identifies as
             
             socket.emit("loginCode", {code: "successful", userID: id})
-            CLI.printLine(socket.id + " authenticated to " + id)
+            CLI.printLine(socket.id + " authenticated to ROGUESID[" + id + "]")
           })
         } else {
           concurrentOnlineUsers++
           socket.authorised = id//store who this connection identifies as
           
           socket.emit("loginCode", {code: "successful", userID: id})
-          CLI.printLine(socket.id + " authenticated to " + id)
+          CLI.printLine(socket.id + " authenticated to ROGUESID[" + id + "]")
         }
       })
     })
