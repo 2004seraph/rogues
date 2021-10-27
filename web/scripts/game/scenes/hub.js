@@ -38,7 +38,7 @@ loadScenes.hubScene = function() {
         particleSystems.hubDataBoxes.addParticle(Math.random() * CANX, Math.random() * CANY, {destroyFunction: dataBoxDestroy, displayFunction: dataBoxDisplay, updateFunction: dataBoxUpdate, parameters: dataBoxParameters})
       }
       this.flippedBg = ASSETS.namedImages.modeSelectBG.tint(0, 255, 0)
-      this.accountOnlineImg = ASSETS.namedImages.account.tint(0, 0, 0)
+      this.accountOnlineImg = ASSETS.namedImages.account.tint(255, 0, 255)
       //this.accountOnlineImg = this.accountOnlineImg.resize(16, 16)
 
       //online, offline, back, account
@@ -222,16 +222,16 @@ loadScenes.hubScene = function() {
         }
       }
       //wrapper
-      fill(0)
+      fill(60, 0, 255)
       rect(CANX/2 + this.spacing, CANY/2 - this.buttonLevel, this.buttonSize, b_height*3 + this.spacing*4)
       //server info wrapper
-      fill(255)
+      fill(123, 36, 255)
       rect(CANX/2 + this.spacing + inter, CANY/2 - this.buttonLevel + inter, this.buttonSize - inter*2, b_height - inter*2)
-      fill(0)
+      fill(255)
       textAlign(CENTER, TOP)
       text("Server Info", CANX/2 + this.spacing + inter + (this.buttonSize - inter*2)/2, CANY/2 - this.buttonLevel + inter*2)
       image(this.accountOnlineImg, CANX/2 + this.spacing + inter*2, CANY/2 - this.buttonLevel + inter + b_height/2 - inter, 32, 32)
-
+      fill(0, 255, 255)
       textAlign(LEFT, CENTER)
       if (this.onlineUsers != null) {
         text(this.onlineUsers.toString() + " Online Players", CANX/2 + this.spacing + inter*3 + 32, CANY/2 - this.buttonLevel + inter*1.75 + b_height/2)
@@ -239,12 +239,13 @@ loadScenes.hubScene = function() {
         text("Retrieving...", CANX/2 + this.spacing + inter*3 + 32, CANY/2 - this.buttonLevel + inter*1.75 + b_height/2)
       }
       //rankings
-      fill(255)
+      fill(123, 36, 255)
       rect(CANX/2 + this.spacing + inter, CANY/2 - this.buttonLevel + b_height, this.buttonSize - inter*2, b_height*3 - inter*3)
       textAlign(CENTER, TOP)
-      fill(0)
+      fill(255)
+      text("Rankings", CANX/2 + this.spacing + inter + (this.buttonSize - inter*2)/2, CANY/2 - this.buttonLevel + b_height + inter)
+      fill(0, 255, 255)
       if (this.rankings != null) {
-        text("Rankings", CANX/2 + this.spacing + inter + (this.buttonSize - inter*2)/2, CANY/2 - this.buttonLevel + b_height + inter)
         //show the top 9 players
         for (let r = 0; r < this.rankings.length; r++) {
           let record = this.rankings[r]
@@ -262,7 +263,8 @@ loadScenes.hubScene = function() {
           text(accountData.Elo, CANX/2 + this.spacing + this.buttonSize - inter*2, CANY/2 - this.buttonLevel + b_height + this.spacing * 9 + this.spacing*2 + inter)
         }
       } else {
-        text("Retrieving...", CANX/2 + this.spacing + inter + (this.buttonSize - inter*2)/2, CANY/2 - this.buttonLevel + b_height + inter)
+        textAlign(LEFT, TOP)
+        text("Retrieving...", CANX/2 + this.spacing + inter*2, CANY/2 - this.buttonLevel + b_height + inter*2 + this.spacing)
       }
       pop()
 

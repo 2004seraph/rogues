@@ -72,6 +72,7 @@ loadScenes.gameScene = function() {
 function drawDamageBox(x, y, player) {
   push()
   resetGameMatrix()
+  textSize(20)
   let location = {x: x - 100, y: y, w: 200, h: 70}
 
   strokeWeight(3)
@@ -80,8 +81,11 @@ function drawDamageBox(x, y, player) {
   rect(location.x, location.y, location.w, location.h)
   textAlign(RIGHT, TOP)
   fill(0, 255, 255, 255)
-  text(player.damage.toString() + "%", location.x + location.w - 10, location.y)
-  
+  noStroke()
+  text(player.damage.toString() + "% DMG", location.x + location.w - 10, location.y + 10)
+  text(player.lives.toString() + " Lives", location.x + location.w - 10, location.y + 35)
+  strokeWeight(3)
+  stroke(255)
   fill(0, 0, 0, 255)
   rect(location.x + 5, location.y + 5, location.h - 10, location.h - 10)
   let pfpImage = ASSETS.characterImages[player.character.profilePicture]

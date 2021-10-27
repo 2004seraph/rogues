@@ -1,5 +1,5 @@
 "use strict";
-let rootJSONFiles = 4//5//just the count of json files
+let rootJSONFiles = 5//5//just the count of json files
 var loadScenes = {}
 
 var ASSETS = {
@@ -7,7 +7,8 @@ var ASSETS = {
   characterImages: {},
   namedImages: {},
   animations: {},
-  sounds: {}
+  sounds: {},
+  fonts: {}
 }
 
 var gameLoaded = false
@@ -15,21 +16,21 @@ var gameLoaded = false
 let fontParse, levels, namedImagesParse, soundsParse, characters
 
 function loadGameAssets() {
-  //fontParse = loadJSON("scripts/game/JSON/fonts.json", continueFontLoading)//useless, since the game only has one font, might as well hard code it
+  fontParse = loadJSON("scripts/game/JSON/fonts.json", continueFontLoading)//useless, since the game only has one font, might as well hard code it
   levels = loadJSON("scripts/game/JSON/levels.json", continueLevelLoading)
   namedImagesParse = loadJSON("scripts/game/JSON/images.json", continueNamedAssetsLoading)
   soundsParse = loadJSON("scripts/game/JSON/jukebox.json", continueSoundLoading)
   characters = loadJSON("scripts/game/JSON/characters.json", continueCharacterLoading)
 }
-// function continueFontLoading() {
-//   Loader.changeLimit(Object.keys(fontParse).length)
-//   loadUp()
+function continueFontLoading() {
+  Loader.changeLimit(Object.keys(fontParse).length)
+  loadUp()
 
-//   for (let f in fontParse) {
-//     let fontPath = fontParse[f]
-//     ASSETS.fonts[f] = loadFont(fontPath, loadUp)
-//   }
-// }
+  for (let f in fontParse) {
+    let fontPath = fontParse[f]
+    ASSETS.fonts[f] = loadFont(fontPath, loadUp)
+  }
+}
 function continueLevelLoading() {
   Loader.changeLimit(Object.keys(levels).length * 4)
   loadUp()

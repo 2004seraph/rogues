@@ -34,7 +34,6 @@ class Player {
     this.moveAnimation = false
     this.attackAnimation = false
 
-
     this.stunAnimation = new Animation()
   }
 
@@ -264,18 +263,18 @@ class Player {
       if ((direction == DOWN && this.grounded == true) || moveType === null) {
         //do not allow downward attacks on the ground
       } else {
-        if (keyIsDown(this.controls.lightAttack)) {
-          this.startMove(direction, LIGHT)
-          return
-        }
-        if (keyIsDown(this.controls.heavyAttack)) {
-          this.startMove(direction, HEAVY)
-          return
-        }
-        if (keyIsDown(this.controls.specialAttack)) {
-          this.startMove(direction, SPECIAL)
-          return
-        }
+        // if (keyIsDown(this.controls.lightAttack)) {
+        //   this.startMove(direction, LIGHT)
+        //   return
+        // }
+        // if (keyIsDown(this.controls.heavyAttack)) {
+        //   this.startMove(direction, HEAVY)
+        //   return
+        // }
+        // if (keyIsDown(this.controls.specialAttack)) {
+        //   this.startMove(direction, SPECIAL)
+        //   return
+        // }
 
         this.startMove(direction, moveType)
       }

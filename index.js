@@ -78,7 +78,7 @@ io.on('connection', function(socket) {
 
   //latency
   socket.on("ping", (cb) => {
-    cb()
+    //cb()
   })
 
   //when packets happen
