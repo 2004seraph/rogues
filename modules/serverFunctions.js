@@ -27,20 +27,20 @@ exports.accountEvents = {
   "requestLogin": function(data, io, socket) {
     PlayerDatabase.queryUsername(data.username.toString().toUpperCase(), function(rec) {
       if (rec) {//if that username exists
-        if (data.passwordHash.length == 64 && rec.PasswordHash === data.passwordHash) {
-          if (socket.authorised != rec.ID) {//are they signing into an account theyve signed into (bug)
-            PlayerDatabase.updateUserLoginDate(rec.ID, function() {
-              socket.emit("loginCode", {code: "successful", userID: rec.ID})
-              CLI.printLine(rec.ID.toString() + " logged in!")
-              concurrentOnlineUsers++
-              //store who this connection identifies as
-              socket.authorised = rec.ID
-            })
+        PlayerDatabase.isOnline(rec.ID, function(status) {
+          if (status == "false") {//if the requested account is offline
+            if (data.passwordHash.length == 64 && rec.PasswordHash === data.passwordHash) {//password correct?
+              if (socket.authorised != rec.ID) {//are they signing into an account theyve signed into (client bug)
+                exports.accountEvents["signIn"](rec.ID, io, socket)
+              }
+            } else {
+              //wrong password
+              socket.emit("loginCode", {code: "badpassword"})
+            }
+          } else {
+            socket.emit("loginCode", {code: "alreadyonline"})
           }
-        } else {
-          //wrong password
-          socket.emit("loginCode", {code: "badpassword"})
-        }
+        })
       } else {
         //username does not exist
         socket.emit("loginCode", {code: "badusername"})
@@ -81,10 +81,39 @@ exports.accountEvents = {
       socket.emit("gameStatisticsCode", {code: "successful", onlineUsers: concurrentOnlineUsers, rankings: sel})
     })
   },
-  "signOut": function(data, io, socket) {
-    concurrentOnlineUsers--
-    //remove who this connection identifies as
-    socket.authorised = null
+  "signOut": function(data, io, socket, callback=function() {}) {//NETWORKED/NON-NETWORKED FUNCTION
+    if (data.ID == socket.authorised) {
+      concurrentOnlineUsers--
+      //remove who this connection identifies as
+      socket.authorised = null
+      PlayerDatabase.setOnlineStatus(data.ID, "false", function() {//sign them out
+        callback()
+      })
+    } else {
+      //HACKER
+    }
+  },
+  "signIn": function(id, io, socket) {//NON NETWORKED FUNCTION
+    PlayerDatabase.updateUserLoginDate(id, function() {//update last login
+      PlayerDatabase.setOnlineStatus(id, "true", function() {//update online status
+        //if they are already logged in, log them out -AND THEN sign them in
+        if (socket.authorised != null) {
+          exports.accountEvents["signOut"]({ID: socket.authorised}, io, socket, function() {
+            concurrentOnlineUsers++
+            socket.authorised = id//store who this connection identifies as
+            
+            socket.emit("loginCode", {code: "successful", userID: id})
+            CLI.printLine(socket.id + " authenticated to " + id)
+          })
+        } else {
+          concurrentOnlineUsers++
+          socket.authorised = id//store who this connection identifies as
+          
+          socket.emit("loginCode", {code: "successful", userID: id})
+          CLI.printLine(socket.id + " authenticated to " + id)
+        }
+      })
+    })
   }
 }
 

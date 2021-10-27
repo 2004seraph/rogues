@@ -72,6 +72,23 @@ function keyPressed() {
     case SHIFT:
       //gotoGame()
       break
+    case ENTER:
+      if (ScenesManager.currentScene == MAINMENU) {
+        if (ScenesManager.scenes[MAINMENU].accountBoxStuff.usernameInput.elt === document.activeElement || ScenesManager.scenes[MAINMENU].accountBoxStuff.passwordInput.elt === document.activeElement) {
+          logIn()
+        } else if (ScenesManager.scenes[MAINMENU].accountBoxStuff.usernameCreate.elt === document.activeElement || ScenesManager.scenes[MAINMENU].accountBoxStuff.passwordCreate1.elt === document.activeElement || ScenesManager.scenes[MAINMENU].accountBoxStuff.passwordCreate2.elt === document.activeElement) {
+          signUp()
+        } else {
+          if (ScenesManager.scenes[MAINMENU].accountBoxStuff.usernameInput.value().length > ScenesManager.scenes[MAINMENU].accountBoxStuff.usernameCreate.value().length) {
+            logIn()
+          } else if (ScenesManager.scenes[MAINMENU].accountBoxStuff.usernameInput.value().length < ScenesManager.scenes[MAINMENU].accountBoxStuff.usernameCreate.value().length) {
+            signUp()
+          } else {
+            //nothing
+          }
+        }
+      }
+      break
   }
   
   //prevent default for ALL player controls

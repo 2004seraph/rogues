@@ -320,19 +320,7 @@ loadScenes.hubScene = function() {
       pop()
 
       if (keyIsDown(ENTER)) {
-        if (this.accountBoxStuff.usernameInput.elt === document.activeElement || this.accountBoxStuff.passwordInput.elt === document.activeElement) {
-          logIn()
-        } else if (this.accountBoxStuff.usernameCreate.elt === document.activeElement || this.accountBoxStuff.passwordCreate1.elt === document.activeElement || this.accountBoxStuff.passwordCreate2.elt === document.activeElement) {
-          signUp()
-        } else {
-          if (this.accountBoxStuff.usernameInput.value().length > this.accountBoxStuff.usernameCreate.value().length) {
-            logIn()
-          } else if (this.accountBoxStuff.usernameInput.value().length < this.accountBoxStuff.usernameCreate.value().length) {
-            signUp()
-          } else {
-            //nothing
-          }
-        }
+        
       }
 
       if (!(currentPacket == null)) {
@@ -341,7 +329,7 @@ loadScenes.hubScene = function() {
             switch (currentPacket.data.code) {
               case "successful":
                 gameState.authorisedUser = currentPacket.data.userID
-                //console.log("Logged into:", gameState.authorisedUser)
+                console.log("Logged into:", gameState.authorisedUser)
                 socket.emit("requestUserData", {ID: gameState.authorisedUser, latency: latency})
                 setPrompt(new Prompt(10, 10, "Signed in", 300))
                 break
@@ -350,6 +338,9 @@ loadScenes.hubScene = function() {
                 break
               case "badusername":
                 setPrompt(new Prompt(10, 10, "Wrong username", 300))
+                break
+              case "alreadyonline":
+                setPrompt(new Prompt(10, 10, "Account currently online", 300))
                 break
             }
             resetPacket()

@@ -7,13 +7,20 @@ module.exports = class PlayerDatabase {
   }
 
   initializeTable(callback=function() {}) {
-    this.database.run("CREATE TABLE if not exists Players (ID INTEGER PRIMARY KEY autoincrement, JoinDate DEFAULT CURRENT_TIMESTAMP, Username char(12) DEFAULT player, PasswordHash char(30), LastLogin DEFAULT 'Never', Data TEXT DEFAULT '{}', Elo INT DEFAULT 1000)", function(err) {
+    this.database.run("CREATE TABLE if not exists Players (ID INTEGER PRIMARY KEY autoincrement, JoinDate DEFAULT CURRENT_TIMESTAMP, Username char(12) DEFAULT player, PasswordHash char(30), LastLogin DEFAULT 'Never', Data TEXT DEFAULT '{}', Elo INT DEFAULT 1000, Online TEXT DEFAULT 'false')", (err) => {
         if (err !== null) {
           CLI.printLine("Database Initialization Error:")
           CLI.printLine(err)
         } else {
-          CLI.printLine("Loaded Database")
-          callback()
+          this.database.run(`UPDATE Players SET Online=?`, ["false"], function(err2) {//log out all players
+            if (err2) {
+              CLI.printLine("User Online Initialization Error:")
+              CLI.printLine(err2)
+            } else {
+              CLI.printLine("Loaded Database")
+              callback()
+            }
+          })
         }
       }
     )
@@ -118,6 +125,31 @@ module.exports = class PlayerDatabase {
 
         //CLI.printLine(selection)
         callback(selection)
+      }
+    })
+  }
+
+  isOnline(userID, callback=function(req) {}) {
+    this.database.get(`SELECT * FROM Players WHERE ID=?`, userID, function(err, record) {
+      if (err) {
+        CLI.printLine("Online Status Query Error:")
+        CLI.printLine(err)
+      } else {
+        if (record) {
+          callback(record.Online)
+        } else {
+          CLI.printLine("Online Status Query Error: Does not exist")
+        }
+      }
+    })
+  }
+  setOnlineStatus(userID, status, callback=function() {}) {
+    this.database.run(`UPDATE Players SET Online=? WHERE ID=?`, [status, userID], function(err) {
+      if (err) {
+        CLI.printLine("Online Status Update Error:")
+        CLI.printLine(err)
+      } else {
+        callback()
       }
     })
   }

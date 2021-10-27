@@ -35,7 +35,7 @@ global.GlobalServerInfo = {
     max: 24
   },
   transmission: {
-    wait: 1000
+    wait: 5000
   }
 }
 
@@ -71,21 +71,21 @@ io.on('connection', function(socket) {
   socket.on('disconnect', (reason) => {
     CLI.printLine(socket.id + " disconnected: " + reason)
     if (socket.authorised != null) {
-      concurrentOnlineUsers--
+      accountEvents.signOut({ID: socket.authorised}, io, socket)
     }
     concurrentUsers--
   })
 
   //latency
   socket.on("ping", (cb) => {
-    //cb()
+    //cb()//INCREDIBLY DANGEROUS - ALLOWS CODE FROM THE CLIENT TO BE RAN HERE
   })
 
   //when packets happen
   let accountMethodNames = Object.keys(accountEvents)
   for (let accountAction of accountMethodNames) {
     socket.on(accountAction, (data) => {
-      if (Date.now() - lastRequest < GlobalServerInfo.transmission.wait - data.latency*2 && spamStop == true) {
+      if (Date.now() - lastRequest < GlobalServerInfo.transmission.wait && spamStop == true) {
         //CLI.printLine("blocked")
         return
       }
