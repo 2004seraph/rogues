@@ -5,8 +5,8 @@ loadScenes.charScene = function() {
       this.readyStar = ASSETS.namedImages.starEmbelum
       this.unreadyStar = ASSETS.namedImages.starEmbelum.tint(0, 80, 0)
 
-      this.playerCard = 200
-      this.playerCardheight = 230
+      this.playerCard = 180
+      this.playerCardheight = 200
       this.cardSpacing = 60
       this.amountOfCharacters = Object.keys(characters).length
 
@@ -47,10 +47,12 @@ loadScenes.charScene = function() {
         let x = CANX/2 - (this.amountOfCharacters/2) * this.playerCard + i * (this.playerCard + this.cardSpacing) - this.cardSpacing/2
         let y = 140
 
-        gameButtons[("characterSelect" + (i).toString())] = createButton(i)
+        gameButtons[("characterSelect" + (i).toString())] = createButton("")
         .parent('P5Container')
         .position(x, y)
+        .class("characterChoose")
         .size(this.playerCard, this.playerCardheight)
+        .style("background-image: url(assets/characters/" + (i + 1).toString() + "/preview.png), linear-gradient(rgb(75, 0, 173), rgb(255, 0, 212));")
         .mousePressed(() => {
           if (ScenesManager.scenes[CHARACTERSELECT].selection.player1 === null) {
             ScenesManager.scenes[CHARACTERSELECT].selection.player1 = i
@@ -60,6 +62,9 @@ loadScenes.charScene = function() {
             }
           }
         })
+        gameButtons.chartitle = createDiv(characters[i].name)
+          .parent(gameButtons[("characterSelect" + (i).toString())])
+          .style("position: absolute; bottom: 0")
       }
     },
     showStats: function(char, x, y) {

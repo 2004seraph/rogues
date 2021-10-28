@@ -19,3 +19,12 @@
 .startButtons {
   border-bottom-left-radius: 50px;
 }
+
+.characterChoose {
+  background-repeat: no-repeat;
+  background-position: center;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
