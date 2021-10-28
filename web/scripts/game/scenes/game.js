@@ -53,7 +53,6 @@ loadScenes.gameScene = function() {
           // console.log(player + " is out")
           // p.death()
           if (p.death()) {
-            console.log(player, "has lost")
             switch (player) {
               case "one":
                 this.gameOver = {lost: player, won: "two"}

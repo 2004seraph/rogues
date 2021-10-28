@@ -25,8 +25,9 @@ loadScenes.charScene = function() {
         .parent('P5Container')
         .position(CANX - cornerWidth - 10, 10)
         .size(cornerWidth, 50)
+        .attribute("disabled", "")
         .mousePressed(() => {
-          if (ScenesManager.scenes[CHARACTERSELECT].selection.player1 !== null && ScenesManager.scenes[CHARACTERSELECT].selection.player2 !== null) {
+          if (this.selection.player1 !== null && this.selection.player2 !== null) {
             ScenesManager.changeScene(LEVELSELECT, mainInterfaceSpeed)
           }
       })
@@ -36,15 +37,16 @@ loadScenes.charScene = function() {
         .parent('P5Container')
         .position(CANX/2 - resetWidth/2, 10)
         .size(resetWidth, 50)
+        .attribute("disabled", "")
         .mousePressed(() => {
-          if (ScenesManager.scenes[CHARACTERSELECT].selection.player1 !== null) {
-            ScenesManager.scenes[CHARACTERSELECT].selection.player1 = null
-            ScenesManager.scenes[CHARACTERSELECT].selection.player2 = null
+          if (this.selection.player1 !== null) {
+            this.selection.player1 = null
+            this.selection.player2 = null
           }
       })
 
       for (let i = 0; i < this.amountOfCharacters; i++) {
-        let x = CANX/2 - (this.amountOfCharacters/2) * this.playerCard + i * (this.playerCard + this.cardSpacing) - this.cardSpacing/2
+        let x = CANX/2 - (this.amountOfCharacters/2) * this.playerCard + i * (this.playerCard + this.cardSpacing) - ((this.amountOfCharacters != 1) ? this.cardSpacing/2 : 0)
         let y = 140
 
         gameButtons[("characterSelect" + (i).toString())] = createButton("")
@@ -54,11 +56,11 @@ loadScenes.charScene = function() {
         .size(this.playerCard, this.playerCardheight)
         .style("background-image: url(assets/characters/" + (i + 1).toString() + "/preview.png), linear-gradient(rgb(75, 0, 173), rgb(255, 0, 212));")
         .mousePressed(() => {
-          if (ScenesManager.scenes[CHARACTERSELECT].selection.player1 === null) {
-            ScenesManager.scenes[CHARACTERSELECT].selection.player1 = i
+          if (this.selection.player1 === null) {
+            this.selection.player1 = i
           } else {
-            if (ScenesManager.scenes[CHARACTERSELECT].selection.player2 === null) {
-              ScenesManager.scenes[CHARACTERSELECT].selection.player2 = i
+            if (this.selection.player2 === null) {
+              this.selection.player2 = i
             }
           }
         })
@@ -68,13 +70,16 @@ loadScenes.charScene = function() {
       }
     },
     showStats: function(char, x, y) {
+      let spacing = ScenesManager.scenes[MAINMENU].spacing
+      let heightMult = ScenesManager.scenes[MAINMENU].heightMult
+
       push()
       textAlign(LEFT, TOP)
       let seperation = (CANX/2 - 20)/2
 
       let nameString = characters[char].name
       fill(255)
-      text(nameString, x + seperation - textWidth(nameString)/2, y)
+      text(nameString, x + seperation - textWidth(nameString)/2, y + spacing)
 
       let statsObject = {
         "Size:": Math.floor((characters[char].dimensions.width * characters[char].dimensions.height) / 10).toString(),
@@ -88,12 +93,22 @@ loadScenes.charScene = function() {
       let statKeys = Object.keys(statsObject)
       let t = 30
       for (let i = 0; i < statKeys.length; i++) {
-        text(statKeys[i], x + 10, y + 10 + t * i + t)
-        text(statsObject[statKeys[i]], x + 10 + seperation, y + 10 + t * i + t)
+        text(statKeys[i], x + spacing, y + t * i + t + spacing*2)
+        text(statsObject[statKeys[i]], x + spacing + seperation, y + t * i + t + spacing*2)
       }
       pop()
     },
     run: function() {
+      if (this.selection.player1 !== null) {
+        gameButtons.resetSelection.removeAttribute("disabled")
+      } else {
+        gameButtons.resetSelection.attribute("disabled", "")
+      }
+      if (this.selection.player1 !== null && this.selection.player2 !== null) {
+        gameButtons.continueSelection.removeAttribute("disabled")
+      } else {
+        gameButtons.continueSelection.attribute("disabled", "")
+      }
       background(0)
       image(ASSETS.namedImages.characterSelect, 0, 0, CANX, CANY)
       
@@ -115,7 +130,7 @@ loadScenes.charScene = function() {
 
       //character selection
       for (let i = 0; i < this.amountOfCharacters; i++) {
-        x = CANX/2 - (this.amountOfCharacters/2) * this.playerCard + i * (this.playerCard + this.cardSpacing) - this.cardSpacing/2
+        x = CANX/2 - (this.amountOfCharacters/2) * this.playerCard + i * (this.playerCard + this.cardSpacing) - ((this.amountOfCharacters != 1) ? this.cardSpacing/2 : 0)
         y = 140
 
         let extra = 12

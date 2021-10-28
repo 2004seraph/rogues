@@ -25,7 +25,7 @@
       "2": null,
       "3": "assets/levels/2/LEVEL2-3.png"
     },
-    "previewImage": "assets/levels/2/LEVEL2-3.png",
+    "previewImage": "assets/levels/2/preview.png",
     "colliders": [
       [194, 157, 487, 30],
       [64, 272, 524, 30],
