@@ -63,6 +63,8 @@ loadScenes.charScene = function() {
       }
     },
     showStats: function(char, x, y) {
+      push()
+      textAlign(LEFT, TOP)
       let seperation = (CANX/2 - 20)/2
 
       let nameString = characters[char].name
@@ -84,6 +86,7 @@ loadScenes.charScene = function() {
         text(statKeys[i], x + 10, y + 10 + t * i + t)
         text(statsObject[statKeys[i]], x + 10 + seperation, y + 10 + t * i + t)
       }
+      pop()
     },
     run: function() {
       background(0)

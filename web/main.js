@@ -70,7 +70,7 @@ function keyPressed() {
   userStartAudio()
   switch (keyCode) {
     case SHIFT:
-      //gotoGame()
+      gotoGame()
       break
     case ENTER:
       //the code is here because it needs to fire only on one press

@@ -42,10 +42,10 @@ loadScenes.hubScene = function() {
       //this.accountOnlineImg = this.accountOnlineImg.resize(16, 16)
 
       //online, offline, back, account
-      this.buttonSize = 450
-      this.spacing = 20
-      this.buttonLevel = 170//lower = bottom
-      this.heightMult = 1/4.5
+      //this.buttonSize = 450
+      //this.spacing = 20
+      //this.buttonLevel = 170//lower = bottom
+      //this.heightMult = 1/4.5
     },
     start: function() {
       let b_height = this.buttonSize * this.heightMult
@@ -374,10 +374,10 @@ loadScenes.hubScene = function() {
         }
       }
     },
-    buttonSize: 0,
-    buttonLevel: 0,
-    spacing: 0,
-    heightMult: 0,
+    buttonSize: 450,
+    buttonLevel: 170,
+    spacing: 20,
+    heightMult: 1/4.5,
     showAccountBox: false,
     accountBoxStuff: {},
     flippedBg: null,

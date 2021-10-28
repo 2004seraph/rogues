@@ -79,7 +79,7 @@ class Player {
     this.charID = id
     this.character = characters[this.charID]
 
-    //frankenstein a stun animation together
+    //frankenstein a stun animation together using a frame from the current characters idle animation
     this.stunAnimation = new Animation()
     let stunnedAnimationFrames = []
     let stunnedAnimationFramesFlipped = []
@@ -97,7 +97,6 @@ class Player {
     this.stunAnimation.frames = stunnedAnimationFrames
     this.stunAnimation.flippedFrames = stunnedAnimationFramesFlipped
     this.stunAnimation.animationData = stunnedAnimationData
-    console.log(this.stunAnimation.flippedFrames)
     this.stunAnimation.repeat = true
   }
 
