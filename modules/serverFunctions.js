@@ -71,7 +71,7 @@ exports.accountEvents = {
         } else {
           //?????
           exports.accountEvents["signOut"](rec.ID, io, socket)
-          socket.emit("blocked", {code: "accountDesync"})
+          socket.emit("blocked", {code: "accountAuthDesync"})
           socket.disconnect()
         }
       })

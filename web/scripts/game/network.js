@@ -12,12 +12,12 @@ socket.on("disconnect", function(data) {
   accountData = null
   gameState.authorisedUser = null
 })
-socket.on("refreshUpdate", function(data) {
-  console.warn("Server Update")
-  accountData = null
-  gameState.authorisedUser = null
-  location.reload()
-})
+// socket.on("refreshUpdate", function(data) {
+//   console.warn("Server Update")
+//   accountData = null
+//   gameState.authorisedUser = null
+//   location.reload()
+// })
 
 var latency = null
 setInterval(() => {
@@ -41,6 +41,7 @@ for (let header of packetHeaders) {
   })
 }
 
+//just a cache for userdata
 var accountData = null
 
 var lastTransmission = null

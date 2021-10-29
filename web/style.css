@@ -62,7 +62,7 @@ button[disabled=disabled], button:disabled {
   color: rgb(89, 59, 255);
 }
 .prompt {
-  background-image: linear-gradient(rgb(55, 0, 255), rgb(255, 0, 106));
+  background-image: linear-gradient(rgb(0, 14, 138), rgb(36, 124, 255));
   color: rgb(0, 255, 213);
   font-family: joystixmonospace, Arial, Helvetica, sans-serif;
   font-size: 24px;
@@ -84,6 +84,10 @@ button[disabled=disabled], button:disabled {
       -ms-animation: fadein 0.7s; /* Internet Explorer */
        -o-animation: fadein 0.7s; /* Opera < 12.1 */
           animation: fadein 0.7s;
+  
+  border-style: solid;
+  border-color: aqua;
+  border-radius: 2px;
 }
 
 @keyframes fadein {
