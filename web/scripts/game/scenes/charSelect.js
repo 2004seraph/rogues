@@ -162,8 +162,8 @@ loadScenes.charScene = function() {
 
       //character selection
       for (let i = 0; i < this.amountOfCharacters; i++) {
-        x = CANX/2 - (this.amountOfCharacters/2) * this.playerCard + i * (this.playerCard + this.cardSpacing) - ((this.amountOfCharacters != 1) ? this.cardSpacing/2 : 0)
-        y = 140
+        let x = CANX/2 - (this.amountOfCharacters/2) * this.playerCard + i * (this.playerCard + this.cardSpacing) - ((this.amountOfCharacters != 1) ? this.cardSpacing/2 : 0)
+        let y = 140
 
         let extra = 12
         if (this.selection.player1 === i) {
