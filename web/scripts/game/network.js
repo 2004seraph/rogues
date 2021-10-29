@@ -13,7 +13,8 @@ socket.on("disconnect", function(data) {
   gameState.authorisedUser = null
 })
 socket.on("userDataCode", function(data) {
-  if (data.code = "badAuth") {
+  if (data.code == "badAuth") {
+    location.reload()
   }
 })
 // socket.on("refreshUpdate", function(data) {

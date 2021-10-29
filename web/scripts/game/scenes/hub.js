@@ -364,8 +364,7 @@ loadScenes.hubScene = function() {
                 this.logDone()
                 break
               case "badAuth":
-                console.log("bad auth")
-                //location.reload()
+                console.log("badauth")
                 break
             }
             resetPacket()

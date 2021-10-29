@@ -58,8 +58,7 @@ exports.accountEvents = {
     })
   },
   "requestUserData": function(data, io, socket) {
-    console.log(socket.authorised)
-    if (socket.authorised) {//if this socket is actually logged in to the account they want to query
+    if (socket.authorised != null) {//if this socket is actually logged in to the account they want to query
       PlayerDatabase.queryUserID(socket.authorised.id, function(rec) {
         if (rec) {//if that id exists
           //only give them the essentials
@@ -70,18 +69,18 @@ exports.accountEvents = {
           }
           socket.emit("userDataCode", {code: "successful", userData: userDataGrant})
         } else {
-          //?????SHOULD NEVER HAPPEN
-          //would mean they are authenticated to a non-existant account
+          //?????
           exports.accountEvents["signOut"](rec.ID, io, socket)
           socket.emit("blocked", {code: "accountAuthDesync"})
           socket.disconnect()
         }
       })
     } else {//they are not signed in and authorised
+      //console.log("bad")
       socket.emit("userDataCode", {code: "badAuth"})
       //kill connection? malicious traffic?
-      //socket.emit("blocked", {code: "badAuth"})
-      //socket.disconnect()
+      // socket.emit("blocked", {code: "badAuth"})
+      // socket.disconnect()
     }
   },
   "requestGameStatistics": function(data, io, socket) {

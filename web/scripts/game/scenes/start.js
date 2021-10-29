@@ -26,6 +26,7 @@ loadScenes.startScene = function() {
         .position(CANX - 512 + 140, CANY - 180)
         .size(512-140, 64)
         .class("startButtons")
+        .attribute("disabled", "")
         .mousePressed(() => {
           ScenesManager.changeScene(CREDITS, mainInterfaceSpeed)
       })
