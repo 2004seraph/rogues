@@ -93,7 +93,7 @@ exports.accountEvents = {
     if (socket.authorised != null) {
       concurrentOnlineUsers--
       
-      socket.openRoom = false
+      //socket.openRoom = false
       PlayerDatabase.setOnlineStatus(socket.authorised.id, "false", function() {//sign them out
         callback()
       })

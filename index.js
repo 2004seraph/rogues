@@ -33,7 +33,8 @@ global.GlobalServerInfo = {
   password: {
     min: 6,
     max: 24
-  }
+  },
+  motd: "Welcome"
 }
 
 //server globals
@@ -57,7 +58,7 @@ io.on('connection', function(socket) {
   
   //set last packet time
   //updateLastRequest()
-  socket.openRoom = false
+  //socket.openRoom = false
 
   //they are not signed in
   socket.authorised = null
@@ -98,12 +99,12 @@ io.on('connection', function(socket) {
       accountEvents[accountAction](data, io, socket)
     })
   }
-  let matchmakingNames = Object.keys(matchMaking)
-  for (let matchAction of matchmakingNames) {
-    socket.on(matchAction, (data) => {
-      matchMaking[matchAction](data, io, socket)
-    })
-  }
+  // let matchmakingNames = Object.keys(matchMaking)
+  // for (let matchAction of matchmakingNames) {
+  //   socket.on(matchAction, (data) => {
+  //     matchMaking[matchAction](data, io, socket)
+  //   })
+  // }
 
   // let gameMethodNames = Object.keys(gameEvents)
   // for (let gameAction of gameMethodNames) {

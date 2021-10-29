@@ -222,6 +222,7 @@ loadScenes.hubScene = function() {
         }
       }
       //wrapper
+      stroke(255, 0, 100)
       fill(60, 0, 255)
       rect(CANX/2 + this.spacing, CANY/2 - this.buttonLevel, this.buttonSize, b_height*3 + this.spacing*4)
       //server info wrapper
