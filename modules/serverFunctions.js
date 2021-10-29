@@ -3,8 +3,7 @@ exports.accountEvents = {
   "requestSignup": function(data, io, socket) {
     if (allowSignups) {
       let rUsername = data.username.toString().trim().toUpperCase()
-
-      //allow names within the max length and only ascii characters, doesnt block spaces
+      //allow names within the max length and only ascii characters, doesnt block spaces (REGEX)
       if (rUsername.length > GlobalServerInfo.username.min && rUsername.length < GlobalServerInfo.username.max && /^[\x00-\x7F]+$/.test(rUsername)) {
         PlayerDatabase.queryUsername(rUsername, function(rec) {
           if (rec == undefined) {//if there is no one with that username
@@ -32,7 +31,7 @@ exports.accountEvents = {
     }
   },
   "requestLogin": function(data, io, socket) {
-    PlayerDatabase.queryUsername(data.username.toString().toUpperCase(), function(rec) {
+    PlayerDatabase.queryUsername(data.username.toString().trim().toUpperCase(), function(rec) {
       if (rec) {//if that username exists
         PlayerDatabase.isOnline(rec.ID, function(status) {
           if (status == "false") {//if the requested account is offline
@@ -79,7 +78,7 @@ exports.accountEvents = {
         socket.emit("blocked", {code: "badUserID"})
         socket.disconnect()
       }
-      updateLastRequest()
+      //updateLastRequest()
     })
   },
   "requestGameStatistics": function(data, io, socket) {
@@ -93,6 +92,8 @@ exports.accountEvents = {
       concurrentOnlineUsers--
       //remove who this connection identifies as
       socket.authorised = null
+      
+      socket.openRoom = false
       PlayerDatabase.setOnlineStatus(data.ID, "false", function() {//sign them out
         callback()
       })
@@ -121,6 +122,23 @@ exports.accountEvents = {
         }
       })
     })
+  }
+}
+
+exports.matchMaking = {
+  "joinRoom": function(data, io, socket) {
+    if (socket.authorised != null) {//if they are signed in
+      try {
+        socket.join(data.room)
+      } catch (err) {
+        CLI.printLine("Join room error: " + err)
+      }
+    }
+  },
+  "createRoom": function(data, io, socket) {
+    if (socket.authorised != null) {//if they are signed in
+      socket.openRoom = true
+    }
   }
 }
 

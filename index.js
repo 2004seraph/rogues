@@ -24,7 +24,7 @@ const socketio = require('socket.io')
 const io = socketio(webServer)
 
 //load in server functions
-const {accountEvents, gameEvents} = require("./modules/serverFunctions.js")
+const {accountEvents, gameEvents, matchMaking} = require("./modules/serverFunctions.js")
 global.GlobalServerInfo = {
   username: {
     min: 3,
@@ -38,12 +38,13 @@ global.GlobalServerInfo = {
 
 //server globals
 global.allowSignups = true
+global.matchServers = true
 global.concurrentUsers = 0
 global.concurrentOnlineUsers = 0
 global.connectionsLimit = 6
 
-var lastRequest = null
-global.updateLastRequest = function() {lastRequest = Date.now()}
+//var lastRequest = null
+//global.updateLastRequest = function() {lastRequest = Date.now()}
 global.spamStop = false
 
 io.on('connection', function(socket) {
@@ -55,7 +56,8 @@ io.on('connection', function(socket) {
   }
   
   //set last packet time
-  updateLastRequest()
+  //updateLastRequest()
+  socket.openRoom = false
 
   //they are not signed in
   socket.authorised = null
@@ -85,15 +87,21 @@ io.on('connection', function(socket) {
   })
 
   //latency
-  socket.on("ping", (cb) => {
-    //cb()//INCREDIBLY DANGEROUS - ALLOWS CODE FROM THE CLIENT TO BE RAN HERE
-  })
+  // socket.on("ping", (cb) => {
+  //   //cb()//INCREDIBLY DANGEROUS - ALLOWS CODE FROM THE CLIENT TO BE RAN HERE
+  // })
 
   //when packets happen
   let accountMethodNames = Object.keys(accountEvents)
   for (let accountAction of accountMethodNames) {
     socket.on(accountAction, (data) => {
       accountEvents[accountAction](data, io, socket)
+    })
+  }
+  let matchmakingNames = Object.keys(matchMaking)
+  for (let matchAction of matchmakingNames) {
+    socket.on(matchAction, (data) => {
+      matchMaking[matchAction](data, io, socket)
     })
   }
 
