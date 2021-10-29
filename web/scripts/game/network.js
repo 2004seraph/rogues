@@ -12,6 +12,10 @@ socket.on("disconnect", function(data) {
   accountData = null
   gameState.authorisedUser = null
 })
+socket.on("userDataCode", function(data) {
+  if (data.code = "badAuth") {
+  }
+})
 // socket.on("refreshUpdate", function(data) {
 //   console.warn("Server Update")
 //   accountData = null

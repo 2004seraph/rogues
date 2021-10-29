@@ -363,8 +363,9 @@ loadScenes.hubScene = function() {
                 accountData = currentPacket.data.userData
                 this.logDone()
                 break
-              case "badID":
-                window.close()
+              case "badAuth":
+                console.log("bad auth")
+                //location.reload()
                 break
             }
             resetPacket()
