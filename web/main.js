@@ -7,8 +7,7 @@ var resolutionMultiplier = 1
 var gameState = {
   currentLevel: null,
   levelColliders: [],
-  players: {},
-  authorisedUser: null
+  players: {}
 }
 
 function setup() {

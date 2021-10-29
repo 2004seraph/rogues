@@ -33,8 +33,7 @@ loadScenes.stageScene = function() {
         .mousePressed(() => {
           if (this.stageSelection.player1 !== null && this.stageSelection.player2 !== null) {
             this.selection = [this.stageSelection.player1, this.stageSelection.player2][Math.floor(Math.random() * 2)]
-            console.log(this.selection)
-            ScenesManager.changeScene(GAME, mainInterfaceSpeed)
+            ScenesManager.changeScene(GAME, mainInterfaceSpeed * 7)
           }
       })
 

@@ -100,18 +100,19 @@ loadScenes.charScene = function() {
           .style("position: absolute; bottom: 0")
       }
     },
-    showStats: function(char, x, y) {
+    showStats: function(char, x, y, p) {
       let spacing = ScenesManager.scenes[MAINMENU].spacing
       let heightMult = ScenesManager.scenes[MAINMENU].heightMult
 
       push()
-      textAlign(LEFT, TOP)
+      textAlign(CENTER, TOP)
       let seperation = (CANX/2 - 20)/2
 
       let nameString = characters[char].name
       fill(0, 255, 255)
-      text(nameString, x + seperation - textWidth(nameString)/2, y + spacing)
-
+      text("Player " + p + ": " + nameString, x + seperation, y + spacing)
+      
+      textAlign(LEFT, TOP)
       let statsObject = {
         "Size:": Math.floor((characters[char].dimensions.width * characters[char].dimensions.height) / 10).toString(),
         "Weight:": (Math.floor(characters[char].physics.mass * characters[char].physics.maxFallSpeed)).toString(),
@@ -152,12 +153,12 @@ loadScenes.charScene = function() {
       let y = CANY/2 + this.screendivider
       rect(x, y, CANX/2 - 20, CANY/2 - 10 - this.screendivider)
       if (this.selection.player1 !== null) {
-        this.showStats(this.selection.player1, x, y)
+        this.showStats(this.selection.player1, x, y, "one")
       }
       x = CANX/2 + 10
       rect(x, y, CANX/2 - 20, CANY/2 - 10 - this.screendivider)
       if (this.selection.player2 !== null) {
-        this.showStats(this.selection.player2, x, y)
+        this.showStats(this.selection.player2, x, y, "two")
       }
 
       //character selection
@@ -188,9 +189,9 @@ loadScenes.charScene = function() {
         stroke(255)
         strokeWeight(1)
         rect(x, y, this.playerCard, this.playerCardheight)
-        image(ASSETS.characterImages[characters[i].profilePicture], x, y)
-        fill(255)
-        text(characters[i].name, x, this.playerCardheight)
+        //image(ASSETS.characterImages[characters[i].profilePicture], x, y)
+        //fill(255)
+        //text(characters[i].name, x, this.playerCardheight)
         pop()
       }
 

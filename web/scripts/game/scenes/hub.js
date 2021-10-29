@@ -59,7 +59,7 @@ loadScenes.hubScene = function() {
           logOut()
       })
 
-      if (accountData != null || gameState.authorisedUser != null) {
+      if (accountData != null) {
 
       } else {
         gameButtons.logoutButton.attribute("disabled", "")
@@ -256,7 +256,7 @@ loadScenes.hubScene = function() {
         }
 
         //then add the current player's ranking below
-        if (accountData != null && gameState.authorisedUser != null) {
+        if (accountData != null) {
           textAlign(LEFT, TOP)
           text(accountData.Username + "[YOU]", CANX/2 + this.spacing + inter*2, CANY/2 - this.buttonLevel + b_height + this.spacing * 9 + this.spacing*2 + inter)
           textAlign(RIGHT, TOP)
@@ -276,7 +276,7 @@ loadScenes.hubScene = function() {
       push()
       fill(255)
       textAlign(LEFT, BOTTOM)
-      if (gameState.authorisedUser != null && accountData != null) {
+      if (accountData != null) {
         text("Signed into: " + accountData.Username.toString(), CANX/2 - this.buttonSize - this.spacing*2, CANY/2 - this.buttonLevel - this.spacing)
       } else {
         text("Not Signed In", CANX/2 - this.buttonSize - this.spacing*2, CANY/2 - this.buttonLevel - this.spacing)
@@ -294,7 +294,7 @@ loadScenes.hubScene = function() {
           socket.emit("requestGameStatistics", {latency: latency})
         }
       }
-      if (accountData == null && gameState.authorisedUser == null) {
+      if (accountData == null) {
         gameButtons.logoutButton.attribute("disabled", "")
         gameButtons.onlinePlayButton.attribute("disabled", "").attribute("title", "Sign in to play online")
       }
@@ -328,9 +328,7 @@ loadScenes.hubScene = function() {
           case "loginCode":
             switch (currentPacket.data.code) {
               case "successful":
-                gameState.authorisedUser = currentPacket.data.userID
-                console.log("Logged into:", gameState.authorisedUser)
-                socket.emit("requestUserData", {ID: gameState.authorisedUser, latency: latency})
+                socket.emit("requestUserData", {latency: latency})
                 setPrompt(new Prompt(10, 10, "Signed in", 300))
                 break
               case "badpassword":

@@ -81,10 +81,9 @@ function logIn() {
 }
 
 function logOut() {
-  socket.emit("signOut", {ID: gameState.authorisedUser, latency: latency})
+  socket.emit("signOut", {latency: latency})
   
   accountData = null
-  gameState.authorisedUser = null
   setPrompt(new Prompt(10, 10, "Logged out", 300))
 }
 
