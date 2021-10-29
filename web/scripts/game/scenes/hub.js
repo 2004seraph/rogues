@@ -2,6 +2,17 @@
 loadScenes.hubScene = function() {
   ScenesManager.scenes[MAINMENU] = {
     preCompute: function() {
+      this.flippedBg = ASSETS.namedImages.modeSelectBG.tint(0, 255, 0)
+      this.accountOnlineImg = ASSETS.namedImages.account.tint(255, 0, 255)
+      //this.accountOnlineImg = this.accountOnlineImg.resize(16, 16)
+
+      //online, offline, back, account
+      //this.buttonSize = 450
+      //this.spacing = 20
+      //this.buttonLevel = 170//lower = bottom
+      //this.heightMult = 1/4.5
+    },
+    start: function() {
       //background moving boxes
       particleSystems.hubDataBoxes = new ParticleSystem(0, 0)
       for (let i = 0; i < 300; i++) {
@@ -37,17 +48,6 @@ loadScenes.hubScene = function() {
         }
         particleSystems.hubDataBoxes.addParticle(Math.random() * CANX, Math.random() * CANY, {destroyFunction: dataBoxDestroy, displayFunction: dataBoxDisplay, updateFunction: dataBoxUpdate, parameters: dataBoxParameters})
       }
-      this.flippedBg = ASSETS.namedImages.modeSelectBG.tint(0, 255, 0)
-      this.accountOnlineImg = ASSETS.namedImages.account.tint(255, 0, 255)
-      //this.accountOnlineImg = this.accountOnlineImg.resize(16, 16)
-
-      //online, offline, back, account
-      //this.buttonSize = 450
-      //this.spacing = 20
-      //this.buttonLevel = 170//lower = bottom
-      //this.heightMult = 1/4.5
-    },
-    start: function() {
       let b_height = this.buttonSize * this.heightMult
 
       gameButtons.logoutButton = createButton("Logout")

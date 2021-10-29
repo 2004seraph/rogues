@@ -13,6 +13,37 @@ loadScenes.charScene = function() {
       this.screendivider = 100
     },
     start: function() {
+      particleSystems.charBoxes = new ParticleSystem(0, 0)
+      for (let i = 0; i < 300; i++) {
+        let charBoxesParameters = {
+          width: Math.random() * 5 + 1,
+          speed: Math.random() * 3,
+          color: 180 + Math.random() * 180,
+        }
+        let charBoxesDisplay = function(worldPosition) {
+          push()
+          colorMode(HSB)
+          fill(this.parameters.color, 80, 255)
+          noStroke()
+          rect(worldPosition.x + this.pos.x, worldPosition.y + this.pos.y, this.parameters.width, this.parameters.width)
+          pop()
+        }
+        let charBoxesUpdate = function(worldPosition) {
+          this.pos.y -= this.parameters.speed
+        }
+        let charBoxesDestroy = function() {
+          if (collideRectRect(this.pos.x, this.pos.y, this.parameters.width, this.parameters.width, 0, 0, CANX, CANY)) {
+            return false
+          } else {
+            this.pos = {
+              x: this.pos.x,
+              y: CANY - 0.01
+            }
+          }
+        }
+        particleSystems.charBoxes.addParticle(Math.random() * CANX, Math.random() * CANY, {destroyFunction: charBoxesDestroy, displayFunction: charBoxesDisplay, updateFunction: charBoxesUpdate, parameters: charBoxesParameters})
+      }
+      
       let cornerWidth = 240
       gameButtons.back = createButton("Back")
         .parent('P5Container')
@@ -78,7 +109,7 @@ loadScenes.charScene = function() {
       let seperation = (CANX/2 - 20)/2
 
       let nameString = characters[char].name
-      fill(255)
+      fill(0, 255, 255)
       text(nameString, x + seperation - textWidth(nameString)/2, y + spacing)
 
       let statsObject = {
@@ -89,7 +120,7 @@ loadScenes.charScene = function() {
         "Power:": "-",
         "Defense:": characters[char].game.defence.toString()
       }
-      fill(0)
+      fill(255)
       let statKeys = Object.keys(statsObject)
       let t = 30
       for (let i = 0; i < statKeys.length; i++) {
@@ -110,18 +141,19 @@ loadScenes.charScene = function() {
         gameButtons.continueSelection.attribute("disabled", "")
       }
       background(0)
+      updateParticleSystems()
       image(ASSETS.namedImages.characterSelect, 0, 0, CANX, CANY)
       
       //selected characters
-      fill(100)
+      fill(55, 0, 55, 195)
+      stroke(0, 255, 255)
+      strokeWeight(2)
       let x = 10
       let y = CANY/2 + this.screendivider
       rect(x, y, CANX/2 - 20, CANY/2 - 10 - this.screendivider)
       if (this.selection.player1 !== null) {
         this.showStats(this.selection.player1, x, y)
       }
-
-      fill(100)
       x = CANX/2 + 10
       rect(x, y, CANX/2 - 20, CANY/2 - 10 - this.screendivider)
       if (this.selection.player2 !== null) {
