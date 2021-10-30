@@ -25,14 +25,15 @@ socket.on("userDataCode", function(data) {
 // })
 
 var latency = null
-setInterval(() => {
-  const start = Date.now()
-  socket.volatile.emit("ping", () => {
-    latency = Date.now() - start
-  })
-}, 5000)
+// setInterval(() => {
+//   const start = Date.now()
+//   socket.volatile.emit("ping", () => {
+//     latency = Date.now() - start
+//   })
+// }, 5000)
 
-var currentPacket = null
+var currentPacket = null//auth
+var currentStatsPacket = null//stats
 
 var globalServerInfo = null
 socket.on("globalServerInfo", function(data) {
@@ -43,6 +44,12 @@ let packetHeaders = ["loginCode", "signupCode", "userDataCode", "gameStatisticsC
 for (let header of packetHeaders) {
   socket.on(header, function(data) {
     currentPacket = {name: header, data: data}
+  })
+}
+let statPacketHeaders = ["gameStatisticsCode"]
+for (let statHeader of statPacketHeaders) {
+  socket.on(statHeader, function(data) {
+    currentStatsPacket = {name: statHeader, data: data}
   })
 }
 

@@ -7,7 +7,6 @@ const GAME = 3
 const CREDITS = 4
 const CHARACTERSELECT = 5
 const LEVELSELECT = 6
-const ROOMSCREEN = 7
 
 //GAME (numerical constants)
 const GRAVITY = 0.85

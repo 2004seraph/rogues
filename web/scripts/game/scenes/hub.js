@@ -81,7 +81,42 @@ loadScenes.hubScene = function() {
         .size(this.buttonSize * 0.6 + this.spacing, b_height)
         .attribute("title", "Play with someone across the world")
         .mousePressed(() => {
-          doSound("click")
+          if (accountData != null) {
+            doSound("click")
+            clearButtons()
+
+            let inter = this.spacing/2
+            let idfs = 270
+
+            //sign in
+            this.accountBoxStuff.usernameInput = createInput()
+              .attribute('placeholder', 'Username')
+              .attribute('maxlength', globalServerInfo.username.max)
+              .attribute("autocomplete", "username")
+              .attribute("spellcheck", false)
+              .parent('P5Container')
+              .size(idfs)
+            this.accountBoxStuff.usernameInput.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + inter+ this.accountBoxStuff.usernameInput.size().height)
+
+            this.accountBoxStuff.passwordInput = createInput('', 'password')
+              .attribute('placeholder', 'Password')
+              .attribute('maxlength', globalServerInfo.password.max)
+              .attribute("autocomplete", "current-password")
+              .attribute("spellcheck", false)
+              .parent('P5Container')
+              .size(idfs)
+            this.accountBoxStuff.passwordInput.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + inter*2 + this.accountBoxStuff.usernameInput.size().height*2)
+
+            this.accountBoxStuff.login = createButton('Log In')
+              .parent('P5Container')
+              .size(this.buttonSize - idfs- this.spacing*2, this.accountBoxStuff.usernameInput.size().height*2 + inter)
+            this.accountBoxStuff.login.position(CANX/2 - this.buttonSize + inter + idfs, CANY/2 - this.buttonLevel + inter+ this.accountBoxStuff.usernameInput.size().height)
+            this.accountBoxStuff.login.mousePressed(() => {
+              logIn()
+              doSound("click")
+              //this.logDone()
+            })
+          }
       })
 
       if (accountData == null) {
@@ -216,16 +251,16 @@ loadScenes.hubScene = function() {
       push()
       textSize(24)
       let inter = this.spacing/2
-      if (!(currentPacket == null)) {
-        switch (currentPacket.name) {
+      if (!(currentStatsPacket == null)) {
+        switch (currentStatsPacket.name) {
           case "gameStatisticsCode":
-            switch (currentPacket.data.code) {
+            switch (currentStatsPacket.data.code) {
               case "successful":
-                this.rankings = currentPacket.data.rankings
-                this.onlineUsers = currentPacket.data.onlineUsers
+                this.rankings = currentStatsPacket.data.rankings
+                this.onlineUsers = currentStatsPacket.data.onlineUsers
                 break
             }
-            resetPacket()
+            currentStatsPacket = null
             break
         }
       }
@@ -387,15 +422,22 @@ loadScenes.hubScene = function() {
     heightMult: 1/4.5,
     showAccountBox: false,
     accountBoxStuff: {},
-    flippedBg: null,
+    showGameBox: false,
+    gameBoxStuff: {},
     logDone: function() {
       this.showAccountBox = false
+      this.showGameBox = false
       let keys = Object.keys(this.accountBoxStuff)
       for (let key of keys) {
         this.accountBoxStuff[key].remove()
       }
+      let keys2 = Object.keys(this.gameBoxStuff)
+      for (let key2 of keys2) {
+        this.gameBoxStuff[key2].remove()
+      }
       this.start()
     },
+    flippedBg: null,
     rankings: null,
     onlineUsers: null,
     accountOnlineImg: null
