@@ -38,4 +38,12 @@
 
 #roomCodeDisplay {
   z-index: 3;
+  background-image: linear-gradient(rgb(0, 14, 138), rgb(36, 124, 255));
+  color: rgb(0, 255, 213);
+  font-family: joystixmonospace, Arial, Helvetica, sans-serif;
+  font-size: 50px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

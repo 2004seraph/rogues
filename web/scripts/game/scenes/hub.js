@@ -404,7 +404,7 @@ loadScenes.hubScene = function() {
                 //successful
                 console.log("room created:", currentPacket.data.room)
                 playingOnline = true
-                this.gameBoxStuff.roomBlock = createDiv(currentPacket.data.room)
+                this.gameBoxStuff.roomBlock = createDiv("GAME CODE:\n" + currentPacket.data.room)
                   .parent("P5Container")
                   .id("roomCodeDisplay")
                   .size(this.buttonSize + 4, b_height*2 + this.spacing*6 + 8)

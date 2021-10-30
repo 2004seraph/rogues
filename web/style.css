@@ -27,10 +27,25 @@ input {
   background-color: black;
   color: cyan;
   z-index: 1;
+
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
 }
 input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: rgb(78, 66, 187);
-  opacity: 1; /* Firefox */
+  opacity: 1;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
 }
 input:-ms-input-placeholder { /* Internet Explorer 10-11 */
   color: rgb(78, 66, 187);

@@ -10,7 +10,8 @@ socket.on("blocked", function(data) {
 socket.on("disconnect", function(data) {
   console.warn("server connection lost")
   accountData = null
-  gameState.authorisedUser = null
+  ScenesManager.scenes[MAINMENU].logDone()
+  
 })
 socket.on("userDataCode", function(data) {
   if (data.code == "badAuth") {
