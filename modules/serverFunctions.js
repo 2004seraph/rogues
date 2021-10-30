@@ -91,8 +91,23 @@ exports.accountEvents = {
   },
   "signOut": function(data, io, socket, callback=function() {}) {//NETWORKED/NON-NETWORKED FUNCTION
     if (socket.authorised != null) {
+      //remove any rooms this socket has made
       let roomCode = socket.id.substring(0, 6).toUpperCase()
       exports.matchMaking["deleteRoom"](roomCode)
+      let rooms = Array.from(io.sockets.adapter.rooms)
+      for (let room of rooms) {
+        if (room[0] == roomCode) {//find the current room
+          let clientIds = Array.from(room[1])
+          //try for the possible two residents of the room
+          try {
+            io.sockets.sockets.get(clientIds[0]).leave(roomCode)
+          } catch (err) {}
+          try {
+            io.sockets.sockets.get(clientIds[1]).leave(roomCode)
+          } catch (err) {}
+          break
+        }
+      }
 
       concurrentOnlineUsers--
       

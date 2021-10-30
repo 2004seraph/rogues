@@ -107,7 +107,7 @@ loadScenes.hubScene = function() {
                 doSound("click")
               })
             //create a game
-            this.gameBoxStuff.createGameButton = createButton('create game')
+            this.gameBoxStuff.createGameButton = createButton('create game (friendly)')
               .parent('P5Container')
               .size(this.gameBoxStuff.joinCodeInput.size().width + inter*2, this.gameBoxStuff.joinCodeInput.size().height*2 + inter)
               .position(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + inter*5 + this.gameBoxStuff.joinCodeInput.size().height*3)
@@ -117,7 +117,7 @@ loadScenes.hubScene = function() {
               })
 
             //matchmake
-            this.gameBoxStuff.matchmakeButton = createButton('join random')
+            this.gameBoxStuff.matchmakeButton = createButton('find random (competitve)')
               .parent('P5Container')
               .size(this.gameBoxStuff.joinCodeInput.size().width + inter*2, this.gameBoxStuff.joinCodeInput.size().height*2 + inter)
               .position(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + inter*7 + this.gameBoxStuff.joinCodeInput.size().height*5)
