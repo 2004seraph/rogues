@@ -17,6 +17,7 @@ function attackCheck(thisPlayer) {
         let theHitboxRectangle = new Rectangle(otherPlayer.pos.x + theHitbox.move.area.x, otherPlayer.pos.y + theHitbox.move.area.y, theHitbox.move.area.w, theHitbox.move.area.h)
 
         if (collideRectRectObject(thisPlayersHitbox, theHitboxRectangle)) {
+          doSound("punch")
           totalDamage += theHitbox.move.damage
           stun = theHitbox.move.stun
           throwVector.x = theHitbox.move.direction.x * PUNCHPOWER * theHitbox.move.direction.m * (1 + thisPlayer.damage/10)

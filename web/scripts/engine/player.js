@@ -40,6 +40,7 @@ class Player {
   }
 
   death() {
+    doSound("death")
     //game variables
     this.lives--
     this.damage = 0

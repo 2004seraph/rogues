@@ -107,9 +107,23 @@ function mousePressed() {
   //console.log(mouseX, mouseY)
   userStartAudio()
 }
-/*
 
-socket.emit("message", {data})
-*/
-
-//hashMessage("sam").then((digest) => {console.log(digest)})
+function doSound(s) {
+  switch (s) {
+    case "click":
+      ASSETS.sounds.click_2.play()
+      break
+    case "choose":
+      ASSETS.sounds.click_1.play()
+      break
+    case "back":
+      ASSETS.sounds.click_3.play()
+      break
+    case "punch":
+      ASSETS.sounds.punch.play()
+      break
+    case "death":
+      ASSETS.sounds.death.play()
+      break
+  }
+}

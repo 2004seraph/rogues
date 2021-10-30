@@ -57,6 +57,7 @@ loadScenes.hubScene = function() {
         .position(CANX/2 + this.buttonSize + this.spacing*2 - this.buttonSize*0.4, CANY/2 - this.buttonLevel - this.spacing*3)
         .mousePressed(() => {
           logOut()
+          doSound("back")
       })
 
       if (accountData != null) {
@@ -71,6 +72,7 @@ loadScenes.hubScene = function() {
         .attribute("title", "Play on the same keyboard")
         .size(this.buttonSize, b_height).mousePressed(() => {
           ScenesManager.changeScene(CHARACTERSELECT, mainInterfaceSpeed)
+          doSound("click")
       })
 
       gameButtons.onlinePlayButton = createButton("Online Play")
@@ -79,6 +81,7 @@ loadScenes.hubScene = function() {
         .size(this.buttonSize * 0.6 + this.spacing, b_height)
         .attribute("title", "Play with someone across the world")
         .mousePressed(() => {
+          doSound("click")
       })
 
       if (accountData == null) {
@@ -92,6 +95,7 @@ loadScenes.hubScene = function() {
         .id("accountButton")
         .attribute("title", "Account")
         .mousePressed(() => {
+          doSound("click")
           this.showAccountBox = true
           clearButtons()
 
@@ -123,6 +127,7 @@ loadScenes.hubScene = function() {
           this.accountBoxStuff.login.position(CANX/2 - this.buttonSize + inter + idfs, CANY/2 - this.buttonLevel + inter+ this.accountBoxStuff.usernameInput.size().height)
           this.accountBoxStuff.login.mousePressed(() => {
             logIn()
+            doSound("click")
             //this.logDone()
           })
 
@@ -158,6 +163,7 @@ loadScenes.hubScene = function() {
           this.accountBoxStuff.createAccount.position(CANX/2 - this.buttonSize + inter + idfs, CANY/2 - this.buttonLevel + inter+ this.accountBoxStuff.usernameInput.size().height*2 + b_height + this.spacing)
           this.accountBoxStuff.createAccount.mousePressed(() => {
             signUp()
+            doSound("click")
           })
 
           //back
@@ -167,6 +173,7 @@ loadScenes.hubScene = function() {
           this.accountBoxStuff.back.position(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + b_height*3 + this.spacing*2 + 2)
           this.accountBoxStuff.back.mousePressed(() => {
             this.logDone()
+            doSound("back")
           })
       })
       if (socket.connected == false) {
@@ -179,6 +186,7 @@ loadScenes.hubScene = function() {
         .size(this.buttonSize, b_height)
         .mousePressed(() => {
             ScenesManager.changeScene(STARTSCREEN, mainInterfaceSpeed)
+            doSound("back")
       })
     },
     run: function() {

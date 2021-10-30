@@ -4,10 +4,10 @@
 }
 
 body {
-  margin: 10px;
   display: flex;
   background-color: rgb(47, 49, 51);
 
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
@@ -16,7 +16,9 @@ body {
 #P5Container {
   font-family: joystixmonospace, Arial, Helvetica, sans-serif;
   position: relative;
-  background-color: rgba(0, 0, 0, 0)
+  background-color: rgba(0, 0, 0, 0);
+  align-self: center;
+  margin: auto;
 }
 
 input {

@@ -120,6 +120,7 @@ loadScenes.gameScene = function() {
         .position(CANX/2 - buttonSize/2, CANY/2 - spacing/2)
         .mousePressed(() => {
           ScenesManager.changeScene(CHARACTERSELECT, mainInterfaceSpeed)
+          doSound("click")
         })
         .hide()
       gameButtons.back = createButton('Exit')
@@ -129,9 +130,10 @@ loadScenes.gameScene = function() {
         .mousePressed(() => {
           ScenesManager.changeScene(MAINMENU, mainInterfaceSpeed)
           ScenesManager.scenes[CHARACTERSELECT].selection = {
-          player1: null,
-          player2: null
-        }
+            player1: null,
+            player2: null
+          }
+          doSound("back")
         })
         .hide()
       

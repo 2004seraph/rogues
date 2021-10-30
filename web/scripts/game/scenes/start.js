@@ -19,6 +19,7 @@ loadScenes.startScene = function() {
         .class("startButtons")
         .mousePressed(() => {
           ScenesManager.changeScene(MAINMENU, mainInterfaceSpeed)
+          doSound("click")
       })
 
       gameButtons.creditsButton = createButton('Credits')
@@ -29,6 +30,7 @@ loadScenes.startScene = function() {
         .attribute("disabled", "")
         .mousePressed(() => {
           ScenesManager.changeScene(CREDITS, mainInterfaceSpeed)
+          doSound("click")
       })
       //ASSETS.sounds.introSong.loop()
     },

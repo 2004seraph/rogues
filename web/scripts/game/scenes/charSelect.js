@@ -51,6 +51,7 @@ loadScenes.charScene = function() {
         .size(cornerWidth, 50)
         .mousePressed(() => {
           ScenesManager.changeScene(MAINMENU, mainInterfaceSpeed)
+          doSound("back")
       })
       gameButtons.continueSelection = createButton("Continue")
         .parent('P5Container')
@@ -60,6 +61,7 @@ loadScenes.charScene = function() {
         .mousePressed(() => {
           if (this.selection.player1 !== null && this.selection.player2 !== null) {
             ScenesManager.changeScene(LEVELSELECT, mainInterfaceSpeed)
+            doSound("click")
           }
       })
 
@@ -73,6 +75,7 @@ loadScenes.charScene = function() {
           if (this.selection.player1 !== null) {
             this.selection.player1 = null
             this.selection.player2 = null
+            doSound("click")
           }
       })
 
@@ -89,9 +92,11 @@ loadScenes.charScene = function() {
         .mousePressed(() => {
           if (this.selection.player1 === null) {
             this.selection.player1 = i
+            doSound("choose")
           } else {
             if (this.selection.player2 === null) {
               this.selection.player2 = i
+              doSound("choose")
             }
           }
         })
