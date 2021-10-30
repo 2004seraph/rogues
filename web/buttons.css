@@ -35,3 +35,7 @@
   background-color: cadetblue;
   margin: 0px;
 }
+
+#roomCodeDisplay {
+  z-index: 3;
+}

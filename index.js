@@ -34,7 +34,10 @@ global.GlobalServerInfo = {
     min: 6,
     max: 24
   },
-  motd: "Welcome"
+  motd: "",
+  roomCode: {
+    max: 6
+  }
 }
 
 //server globals
@@ -76,7 +79,7 @@ io.on('connection', function(socket) {
   socket.emit("globalServerInfo", GlobalServerInfo)
 
   //disconnect
-  socket.on('disconnect', (reason) => {
+  socket.once('disconnecting', (reason) => {
     CLI.printLine(socket.id + " disconnected: " + reason)
     if (socket.authorised != null) {
       accountEvents.signOut({ID: socket.authorised}, io, socket)

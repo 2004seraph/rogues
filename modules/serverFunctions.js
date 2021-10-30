@@ -92,22 +92,7 @@ exports.accountEvents = {
   "signOut": function(data, io, socket, callback=function() {}) {//NETWORKED/NON-NETWORKED FUNCTION
     if (socket.authorised != null) {
       //remove any rooms this socket has made
-      let roomCode = socket.id.substring(0, 6).toUpperCase()
-      exports.matchMaking["deleteRoom"](roomCode)
-      let rooms = Array.from(io.sockets.adapter.rooms)
-      for (let room of rooms) {
-        if (room[0] == roomCode) {//find the current room
-          let clientIds = Array.from(room[1])
-          //try for the possible two residents of the room
-          try {
-            io.sockets.sockets.get(clientIds[0]).leave(roomCode)
-          } catch (err) {}
-          try {
-            io.sockets.sockets.get(clientIds[1]).leave(roomCode)
-          } catch (err) {}
-          break
-        }
-      }
+      exports.matchMaking["deleteRoom"](null, io, socket)
 
       concurrentOnlineUsers--
       
@@ -145,6 +130,7 @@ exports.accountEvents = {
   }
 }
 
+//stop hosts from joining their own rooms
 exports.matchMaking = {
   "joinRoom": function(data, io, socket) {
     if (socket.authorised != null) {//if they are signed in
@@ -206,9 +192,35 @@ exports.matchMaking = {
       }
     }
   },
-  "deleteRoom": function(roomCode) {
+  "deleteRoom": function(data, io, socket) {
+    //this only works if they are the host
+    let roomCode = socket.id.substring(0, 6).toUpperCase()
+    let rooms = Array.from(io.sockets.adapter.rooms)
+    for (let room of rooms) {
+      if (room[0] == roomCode) {//find the current room
+        let clientIds = Array.from(room[1])
+        socket.to(roomCode).emit("roomCode", {code: "opponentLeft"})
+        //try for the possible two residents of the room
+        try {
+          io.sockets.sockets.get(clientIds[0]).leave(roomCode)
+        } catch (err) {}
+        try {
+          io.sockets.sockets.get(clientIds[1]).leave(roomCode)
+        } catch (err) {}
+        break
+      }
+    }
     if (Object.keys(runningRooms).includes(roomCode)) {
       delete runningRooms[roomCode]
+    }
+
+    //client code
+    let roomsTheyHaveJoined = Array.from(socket.rooms)
+    roomsTheyHaveJoined.shift()//remove the socketio default room of the same name as the socket id
+    for (let room of roomsTheyHaveJoined) {
+      console.log(room)
+      socket.to(room).emit("roomCode", {code: "opponentLeft"})//broadcast to the others this one has left
+      delete runningRooms[room]
     }
   }
 }

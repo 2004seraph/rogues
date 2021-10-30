@@ -11,7 +11,7 @@ class SceneManager {
           faderCanvas = sketch.createCanvas(CANX, CANY)
           faderCanvas.parent("P5Container")
             .position(0, 0)
-            .style("z-index: 2")
+            .style("z-index: 5")
             .style("pointer-events: none")
           
           try {

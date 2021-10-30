@@ -95,9 +95,11 @@ loadScenes.hubScene = function() {
             this.gameBoxStuff.joinCodeInput = createInput()
               .attribute('placeholder', 'Game code')
               .attribute("spellcheck", false)
+              .attribute('maxlength', globalServerInfo.roomCode.max)
               .parent('P5Container')
-              .size(this.buttonSize - inter*3)
+            this.gameBoxStuff.joinCodeInput.size(this.buttonSize - inter*3)
             this.gameBoxStuff.joinCodeInput.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + inter+ this.gameBoxStuff.joinCodeInput.size().height)
+            
             this.gameBoxStuff.joinGameButton = createButton('Join game')
               .parent('P5Container')
               .size(this.gameBoxStuff.joinCodeInput.size().width, this.gameBoxStuff.joinCodeInput.size().height)
@@ -133,6 +135,7 @@ loadScenes.hubScene = function() {
               .position(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + b_height*3 + this.spacing*2 + 2)
               .mousePressed(() => {
                 this.logDone()
+                socket.emit("deleteRoom")
                 doSound("back")
             })
           }
@@ -366,6 +369,14 @@ loadScenes.hubScene = function() {
         gameButtons.logoutButton.attribute("disabled", "")
         gameButtons.onlinePlayButton.attribute("disabled", "").attribute("title", "Sign in to play online")
       }
+      
+      if (globalServerInfo.motd.length > 0) {
+        push()
+        textAlign(CENTER, BOTTOM)
+        fill(255)
+        text(globalServerInfo.motd, CANX/2, CANY)
+        pop()
+      }
     },
     gameBox: function() {
       let b_height = this.buttonSize * this.heightMult
@@ -392,15 +403,27 @@ loadScenes.hubScene = function() {
                 setPrompt(new Prompt(10, 10, "Created room", 300))
                 //successful
                 console.log("room created:", currentPacket.data.room)
+                playingOnline = true
+                this.gameBoxStuff.roomBlock = createDiv(currentPacket.data.room)
+                  .parent("P5Container")
+                  .id("roomCodeDisplay")
+                  .size(this.buttonSize + 4, b_height*2 + this.spacing*6 + 8)
+                  .position(CANX/2 - this.buttonSize - this.spacing - 2, CANY/2 - this.buttonLevel - 2)
                 break
               case "joinedRoom":
                 setPrompt(new Prompt(10, 10, "Joined room", 300))
+                playingOnline = true
                 break
               case "roomFull":
                 setPrompt(new Prompt(10, 10, "Room full", 300))
                 break
               case "roomNoExist":
                 setPrompt(new Prompt(10, 10, "Room doesn't exist", 300))
+                break
+              case "opponentLeft":
+                console.log("help")
+                this.logDone()
+                setPrompt(new Prompt(10, 10, "Opponent left", 300))
                 break
             }
             resetPacket()
@@ -488,6 +511,7 @@ loadScenes.hubScene = function() {
     logDone: function() {
       this.showAccountBox = false
       this.showGameBox = false
+      
       let keys = Object.keys(this.accountBoxStuff)
       for (let key of keys) {
         this.accountBoxStuff[key].remove()

@@ -127,16 +127,17 @@ function signUp() {
 
 
 function joinGame() {
-  playingOnline = true
   let code = ScenesManager.scenes[MAINMENU].gameBoxStuff.joinCodeInput.value().toString().trim()
-  socket.emit("joinRoom", {room: code})
+  if (code.length < 6) {
+    setPrompt(new Prompt(10, 10, "Bad code", 300))
+  } else {
+    socket.emit("joinRoom", {room: code})
+  }
 }
 
 function createGame() {
-  playingOnline = true
   socket.emit("createRoom")
 }
 
 function matchmakeGame() {
-  playingOnline = true
 }
