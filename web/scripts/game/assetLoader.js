@@ -75,7 +75,7 @@ function continueSoundLoading() {
 }
 
 function continueCharacterLoading() {
-  Loader.changeLimit(Object.keys(characters).length * 15)
+  Loader.changeLimit(Object.keys(characters).length * 14)
   loadUp()//because it has loaded the character JSON file
 
   for (let c in characters) {

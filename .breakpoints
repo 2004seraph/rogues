@@ -3,15 +3,15 @@
     "web/scripts/game/network.js": [
       {
         "id": "4aa96ca7-0b0e-45da-aea2-709e44cf300c",
-        "line": 65,
-        "version": 1811,
-        "index": 1669
+        "line": 74,
+        "version": 2099,
+        "index": 1964
       },
       {
         "id": "bceffed0-9044-4d63-8da8-b0b1019a0b4d",
-        "line": 72,
-        "version": 1811,
-        "index": 1822
+        "line": 81,
+        "version": 2099,
+        "index": 2117
       }
     ]
   }

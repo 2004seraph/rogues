@@ -43,7 +43,7 @@ global.matchServers = true
 global.concurrentUsers = 0
 global.concurrentOnlineUsers = 0
 global.connectionsLimit = 6
-
+global.runningRooms = {}
 //var lastRequest = null
 //global.updateLastRequest = function() {lastRequest = Date.now()}
 global.spamStop = false
@@ -55,13 +55,10 @@ io.on('connection', function(socket) {
     socket.disconnect()
     return
   }
-  
-  //set last packet time
-  //updateLastRequest()
-  //socket.openRoom = false
 
   //they are not signed in
   socket.authorised = null
+  
   //cooldowns
   socket.accountCooldown = {
     timer: setInterval(function() {
@@ -87,11 +84,6 @@ io.on('connection', function(socket) {
     concurrentUsers--
   })
 
-  //latency
-  // socket.on("ping", (cb) => {
-  //   //cb()//INCREDIBLY DANGEROUS - ALLOWS CODE FROM THE CLIENT TO BE RAN HERE
-  // })
-
   //when packets happen
   let accountMethodNames = Object.keys(accountEvents)
   for (let accountAction of accountMethodNames) {
@@ -99,12 +91,12 @@ io.on('connection', function(socket) {
       accountEvents[accountAction](data, io, socket)
     })
   }
-  // let matchmakingNames = Object.keys(matchMaking)
-  // for (let matchAction of matchmakingNames) {
-  //   socket.on(matchAction, (data) => {
-  //     matchMaking[matchAction](data, io, socket)
-  //   })
-  // }
+  let matchmakingNames = Object.keys(matchMaking)
+  for (let matchAction of matchmakingNames) {
+    socket.on(matchAction, (data) => {
+      matchMaking[matchAction](data, io, socket)
+    })
+  }
 
   // let gameMethodNames = Object.keys(gameEvents)
   // for (let gameAction of gameMethodNames) {

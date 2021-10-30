@@ -38,14 +38,17 @@ loadScenes.startScene = function() {
       background(0)
       let bright = 512
       
+      push()
+      colorMode(HSB)
       for (let bar = 0; bar < CANY; bar++) {
-        let push = (Math.cos(frameCount/60) + 1) * 50
-        let z = 1.2
-        let x = bar/CANY
-        let myColor = color((bright) * x/z + push, (bright/2) * ( x)/z, (bright) * (1 - x)/z)
-        fill(myColor)
+        let push = (Math.cos(frameCount/60 + bar/360) + 1) * 50
+        let myColor = 200 + push
+        let sat = ((Math.floor(Math.cos(bar) * 57) + frameCount) % 10 == 0) ? 80 : 255//bars
+        let val = ((Math.floor(Math.sin(bar) * 57) + frameCount) % 45 == 0) ? Math.random() * 255 : 255//bars
+        fill(myColor, sat, val)
         rect(0, bar, CANX, 1)
       }
+      pop()
 
       image(ASSETS.namedImages.mainMenuBG, 0, 0, CANX, CANY)
       

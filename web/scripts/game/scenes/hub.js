@@ -377,6 +377,36 @@ loadScenes.hubScene = function() {
       fill(245, 196, 255)
       text("JOIN A FRIEND", CANX/2 - this.buttonSize - this.spacing/2, CANY/2 - this.buttonLevel + this.spacing/2)
       pop()
+
+      if (!(currentPacket == null)) {
+        switch (currentPacket.name) {
+          case "roomCode":
+            switch (currentPacket.data.code) {
+              case "alreadyInRoom":
+                setPrompt(new Prompt(10, 10, "Already created a room", 300))
+                break
+              case "noAuth":
+                setPrompt(new Prompt(10, 10, "Not signed in", 300))
+                break
+              case "successfulCreation":
+                setPrompt(new Prompt(10, 10, "Created room", 300))
+                //successful
+                console.log("room created:", currentPacket.data.room)
+                break
+              case "joinedRoom":
+                setPrompt(new Prompt(10, 10, "Joined room", 300))
+                break
+              case "roomFull":
+                setPrompt(new Prompt(10, 10, "Room full", 300))
+                break
+              case "roomNoExist":
+                setPrompt(new Prompt(10, 10, "Room doesn't exist", 300))
+                break
+            }
+            resetPacket()
+            break
+        }
+      }
     },
     accountDialog: function() {
       let b_height = this.buttonSize * this.heightMult

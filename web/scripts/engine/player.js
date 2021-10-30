@@ -66,7 +66,7 @@ class Player {
     this.stunned = 20
 
     //respawn them
-    this.pos = createVector(Math.random() * CANX, -50)
+    this.pos = createVector(gameState.currentLevel.respawnArea.x + Math.random() * gameState.currentLevel.respawnArea.w, gameState.currentLevel.respawnArea.y + Math.random() * gameState.currentLevel.respawnArea.h)
 
     //have they lost the game?
     if (this.lives < 1) {
@@ -274,7 +274,7 @@ class Player {
     if (this.stunned != 0) {
       this.stunAnimation.play(this.pos.x, this.pos.y, (this.facingDirection == RIGHT) ? null : this.character.dimensions.width)
     } else {
-      if (this.attackAnimation != false) {
+      if (this.attackAnimation != false && this.attackAnimation != null) {
         this.attackAnimation.play(this.pos.x, this.pos.y, (this.facingDirection == RIGHT) ? null : this.character.dimensions.width)
         if (this.attackAnimation.isComplete()) {
           this.attackAnimation = false
@@ -377,6 +377,9 @@ class Player {
   startMove(direction, whatMove) {
     switch (direction) {
       case UP:
+        if (whatMove == HEAVY) {
+          return
+        }
         break
       case DOWN:
         if (whatMove == HEAVY) {
@@ -393,7 +396,9 @@ class Player {
     this.moveCoolDown = moveData.frameCooldown
     
     this.attackAnimation = ASSETS.animations[this.charID][direction][whatMove]
-    this.attackAnimation.reset()
+    if (ASSETS.animations[this.charID][direction][whatMove] != null) {
+      this.attackAnimation.reset()
+    }
     
     for (let hitbox of moveData.hitboxes) {
       this.queuedHitboxes.push({delta: 0, move: hitbox})

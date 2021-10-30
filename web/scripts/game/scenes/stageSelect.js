@@ -120,7 +120,10 @@ loadScenes.stageScene = function() {
       } else {
         gameButtons.continueSelection.attribute("disabled", "")
       }
-      background(0)
+
+      if (!ScenesManager.transition.transitioning) {
+        background(0)
+      }
       updateParticleSystems()
       image(ASSETS.namedImages.characterSelect, 0, 0, CANX, CANY)
 

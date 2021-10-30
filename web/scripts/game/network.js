@@ -42,7 +42,7 @@ socket.on("globalServerInfo", function(data) {
   globalServerInfo = data
 })
 
-let packetHeaders = ["loginCode", "signupCode", "userDataCode", "gameStatisticsCode"]
+let packetHeaders = ["loginCode", "signupCode", "userDataCode", "gameStatisticsCode", "roomCode"]
 for (let header of packetHeaders) {
   socket.on(header, function(data) {
     currentPacket = {name: header, data: data}
@@ -128,10 +128,13 @@ function signUp() {
 
 function joinGame() {
   playingOnline = true
+  let code = ScenesManager.scenes[MAINMENU].gameBoxStuff.joinCodeInput.value().toString().trim()
+  socket.emit("joinRoom", {room: code})
 }
 
 function createGame() {
   playingOnline = true
+  socket.emit("createRoom")
 }
 
 function matchmakeGame() {

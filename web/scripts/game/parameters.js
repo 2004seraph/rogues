@@ -11,7 +11,7 @@ var mainInterfaceSpeed = 7
 
 //debug
 var showColliders = false
-var showHitboxes = false
+var showHitboxes = true
 
 //visual stuff
 var relativeGamerTagHeights = false

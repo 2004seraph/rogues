@@ -91,6 +91,9 @@ exports.accountEvents = {
   },
   "signOut": function(data, io, socket, callback=function() {}) {//NETWORKED/NON-NETWORKED FUNCTION
     if (socket.authorised != null) {
+      let roomCode = socket.id.substring(0, 6).toUpperCase()
+      exports.matchMaking["deleteRoom"](roomCode)
+
       concurrentOnlineUsers--
       
       //socket.openRoom = false
@@ -117,22 +120,80 @@ exports.accountEvents = {
         CLI.printLine(socket.id + " authenticated to ROGUESID[" + id + "]")
       })
     })
+  },
+  "getUserData": function(id, callback=function(rec) {}) {//NON NETWORKED FUNCTION
+    PlayerDatabase.queryUserID(id, function(rec) {
+      if (rec) {
+        callback(rec)
+      }
+    })
   }
 }
 
 exports.matchMaking = {
   "joinRoom": function(data, io, socket) {
     if (socket.authorised != null) {//if they are signed in
+      let roomCode
       try {
-        socket.join(data.room)
+        roomCode = data.room.toString().trim().toUpperCase()//cleanse
       } catch (err) {
-        CLI.printLine("Join room error: " + err)
+        socket.emit("roomCode", {code: "invalidRoomCode"})
+        return
       }
+      if (Object.keys(runningRooms).includes(roomCode)) {
+        if (runningRooms[roomCode].players < 2) {//if the room exists and there is space
+          runningRooms[roomCode].players++
+          socket.join(roomCode)
+
+          //this is all just to find their opponent
+          let rooms = Array.from(io.sockets.adapter.rooms)
+          for (let room of rooms) {
+            if (room[0] == roomCode) {//find the current room
+              let clientIds = Array.from(room[1])
+              let hostAccountID = io.sockets.sockets.get(clientIds[0]).authorised.id//get the authorised account from the host socket (always index zero, because they created the room)
+              exports.accountEvents["getUserData"](hostAccountID, (hostAccount) => {
+                socket.emit("roomCode", {code: "joinedRoom", opponent: hostAccount.Username})
+              })
+              break
+            }
+          }
+        } else {
+          socket.emit("roomCode", {code: "roomFull"})
+        }
+      } else {
+        socket.emit("roomCode", {code: "roomNoExist"})
+      }
+    } else {
+      socket.emit("roomCode", {code: "noAuth"})
     }
   },
   "createRoom": function(data, io, socket) {
     if (socket.authorised != null) {//if they are signed in
-      socket.openRoom = true
+      let roomCode = socket.id.substring(0, 6).toUpperCase()
+      if (!Object.keys(runningRooms).includes(roomCode)) {//if the room doesnt Already exist
+        runningRooms[roomCode] = {name: "room_" + roomCode, ready: {player1: false, player2: false}, players: 1}
+        socket.emit("roomCode", {code: "successfulCreation", room: roomCode})
+        socket.join(roomCode)
+      } else {
+        socket.emit("roomCode", {code: "alreadyInRoom"})
+      }
+    } else {
+      socket.emit("roomCode", {code: "noAuth"})
+    }
+  },
+  "ready": function(data, io, socket) {
+    if (socket.authorised != null) {//if they are signed in
+      try {
+        let room = Array.from(socket.rooms)[1]
+        runningRooms[roomCode].ready[data.player] = true
+      } catch (err) {
+        //no room exists or room has disbanded
+      }
+    }
+  },
+  "deleteRoom": function(roomCode) {
+    if (Object.keys(runningRooms).includes(roomCode)) {
+      delete runningRooms[roomCode]
     }
   }
 }
