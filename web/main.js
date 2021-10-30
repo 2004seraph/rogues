@@ -111,18 +111,23 @@ function mousePressed() {
 function doSound(s) {
   switch (s) {
     case "click":
+      ASSETS.sounds.click_2.setVolume(0.6)
       ASSETS.sounds.click_2.play()
       break
     case "choose":
+      ASSETS.sounds.click_1.setVolume(0.7)
       ASSETS.sounds.click_1.play()
       break
     case "back":
+      ASSETS.sounds.click_3.setVolume(0.5)
       ASSETS.sounds.click_3.play()
       break
     case "punch":
+      ASSETS.sounds.punch.setVolume(0.5)
       ASSETS.sounds.punch.play()
       break
     case "death":
+      ASSETS.sounds.death.setVolume(0.25)
       ASSETS.sounds.death.play()
       break
   }
