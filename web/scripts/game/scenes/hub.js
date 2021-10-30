@@ -13,6 +13,8 @@ loadScenes.hubScene = function() {
       //this.heightMult = 1/4.5
     },
     start: function() {
+      playingOnline = false
+      
       //background moving boxes
       particleSystems.hubDataBoxes = new ParticleSystem(0, 0)
       for (let i = 0; i < 300; i++) {
@@ -83,38 +85,55 @@ loadScenes.hubScene = function() {
         .mousePressed(() => {
           if (accountData != null) {
             doSound("click")
+            this.showGameBox = true
             clearButtons()
 
             let inter = this.spacing/2
             let idfs = 270
 
-            //sign in
-            this.accountBoxStuff.usernameInput = createInput()
-              .attribute('placeholder', 'Username')
-              .attribute('maxlength', globalServerInfo.username.max)
-              .attribute("autocomplete", "username")
+            //Join a game
+            this.gameBoxStuff.joinCodeInput = createInput()
+              .attribute('placeholder', 'Game code')
               .attribute("spellcheck", false)
               .parent('P5Container')
-              .size(idfs)
-            this.accountBoxStuff.usernameInput.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + inter+ this.accountBoxStuff.usernameInput.size().height)
-
-            this.accountBoxStuff.passwordInput = createInput('', 'password')
-              .attribute('placeholder', 'Password')
-              .attribute('maxlength', globalServerInfo.password.max)
-              .attribute("autocomplete", "current-password")
-              .attribute("spellcheck", false)
+              .size(this.buttonSize - inter*3)
+            this.gameBoxStuff.joinCodeInput.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + inter+ this.gameBoxStuff.joinCodeInput.size().height)
+            this.gameBoxStuff.joinGameButton = createButton('Join game')
               .parent('P5Container')
-              .size(idfs)
-            this.accountBoxStuff.passwordInput.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + inter*2 + this.accountBoxStuff.usernameInput.size().height*2)
-
-            this.accountBoxStuff.login = createButton('Log In')
+              .size(this.gameBoxStuff.joinCodeInput.size().width, this.gameBoxStuff.joinCodeInput.size().height)
+              .position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + inter*2 + this.gameBoxStuff.joinCodeInput.size().height*2)
+              .mousePressed(() => {
+                joinGame()
+                doSound("click")
+              })
+            //create a game
+            this.gameBoxStuff.createGameButton = createButton('create game')
               .parent('P5Container')
-              .size(this.buttonSize - idfs- this.spacing*2, this.accountBoxStuff.usernameInput.size().height*2 + inter)
-            this.accountBoxStuff.login.position(CANX/2 - this.buttonSize + inter + idfs, CANY/2 - this.buttonLevel + inter+ this.accountBoxStuff.usernameInput.size().height)
-            this.accountBoxStuff.login.mousePressed(() => {
-              logIn()
-              doSound("click")
-              //this.logDone()
+              .size(this.gameBoxStuff.joinCodeInput.size().width + inter*2, this.gameBoxStuff.joinCodeInput.size().height*2 + inter)
+              .position(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + inter*5 + this.gameBoxStuff.joinCodeInput.size().height*3)
+              .mousePressed(() => {
+                createGame()
+                doSound("click")
+              })
+
+            //matchmake
+            this.gameBoxStuff.matchmakeButton = createButton('join random')
+              .parent('P5Container')
+              .size(this.gameBoxStuff.joinCodeInput.size().width + inter*2, this.gameBoxStuff.joinCodeInput.size().height*2 + inter)
+              .position(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + inter*7 + this.gameBoxStuff.joinCodeInput.size().height*5)
+              .mousePressed(() => {
+                matchmakeGame()
+                doSound("click")
+              })
+
+            //back
+            this.gameBoxStuff.back = createButton('Back')
+              .parent('P5Container')
+              .size(this.buttonSize, this.gameBoxStuff.joinCodeInput.size().height)
+              .position(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + b_height*3 + this.spacing*2 + 2)
+              .mousePressed(() => {
+                this.logDone()
+                doSound("back")
             })
           }
       })
@@ -230,6 +249,9 @@ loadScenes.hubScene = function() {
       if (this.showAccountBox) {
         image(this.flippedBg, 0, 0)
         fill(0, 0, 255, 140)
+      } else if (this.showGameBox) {
+        image(this.flippedBg, 0, 0)
+        fill(0, 255, 255, 140)
       } else {
         image(ASSETS.namedImages.modeSelectBG, 0, 0)
         fill(125, 0, 215, 120)
@@ -314,6 +336,8 @@ loadScenes.hubScene = function() {
 
       if (this.showAccountBox) {
         this.accountDialog()
+      } else if (this.showGameBox) {
+        this.gameBox()
       }
 
       //ACCOUNT STATUS
@@ -343,6 +367,17 @@ loadScenes.hubScene = function() {
         gameButtons.onlinePlayButton.attribute("disabled", "").attribute("title", "Sign in to play online")
       }
     },
+    gameBox: function() {
+      let b_height = this.buttonSize * this.heightMult
+      push()
+      fill(111, 90, 250, 130)
+      stroke(255)
+      rect(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel, this.buttonSize, b_height+ this.gameBoxStuff.joinCodeInput.size().height)
+      noStroke()
+      fill(245, 196, 255)
+      text("JOIN A FRIEND", CANX/2 - this.buttonSize - this.spacing/2, CANY/2 - this.buttonLevel + this.spacing/2)
+      pop()
+    },
     accountDialog: function() {
       let b_height = this.buttonSize * this.heightMult
       push()
@@ -362,10 +397,6 @@ loadScenes.hubScene = function() {
       fill(245, 196, 255)
       text("CREATE A ROGUES ID", CANX/2 - this.buttonSize - this.spacing/2, CANY/2 - this.buttonLevel + b_height+ this.accountBoxStuff.usernameInput.size().height + this.spacing + this.spacing/2)
       pop()
-
-      if (keyIsDown(ENTER)) {
-        
-      }
 
       if (!(currentPacket == null)) {
         switch (currentPacket.name) {

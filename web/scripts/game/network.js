@@ -35,6 +35,8 @@ var latency = null
 var currentPacket = null//auth
 var currentStatsPacket = null//stats
 
+var playingOnline = false
+
 var globalServerInfo = null
 socket.on("globalServerInfo", function(data) {
   globalServerInfo = data
@@ -121,4 +123,17 @@ function signUp() {
   } else {
     setPrompt(new Prompt(10, 10, "Bad username length", 300))
   }
+}
+
+
+function joinGame() {
+  playingOnline = true
+}
+
+function createGame() {
+  playingOnline = true
+}
+
+function matchmakeGame() {
+  playingOnline = true
 }
