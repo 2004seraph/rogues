@@ -13,6 +13,9 @@ loadScenes.hubScene = function() {
       //this.heightMult = 1/4.5
     },
     start: function() {
+      if (playingOnline) {
+        setPrompt(new Prompt(10, 10, "Game ended", 300))
+      }
       playingOnline = false
       
       //background moving boxes
@@ -140,6 +143,7 @@ loadScenes.hubScene = function() {
               .position(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + b_height*3 + this.spacing*2 + 2)
               .mousePressed(() => {
                 this.logDone()
+                this.start()
                 socket.emit("deleteRoom")
                 doSound("back")
             })
@@ -235,6 +239,7 @@ loadScenes.hubScene = function() {
           this.accountBoxStuff.back.position(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + b_height*3 + this.spacing*2 + 2)
           this.accountBoxStuff.back.mousePressed(() => {
             this.logDone()
+            this.start()
             doSound("back")
           })
       })
@@ -252,16 +257,7 @@ loadScenes.hubScene = function() {
       })
 
       //just incase a disconnect happens
-      this.showAccountBox = false
-      this.showGameBox = false
-      let keys = Object.keys(this.accountBoxStuff)
-      for (let key of keys) {
-        this.accountBoxStuff[key].remove()
-      }
-      let keys2 = Object.keys(this.gameBoxStuff)
-      for (let key2 of keys2) {
-        this.gameBoxStuff[key2].remove()
-      }
+      this.logDone()
     },
     run: function() {
       textAlign(LEFT, TOP)
@@ -429,6 +425,7 @@ loadScenes.hubScene = function() {
               case "opponentJoined":
                 setPrompt(new Prompt(10, 10, "opponent joined", 300))
                 playingOnline = true
+                this.logDone()
                 //server-side game init
 
                 ScenesManager.changeScene(CHARACTERSELECT, mainInterfaceSpeed)
@@ -437,6 +434,7 @@ loadScenes.hubScene = function() {
               case "joinedRoom":
                 setPrompt(new Prompt(10, 10, "Joined room", 300))
                 playingOnline = true
+                this.logDone()
                 //client-side game init
 
                 ScenesManager.changeScene(CHARACTERSELECT, mainInterfaceSpeed)
@@ -449,6 +447,7 @@ loadScenes.hubScene = function() {
                 break
               case "opponentLeft":
                 this.logDone()
+                this.start()
                 setPrompt(new Prompt(10, 10, "Opponent left", 300))
                 break
             }
@@ -516,6 +515,7 @@ loadScenes.hubScene = function() {
               case "successful":
                 accountData = currentPacket.data.userData
                 this.logDone()
+                this.start()
                 break
               case "badAuth":
                 console.log("badauth")
@@ -546,7 +546,6 @@ loadScenes.hubScene = function() {
       for (let key2 of keys2) {
         this.gameBoxStuff[key2].remove()
       }
-      this.start()
     },
     flippedBg: null,
     rankings: null,

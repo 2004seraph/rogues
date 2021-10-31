@@ -101,8 +101,8 @@ io.on('connection', function(socket) {
     })
   }
 
-  // let gameMethodNames = Object.keys(gameEvents)
-  // for (let gameAction of gameMethodNames) {
-  //   socket.on(gameAction, (data) => {gameEvents[gameAction](data, io)})
-  // }
+  let gameMethodNames = Object.keys(gameEvents)
+  for (let gameAction of gameMethodNames) {
+    socket.on(gameAction, (data) => {gameEvents[gameAction](data, io, socket)})
+  }
 })

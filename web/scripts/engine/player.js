@@ -196,7 +196,6 @@ class Player {
       }
     } else {
       //if there is no move propulsion, assume normal input
-      
       this.move()//take user control input
       if (this.velocity.y > this.character.physics.maxFallSpeed) {
         this.velocity.set(this.velocity.x, this.character.physics.maxFallSpeed)
@@ -321,7 +320,7 @@ class Player {
   }
 
   attack() {
-    if (this.moveCoolDown == 0 && this.stunned == 0) {
+    if (this.moveCoolDown == 0 && this.stunned == 0 && this.controls != null) {
       //find where the player is attacking, with precedence of left/right then up/down, finally, use facing
       let direction = (keyIsDown(this.controls.left)) ? LEFT : ((keyIsDown(this.controls.right)) ? RIGHT : ((keyIsDown(this.controls.up)) ? UP : ((keyIsDown(this.controls.down)) ? DOWN : (this.facingDirection))))
 

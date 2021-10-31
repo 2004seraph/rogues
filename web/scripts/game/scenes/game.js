@@ -8,8 +8,35 @@ loadScenes.gameScene = function() {
       this.parallax = {x: 0, y: 0}
       this.gameOver = null
       this.gameOverStuff = []
+
+      this.position = {x: 0, y: 0}
     },
     run: function() {
+      if (playingOnline) {
+        if (!(currentGamePacket == null)) {
+          switch (currentGamePacket.name) {
+            case "positionUpdate":
+              this.position.x = currentGamePacket.data.pos.x
+              this.position.y = currentGamePacket.data.pos.y
+              resetPacket()
+              break
+          }
+        }
+        socket.emit("positionUpdate", {pos: {x: gameState.players.one.pos.x, y: gameState.players.one.pos.y}})
+
+        if (!(currentPacket == null)) {
+          switch (currentPacket.name) {
+            case "roomCode":
+              switch (currentPacket.data.code) {
+                case "opponentLeft":
+                  ScenesManager.changeScene(MAINMENU, mainInterfaceSpeed)
+                  break
+              }
+              break
+          }
+        }
+      }
+      
       background(100)
       if (dynamicCamera) {cameraTrack()}
       
@@ -93,6 +120,11 @@ loadScenes.gameScene = function() {
       if (this.gameOver != null) {
         this.gameOverScreen()
       }
+
+      push()
+      fill(255)
+      rect(this.position.x, this.position.y, 50, 50)
+      pop()
     },
     parallax: {x: 0, y: 0},
     gameOver: null,
@@ -134,6 +166,7 @@ loadScenes.gameScene = function() {
             player2: null
           }
           doSound("back")
+          socket.emit("deleteRoom")
         })
         .hide()
       

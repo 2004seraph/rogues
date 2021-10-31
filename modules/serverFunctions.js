@@ -223,7 +223,56 @@ exports.matchMaking = {
       socket.to(room).emit("roomCode", {code: "opponentLeft"})//broadcast to the others this one has left
       delete runningRooms[room]
     }
+  },
+  "characterSelectCode": function(data, io, socket) {
+    //this only works if they are the host
+    if (socket.authorised != null) {//if they are signed in
+      try {
+        let room = Array.from(socket.rooms)[1]
+        socket.to(room).emit("characterSelectCode", data)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  },
+  "readyContinue": function(data, io, socket) {
+    //this only works if they are the host
+    if (socket.authorised != null) {//if they are signed in
+      try {
+        let room = Array.from(socket.rooms)[1]
+        if (data.code == "start") {//choose a map
+          let selection = [data.selection1, data.selection2][Math.floor(Math.random() * 2)]
+          data.serverSelection = selection
+        }
+        io.to(room).emit("readyContinue", data)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  },
+  "levelSelectCode": function(data, io, socket) {
+    //this only works if they are the host
+    if (socket.authorised != null) {//if they are signed in
+      try {
+        let room = Array.from(socket.rooms)[1]
+        socket.to(room).emit("levelSelectCode", data)
+      } catch (err) {
+        console.log("levelSelectError")
+      }
+    }
   }
 }
 
-exports.gameEvents = {}
+exports.gameEvents = {
+  "positionUpdate": function(data, io, socket) {
+    try {
+      let room = Array.from(socket.rooms)[1]
+      socket.to(room).emit("positionUpdate", data)
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  "attackUpdate": {
+    
+  }
+}

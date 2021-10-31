@@ -6,8 +6,10 @@ function initialiseLevel(levelID, player1, player2) {
   gameState.players.one = new Player(200, 200, controlSchemes[0])
   gameState.players.one.setCharacter(player1)
   //gameState.players.one.controls = controlSchemes[0]
-  gameState.players.two = new Player(CANX - 300, 50, controlSchemes[1])
-  gameState.players.two.setCharacter(player2)
+  if (!playingOnline) {
+    gameState.players.two = new Player(CANX - 300, 50, controlSchemes[1])
+    gameState.players.two.setCharacter(player2)
+  }
   //gameState.players.two.controls = controlSchemes[1]
 
   for (let c = 0; c < gameState.currentLevel.colliders.length; c++) {

@@ -23,8 +23,12 @@ loadScenes.stageScene = function() {
         .position(10, 10)
         .size(cornerWidth, 50)
         .mousePressed(() => {
-          ScenesManager.changeScene(CHARACTERSELECT, mainInterfaceSpeed)
           doSound("back")
+          if (playingOnline) {
+            socket.emit("readyContinue", {code: "char"})
+          } else {
+            ScenesManager.changeScene(CHARACTERSELECT, mainInterfaceSpeed)
+          }
       })
       gameButtons.continueSelection = createButton("Continue")
         .parent('P5Container')
@@ -33,8 +37,12 @@ loadScenes.stageScene = function() {
         .size(cornerWidth, 50)
         .mousePressed(() => {
           if (this.stageSelection.player1 !== null && this.stageSelection.player2 !== null) {
-            this.selection = [this.stageSelection.player1, this.stageSelection.player2][Math.floor(Math.random() * 2)]
-            ScenesManager.changeScene(GAME, mainInterfaceSpeed * 7)
+            if (!playingOnline) {
+              this.selection = [this.stageSelection.player1, this.stageSelection.player2][Math.floor(Math.random() * 2)]
+              ScenesManager.changeScene(GAME, mainInterfaceSpeed * 7)
+            } else {
+              socket.emit("readyContinue", {code: "start", selection1: this.stageSelection.player1, selection2: this.stageSelection.player2})
+            }
             doSound("click")
           }
       })
@@ -48,7 +56,11 @@ loadScenes.stageScene = function() {
         .mousePressed(() => {
           if (this.stageSelection.player1 !== null) {
             this.stageSelection.player1 = null
-            this.stageSelection.player2 = null
+            if (!playingOnline) {
+              this.selection.player2 = null
+            } else {
+              socket.emit("levelSelectCode", {stage: null})
+            }
             doSound("click")
           }
       })
@@ -67,8 +79,11 @@ loadScenes.stageScene = function() {
           if (this.stageSelection.player1 === null) {
             this.stageSelection.player1 = i
             doSound("choose")
+            if (playingOnline) {
+              socket.emit("levelSelectCode", {stage: i})
+            }
           } else {
-            if (this.stageSelection.player2 === null) {
+            if (this.stageSelection.player2 === null && !playingOnline) {
               this.stageSelection.player2 = i
               doSound("choose")
             }
@@ -110,6 +125,35 @@ loadScenes.stageScene = function() {
       }
     },
     run: function() {
+      if (!(currentPacket == null) && playingOnline) {
+        switch (currentPacket.name) {
+          case "roomCode":
+            switch (currentPacket.data.code) {
+              case "opponentLeft":
+                ScenesManager.changeScene(MAINMENU, mainInterfaceSpeed)//leave room
+                break
+            }
+            resetPacket()
+            break
+          case "levelSelectCode":
+            this.stageSelection.player2 = currentPacket.data.stage
+            resetPacket()
+            break
+          case "readyContinue":
+            switch (currentPacket.data.code) {
+              case "start":
+                this.selection = currentPacket.data.serverSelection
+                ScenesManager.changeScene(GAME, mainInterfaceSpeed)
+                break
+              case "char":
+                ScenesManager.changeScene(CHARACTERSELECT, mainInterfaceSpeed)
+                break
+            }
+            resetPacket()
+            break
+        }
+      }
+
       if (this.stageSelection.player1 !== null) {
         gameButtons.resetSelection.removeAttribute("disabled")
       } else {

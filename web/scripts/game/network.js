@@ -38,6 +38,7 @@ var latency = null
 
 var currentPacket = null//auth
 var currentStatsPacket = null//stats
+var currentGamePacket = null
 
 var playingOnline = false
 
@@ -46,7 +47,7 @@ socket.on("globalServerInfo", function(data) {
   globalServerInfo = data
 })
 
-let packetHeaders = ["loginCode", "signupCode", "userDataCode", "gameStatisticsCode", "roomCode"]
+let packetHeaders = ["loginCode", "signupCode", "userDataCode", "gameStatisticsCode", "roomCode", "characterSelectCode", "readyContinue", "levelSelectCode"]
 for (let header of packetHeaders) {
   socket.on(header, function(data) {
     currentPacket = {name: header, data: data}
@@ -56,6 +57,12 @@ let statPacketHeaders = ["gameStatisticsCode"]
 for (let statHeader of statPacketHeaders) {
   socket.on(statHeader, function(data) {
     currentStatsPacket = {name: statHeader, data: data}
+  })
+}
+let gameHeaders = ["positionUpdate", "attackUpdate"]
+for (let gameHeader of gameHeaders) {
+  socket.on(gameHeader, function(data) {
+    currentGamePacket = {name: gameHeader, data: data}
   })
 }
 
