@@ -138,7 +138,7 @@ loadScenes.gameScene = function() {
         }
         pop()
         
-        this.drawDamageBox(CANX / totalPlayers * index + (CANX / totalPlayers)/2, CANY - 100, p)
+        this.drawDamageBox(CANX / totalPlayers * index + (CANX / totalPlayers)/2, CANY - 100, player)
         index++
       }
 
@@ -236,11 +236,13 @@ loadScenes.gameScene = function() {
       }
       pop()
     },
-    drawDamageBox: function(x, y, player) {
+    drawDamageBox: function(x, y, p) {
+      let player = gameState.players[p]
+
       push()
       resetGameMatrix()
       textSize(20)
-      let location = {x: x - 100, y: y, w: 200, h: 70}
+      let location = {x: x - 100, y: y, w: 250, h: 70}
 
       strokeWeight(3)
       stroke(255)
@@ -255,13 +257,16 @@ loadScenes.gameScene = function() {
       } else {
         text("Dead", location.x + location.w - 10, location.y + 35)
       }
+      fill(255)
+      textAlign(LEFT, CENTER)
+      text((p == "one") ? "1" : "2", location.x + 10, location.y + location.h/2)
       strokeWeight(3)
       stroke(255)
       fill(0, 0, 0, 255)
-      rect(location.x + 5, location.y + 5, location.h - 10, location.h - 10)
+      rect(location.x + 40, location.y + 5, location.h - 10, location.h - 10)
       let pfpImage = ASSETS.characterImages[player.character.profilePicture]
       let resize = 2
-      image(pfpImage, location.x + 5 + resize, location.y + 5 + resize, location.h - 10 - resize*2, location.h - 10 - resize*2, 0, 0, location.h - 10, location.h - 10)
+      image(pfpImage, location.x + 40 + resize, location.y + 5 + resize, location.h - 10 - resize*2, location.h - 10 - resize*2, 0, 0, location.h - 10, location.h - 10)
       pop()
     }
   }

@@ -105,7 +105,7 @@ class Player {
     let inputVector = createVector(0, 0)
     this.moveAnimation = ASSETS.animations[this.charID].movement.idle
 
-    if (this.stunned == 0 && this.moveCoolDown == 0) {
+    if (this.controls != null && this.stunned == 0 && this.moveCoolDown == 0) {
       //if (this.grounded || (keyIsDown(this.controls.jump) && this.jumpLock == false && (this.deltaJumps + 1 < this.character.physics.totalJumps && this.jumpCooldown == 0))) {
         if (keyIsDown(this.controls.left)) {
           //a
