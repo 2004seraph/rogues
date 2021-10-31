@@ -227,7 +227,7 @@ loadScenes.charScene = function() {
           rect(x - extra, y - extra, this.playerCard + extra * 2, this.playerCardheight + extra * 2)
           push()
           textAlign(LEFT, TOP)
-          text("Player 2", x, y + this.playerCardheight + extra*2)
+          text("Player 2", x, y + this.playerCardheight + extra*3)
           pop()
         }
 

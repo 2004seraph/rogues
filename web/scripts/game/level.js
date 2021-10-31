@@ -3,14 +3,14 @@ function initialiseLevel(levelID, player1, player2) {
   gameState.currentLevel = levels[levelID]
   gameState.levelColliders = []
   
-  gameState.players.one = new Player(200, 200, controlSchemes[0])
+  gameState.players.one = new Player(gameState.currentLevel.respawnArea.x + Math.random() * gameState.currentLevel.respawnArea.w, gameState.currentLevel.respawnArea.y + Math.random() * gameState.currentLevel.respawnArea.h, controlSchemes[0])
   gameState.players.one.setCharacter(player1)
   //gameState.players.one.controls = controlSchemes[0]
   if (!playingOnline) {
-    gameState.players.two = new Player(CANX - 300, 50, controlSchemes[1])
+    gameState.players.two = new Player(gameState.currentLevel.respawnArea.x + Math.random() * gameState.currentLevel.respawnArea.w, gameState.currentLevel.respawnArea.y + Math.random() * gameState.currentLevel.respawnArea.h, controlSchemes[1])
     gameState.players.two.setCharacter(player2)
   } else {
-    gameState.players.two = new Player(CANX - 300, 50, controlSchemes[1])
+    gameState.players.two = new Player(gameState.currentLevel.respawnArea.x + Math.random() * gameState.currentLevel.respawnArea.w, gameState.currentLevel.respawnArea.y + Math.random() * gameState.currentLevel.respawnArea.h, controlSchemes[1])
     gameState.players.two.setCharacter(player2)
   }
   //gameState.players.two.controls = controlSchemes[1]

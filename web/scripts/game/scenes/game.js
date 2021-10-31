@@ -22,17 +22,20 @@ loadScenes.gameScene = function() {
               gameState.players.two.startMove(currentGamePacket.data.direction, currentGamePacket.data.whatMove)
               resetGamePacket()
               break
+          }
+        }
+        if (!(imopPacket == null)) {
+          switch (imopPacket.name) {
             case "statusUpdate":
-              switch (currentGamePacket.data.code) {
+              switch (imopPacket.data.code) {
                 case "dead":
                   if (gameState.players.two.death()) {
                     this.gameOver = {lost: "two", won: "one"}
                     this.createGameOverButtons()
                   }
+                  resetImopPacket()
                   break
               }
-              resetGamePacket()
-              break
           }
         }
         socket.emit("positionUpdate", {pos: {x: gameState.players.one.pos.x, y: gameState.players.one.pos.y}, facingDirection: gameState.players.one.facingDirection})
@@ -65,7 +68,7 @@ loadScenes.gameScene = function() {
         image(ASSETS.levelImages[currentStage.images[1]], 0 + this.parallax.x/(PARRALAX*1.15) - ((CANX * 1.5) - CANX)/2, 0 + this.parallax.y/(PARRALAX*1.15) - ((CANY * 1.5) - CANY)/2, CANX * 1.5, CANY * 1.5)
       }
       if (currentStage.images[2] != null) {
-        image(ASSETS.levelImages[currentStage.images[2]], 0 + this.parallax.x/(PARRALAX*2.5), 0 + this.parallax.y/(PARRALAX*2.5), CANX, CANY)
+        image(ASSETS.levelImages[currentStage.images[2]], 0 + this.parallax.x/(PARRALAX*2.5) - ((CANX * 1.25) - CANX)/2, 0 + this.parallax.y/(PARRALAX*2.5) - ((CANY * 1.25) - CANY)/2, CANX*1.25, CANY*1.25)
       }
       if (currentStage.images[3] != null) {
         image(ASSETS.levelImages[currentStage.images[3]], 0, 0, CANX, CANY)
@@ -91,18 +94,26 @@ loadScenes.gameScene = function() {
         //if they are in the death zone
         //the lose condition only runs if the player is outside the bounds, this is risky
         if (!collideRectRect(p.pos.x, p.pos.y, p.character.dimensions.width, p.character.dimensions.height, -100, -100, CANX + 200, CANY + 200)) {
-          // console.log(player + " is out")
-          // p.death()
-          if (p.death()) {
-            switch (player) {
-              case "one":
-                this.gameOver = {lost: player, won: "two"}
-                break
-              case "two":
-                this.gameOver = {lost: player, won: "one"}
-                break
+          if (playingOnline && player == "one") {
+            socket.emit("statusUpdate", {code: "dead"})
+            if (p.death()) {
+              this.gameOver = {lost: player, won: "two"}
+              this.createGameOverButtons()
             }
-            this.createGameOverButtons()
+          } else {
+            if (p.death()) {
+              switch (player) {
+                case "one":
+                  this.gameOver = {lost: player, won: "two"}
+                  break
+                case "two":
+                  if (!playingOnline) {
+                    this.gameOver = {lost: player, won: "one"}
+                  }
+                  break
+              }
+              this.createGameOverButtons()
+            }
           }
         }
 

@@ -21,31 +21,20 @@ socket.on("userDataCode", function(data) {
     location.reload()
   }
 })
-// socket.on("refreshUpdate", function(data) {
-//   console.warn("Server Update")
-//   accountData = null
-//   gameState.authorisedUser = null
-//   location.reload()
-// })
 
 var latency = null
-// setInterval(() => {
-//   const start = Date.now()
-//   socket.volatile.emit("ping", () => {
-//     latency = Date.now() - start
-//   })
-// }, 5000)
-
-var currentPacket = null//auth
-var currentStatsPacket = null//stats
-var currentGamePacket = null
-
 var playingOnline = false
 
 var globalServerInfo = null
 socket.on("globalServerInfo", function(data) {
   globalServerInfo = data
 })
+
+var currentPacket = null//auth
+var currentStatsPacket = null//stats
+var currentGamePacket = null
+var imopPacket = null
+
 
 let packetHeaders = ["loginCode", "signupCode", "userDataCode", "gameStatisticsCode", "roomCode", "characterSelectCode", "readyContinue", "levelSelectCode"]
 for (let header of packetHeaders) {
@@ -59,10 +48,16 @@ for (let statHeader of statPacketHeaders) {
     currentStatsPacket = {name: statHeader, data: data}
   })
 }
-let gameHeaders = ["positionUpdate", "attackUpdate", "statusUpdate"]
+let gameHeaders = ["positionUpdate", "attackUpdate"]
 for (let gameHeader of gameHeaders) {
   socket.on(gameHeader, function(data) {
     currentGamePacket = {name: gameHeader, data: data}
+  })
+}
+let importantHeaders = ["statusUpdate"]
+for (let imop of importantHeaders) {
+  socket.on(imop, function(data) {
+    imopPacket = {name: imop, data: data}
   })
 }
 
@@ -80,6 +75,10 @@ function resetPacket() {
 
 function resetGamePacket() {
   currentGamePacket = null
+}
+
+function resetImopPacket() {
+  imopPacket = null
 }
 
 function logIn() {

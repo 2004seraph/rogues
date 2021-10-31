@@ -1,11 +1,11 @@
 {
   "0": {
     "name": "Moors",
-    "description": "Test Level",
+    "description": "",
     "music": null,
     "images": {
       "1": "assets/levels/1/LEVEL1-1.png",
-      "2": "assets/levels/1/LEVEL1-2.png",
+      "2": "assets/levels/1/2.png",
       "3": "assets/levels/1/LEVEL1-3.png"
     },
     "previewImage": "assets/levels/1/preview.png",
@@ -24,7 +24,7 @@
   },
   "1": {
     "name": "Spaceship",
-    "description": "Test Level 2",
+    "description": "",
     "music": null,
     "images": {
       "1": null,
@@ -42,9 +42,29 @@
       [-600, 575, 2560, 30]
     ],
     "respawnArea": {
-      "x": 0,
+      "x": 50,
       "y": -50,
-      "w": 1200,
+      "w": 1100,
+      "h": 0
+    }
+  },
+  "2": {
+    "name": "Bastion",
+    "description": "",
+    "music": null,
+    "images": {
+      "1": "assets/levels/3/bastion_1.png",
+      "2": "assets/levels/3/bastion_2.png",
+      "3": "assets/levels/3/bastion_3.png"
+    },
+    "previewImage": "assets/levels/3/preview.png",
+    "colliders": [
+      [230, 445, 740, 800]
+    ],
+    "respawnArea": {
+      "x": 300,
+      "y": -50,
+      "w": 600,
       "h": 0
     }
   }

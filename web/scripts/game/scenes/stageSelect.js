@@ -57,7 +57,7 @@ loadScenes.stageScene = function() {
           if (this.stageSelection.player1 !== null) {
             this.stageSelection.player1 = null
             if (!playingOnline) {
-              this.selection.player2 = null
+              this.stageSelection.player2 = null
             } else {
               socket.emit("levelSelectCode", {stage: null})
             }
@@ -66,7 +66,7 @@ loadScenes.stageScene = function() {
       })
 
       for (let i = 0; i < this.amountOfLevels; i++) {
-        let x = CANX/2 - (this.amountOfLevels/2) * this.playerCard + i * (this.playerCard + this.cardSpacing) - this.cardSpacing/2
+        let x = CANX/2 - (this.amountOfLevels/2) * this.playerCard + i * (this.playerCard + this.cardSpacing) - this.cardSpacing
         let y = 140
 
         gameButtons[("levelSelect" + (i).toString())] = createButton("")
@@ -75,6 +75,7 @@ loadScenes.stageScene = function() {
         .class("characterChoose")
         .size(this.playerCard, this.playerCardheight)
         .style("background-image: url(assets/levels/" + (i + 1).toString() + "/preview.png), linear-gradient(rgb(75, 0, 173), rgb(255, 0, 212));")
+        .style("image-rendering: auto;")
         .mousePressed(() => {
           if (this.stageSelection.player1 === null) {
             this.stageSelection.player1 = i
@@ -172,7 +173,7 @@ loadScenes.stageScene = function() {
       image(ASSETS.namedImages.characterSelect, 0, 0, CANX, CANY)
 
       for (let i = 0; i < this.amountOfLevels; i++) {
-        let x = CANX/2 - (this.amountOfLevels/2) * this.playerCard + i * (this.playerCard + this.cardSpacing) - ((this.amountOfLevels != 1) ? this.cardSpacing/2 : 0)
+        let x = CANX/2 - (this.amountOfLevels/2) * this.playerCard + i * (this.playerCard + this.cardSpacing) - this.cardSpacing
         let y = 140
         let extra = 12
         if (this.stageSelection.player1 === i) {
@@ -188,7 +189,7 @@ loadScenes.stageScene = function() {
           rect(x - extra, y - extra, this.playerCard + extra * 2, this.playerCardheight + extra * 2)
           push()
           textAlign(LEFT, TOP)
-          text("Player 2", x, y + this.playerCardheight + extra*2)
+          text("Player 2", x, y + this.playerCardheight + extra*3)
           pop()
         }
       }

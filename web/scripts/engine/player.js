@@ -40,9 +40,6 @@ class Player {
   }
 
   death() {
-    if (playingOnline) {
-      socket.emit("statusUpdate", {code: "dead"})
-    }
     doSound("death")
     //game variables
     this.lives--
