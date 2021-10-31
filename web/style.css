@@ -69,6 +69,7 @@ button {
                                   supported by Chrome, Edge, Opera and Firefox */
   z-index: 1;
   transition-duration: 0.7s;
+  cursor: pointer;
 }
 button:hover {
   background-image: linear-gradient(rgb(48, 0, 110), rgb(255, 0, 157));

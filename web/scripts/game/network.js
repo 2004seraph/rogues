@@ -10,8 +10,11 @@ socket.on("blocked", function(data) {
 socket.on("disconnect", function(data) {
   console.warn("server connection lost")
   accountData = null
-  ScenesManager.scenes[MAINMENU].logDone()
-  
+  ScenesManager.changeScene(MAINMENU, mainInterfaceSpeed)
+  setPrompt(new Prompt(10, 10, "Server connection lost", 300))
+})
+socket.on("connect", () => {
+  setPrompt(new Prompt(10, 10, "Server connection established", 300))
 })
 socket.on("userDataCode", function(data) {
   if (data.code == "badAuth") {

@@ -165,6 +165,7 @@ loadScenes.gameScene = function() {
           fill(180, 0, 255, 180)
           stroke(255)
           rect(CANX/2, CANY/2, width, height)
+          stroke(0, 0, 255)
           if (this.gameOverStuff.showDelay < -50) {
             fill(0, 255, 255, 255)
             text("GAME OVER", CANX/2, CANY/2 - height/2 + spacing)

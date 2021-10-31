@@ -145,6 +145,7 @@ exports.matchMaking = {
         if (runningRooms[roomCode].players < 2) {//if the room exists and there is space
           runningRooms[roomCode].players++
           socket.join(roomCode)
+          socket.to(roomCode).emit("roomCode", {code: "opponentJoined"})
 
           //this is all just to find their opponent
           let rooms = Array.from(io.sockets.adapter.rooms)
@@ -153,7 +154,7 @@ exports.matchMaking = {
               let clientIds = Array.from(room[1])
               let hostAccountID = io.sockets.sockets.get(clientIds[0]).authorised.id//get the authorised account from the host socket (always index zero, because they created the room)
               exports.accountEvents["getUserData"](hostAccountID, (hostAccount) => {
-                socket.emit("roomCode", {code: "joinedRoom", opponent: hostAccount.Username})
+                socket.emit("roomCode", {code: "joinedRoom"})
               })
               break
             }

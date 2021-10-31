@@ -126,6 +126,11 @@ loadScenes.hubScene = function() {
               .mousePressed(() => {
                 matchmakeGame()
                 doSound("click")
+                this.gameBoxStuff.competBlock = createDiv("searching ...")
+                  .parent("P5Container")
+                  .id("roomCodeDisplay")
+                  .size(this.buttonSize + 4, b_height*2 + this.spacing*6 + 8)
+                  .position(CANX/2 - this.buttonSize - this.spacing - 2, CANY/2 - this.buttonLevel - 2)
               })
 
             //back
@@ -245,6 +250,18 @@ loadScenes.hubScene = function() {
             ScenesManager.changeScene(STARTSCREEN, mainInterfaceSpeed)
             doSound("back")
       })
+
+      //just incase a disconnect happens
+      this.showAccountBox = false
+      this.showGameBox = false
+      let keys = Object.keys(this.accountBoxStuff)
+      for (let key of keys) {
+        this.accountBoxStuff[key].remove()
+      }
+      let keys2 = Object.keys(this.gameBoxStuff)
+      for (let key2 of keys2) {
+        this.gameBoxStuff[key2].remove()
+      }
     },
     run: function() {
       textAlign(LEFT, TOP)
@@ -403,16 +420,22 @@ loadScenes.hubScene = function() {
                 setPrompt(new Prompt(10, 10, "Created room", 300))
                 //successful
                 console.log("room created:", currentPacket.data.room)
-                playingOnline = true
                 this.gameBoxStuff.roomBlock = createDiv("GAME CODE:\n" + currentPacket.data.room)
                   .parent("P5Container")
                   .id("roomCodeDisplay")
                   .size(this.buttonSize + 4, b_height*2 + this.spacing*6 + 8)
                   .position(CANX/2 - this.buttonSize - this.spacing - 2, CANY/2 - this.buttonLevel - 2)
                 break
+              case "opponentJoined":
+                setPrompt(new Prompt(10, 10, "opponent joined", 300))
+                playingOnline = true
+                //server-side game init
+                break
+                
               case "joinedRoom":
                 setPrompt(new Prompt(10, 10, "Joined room", 300))
                 playingOnline = true
+                //client-side game init
                 break
               case "roomFull":
                 setPrompt(new Prompt(10, 10, "Room full", 300))
@@ -421,7 +444,6 @@ loadScenes.hubScene = function() {
                 setPrompt(new Prompt(10, 10, "Room doesn't exist", 300))
                 break
               case "opponentLeft":
-                console.log("help")
                 this.logDone()
                 setPrompt(new Prompt(10, 10, "Opponent left", 300))
                 break
