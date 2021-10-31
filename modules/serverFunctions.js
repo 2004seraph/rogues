@@ -272,7 +272,20 @@ exports.gameEvents = {
       console.log(err)
     }
   },
-  "attackUpdate": {
-    
+  "attackUpdate": function(data, io, socket) {
+    try {
+      let room = Array.from(socket.rooms)[1]
+      socket.to(room).emit("attackUpdate", data)
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  "statusUpdate": function(data, io, socket) {
+    try {
+      let room = Array.from(socket.rooms)[1]
+      socket.to(room).emit("statusUpdate", data)
+    } catch (err) {
+      console.log(err)
+    }
   }
 }

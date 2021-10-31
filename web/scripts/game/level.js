@@ -9,6 +9,9 @@ function initialiseLevel(levelID, player1, player2) {
   if (!playingOnline) {
     gameState.players.two = new Player(CANX - 300, 50, controlSchemes[1])
     gameState.players.two.setCharacter(player2)
+  } else {
+    gameState.players.two = new Player(CANX - 300, 50, controlSchemes[1])
+    gameState.players.two.setCharacter(player2)
   }
   //gameState.players.two.controls = controlSchemes[1]
 

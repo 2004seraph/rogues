@@ -8,21 +8,34 @@ loadScenes.gameScene = function() {
       this.parallax = {x: 0, y: 0}
       this.gameOver = null
       this.gameOverStuff = []
-
-      this.position = {x: 0, y: 0}
     },
     run: function() {
       if (playingOnline) {
         if (!(currentGamePacket == null)) {
           switch (currentGamePacket.name) {
             case "positionUpdate":
-              this.position.x = currentGamePacket.data.pos.x
-              this.position.y = currentGamePacket.data.pos.y
-              resetPacket()
+              gameState.players.two.pos.set(currentGamePacket.data.pos.x, currentGamePacket.data.pos.y)
+              gameState.players.two.facingDirection = currentGamePacket.data.facingDirection
+              resetGamePacket()
+              break
+            case "attackUpdate":
+              gameState.players.two.startMove(currentGamePacket.data.direction, currentGamePacket.data.whatMove)
+              resetGamePacket()
+              break
+            case "statusUpdate":
+              switch (currentGamePacket.data.code) {
+                case "dead":
+                  if (gameState.players.two.death()) {
+                    this.gameOver = {lost: "two", won: "one"}
+                    this.createGameOverButtons()
+                  }
+                  break
+              }
+              resetGamePacket()
               break
           }
         }
-        socket.emit("positionUpdate", {pos: {x: gameState.players.one.pos.x, y: gameState.players.one.pos.y}})
+        socket.emit("positionUpdate", {pos: {x: gameState.players.one.pos.x, y: gameState.players.one.pos.y}, facingDirection: gameState.players.one.facingDirection})
 
         if (!(currentPacket == null)) {
           switch (currentPacket.name) {
@@ -32,6 +45,7 @@ loadScenes.gameScene = function() {
                   ScenesManager.changeScene(MAINMENU, mainInterfaceSpeed)
                   break
               }
+              resetPacket()
               break
           }
         }
@@ -120,11 +134,6 @@ loadScenes.gameScene = function() {
       if (this.gameOver != null) {
         this.gameOverScreen()
       }
-
-      push()
-      fill(255)
-      rect(this.position.x, this.position.y, 50, 50)
-      pop()
     },
     parallax: {x: 0, y: 0},
     gameOver: null,

@@ -59,7 +59,7 @@ for (let statHeader of statPacketHeaders) {
     currentStatsPacket = {name: statHeader, data: data}
   })
 }
-let gameHeaders = ["positionUpdate", "attackUpdate"]
+let gameHeaders = ["positionUpdate", "attackUpdate", "statusUpdate"]
 for (let gameHeader of gameHeaders) {
   socket.on(gameHeader, function(data) {
     currentGamePacket = {name: gameHeader, data: data}
@@ -76,6 +76,10 @@ function updateTransmission() {
 
 function resetPacket() {
   currentPacket = null
+}
+
+function resetGamePacket() {
+  currentGamePacket = null
 }
 
 function logIn() {

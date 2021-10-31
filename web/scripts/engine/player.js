@@ -40,6 +40,9 @@ class Player {
   }
 
   death() {
+    if (playingOnline) {
+      socket.emit("statusUpdate", {code: "dead"})
+    }
     doSound("death")
     //game variables
     this.lives--
@@ -389,6 +392,10 @@ class Player {
         break
       case RIGHT:
         break
+    }
+
+    if (playingOnline) {
+      socket.emit("attackUpdate", {direction: direction, whatMove: whatMove})
     }
     let moveData = this.character.attacks[direction][whatMove]
 
