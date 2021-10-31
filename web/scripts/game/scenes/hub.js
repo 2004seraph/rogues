@@ -430,12 +430,16 @@ loadScenes.hubScene = function() {
                 setPrompt(new Prompt(10, 10, "opponent joined", 300))
                 playingOnline = true
                 //server-side game init
+
+                ScenesManager.changeScene(CHARACTERSELECT, mainInterfaceSpeed)
                 break
                 
               case "joinedRoom":
                 setPrompt(new Prompt(10, 10, "Joined room", 300))
                 playingOnline = true
                 //client-side game init
+
+                ScenesManager.changeScene(CHARACTERSELECT, mainInterfaceSpeed)
                 break
               case "roomFull":
                 setPrompt(new Prompt(10, 10, "Room full", 300))

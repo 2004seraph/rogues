@@ -80,6 +80,9 @@ class SceneManager {
     } else {
       if (this.transition.frameDelta > 0) {
         this.transition.frameDelta -= timeScaler()
+        if (this.transition.frameDelta > this.transition.frameLimit) {
+          this.transition.frameDelta = this.transition.frameLimit//if the user tabs out for long
+        }
       } else {
         this.transition.frameDelta = 0
         //transition over
