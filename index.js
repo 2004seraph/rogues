@@ -1,4 +1,11 @@
 "use strict";
+
+const fs = require('fs')
+let serverDir = './serverData'
+if (!fs.existsSync(serverDir)){
+  fs.mkdirSync(serverDir)
+}
+
 //set up CLI
 const consoleManager = require("./modules/console.js")
 global.CLI = new consoleManager.cli(require('./modules/commands.js').commands)

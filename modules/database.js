@@ -1,13 +1,8 @@
 "use strict";
 const sqlite3 = require('sqlite3').verbose()
-const fs = require('fs')
 
 module.exports = class PlayerDatabase {
   constructor(db='./serverData/PlayerDatabase.db') {
-    let serverDir = './serverData'
-    if (!fs.existsSync(serverDir)){
-      fs.mkdirSync(serverDir)
-    }
     this.database = new sqlite3.Database(db)
   }
 
