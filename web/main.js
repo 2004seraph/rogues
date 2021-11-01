@@ -27,7 +27,7 @@ function setup() {
   if (noImageSmooth) {
     let context = Canvas.elt.getContext('2d')//could be replaced with 'drawingcontext'
     context.imageSmoothingEnabled = false
-    context.mozImageSmoothingEnabled = false//depreciated
+    context.mozImageSmoothingEnabled = false
     context.webkitImageSmoothingEnabled = false
     context.msImageSmoothingEnabled = false
   }
@@ -72,20 +72,25 @@ function keyPressed() {
       //gotoGame()
       break
     case ENTER:
+      let hub = ScenesManager.scenes[MAINMENU]
       //the code is here because it needs to fire only on one press
       if (ScenesManager.currentScene == MAINMENU) {
-        if (ScenesManager.scenes[MAINMENU].accountBoxStuff.usernameInput.elt === document.activeElement || ScenesManager.scenes[MAINMENU].accountBoxStuff.passwordInput.elt === document.activeElement) {
-          logIn()
-        } else if (ScenesManager.scenes[MAINMENU].accountBoxStuff.usernameCreate.elt === document.activeElement || ScenesManager.scenes[MAINMENU].accountBoxStuff.passwordCreate1.elt === document.activeElement || ScenesManager.scenes[MAINMENU].accountBoxStuff.passwordCreate2.elt === document.activeElement) {
-          signUp()
-        } else {
-          if (ScenesManager.scenes[MAINMENU].accountBoxStuff.usernameInput.value().length > ScenesManager.scenes[MAINMENU].accountBoxStuff.usernameCreate.value().length) {
+        if (hub.showAccountBox) {
+          if (hub.accountBoxStuff.usernameInput.elt === document.activeElement || hub.accountBoxStuff.passwordInput.elt === document.activeElement) {
             logIn()
-          } else if (ScenesManager.scenes[MAINMENU].accountBoxStuff.usernameInput.value().length < ScenesManager.scenes[MAINMENU].accountBoxStuff.usernameCreate.value().length) {
+          } else if (hub.accountBoxStuff.usernameCreate.elt === document.activeElement || hub.accountBoxStuff.passwordCreate1.elt === document.activeElement || hub.accountBoxStuff.passwordCreate2.elt === document.activeElement) {
             signUp()
           } else {
-            //nothing
+            if (hub.accountBoxStuff.usernameInput.value().length > hub.accountBoxStuff.usernameCreate.value().length) {
+              logIn()
+            } else if (hub.accountBoxStuff.usernameInput.value().length < hub.accountBoxStuff.usernameCreate.value().length) {
+              signUp()
+            } else {
+              //nothing
+            }
           }
+        } else if (hub.showGameBox) {
+          joinGame()
         }
       }
       break
@@ -129,6 +134,10 @@ function doSound(s) {
     case "death":
       ASSETS.sounds.death.setVolume(0.25)
       ASSETS.sounds.death.play()
+      break
+    case "pound":
+      ASSETS.sounds.pound.setVolume(0.25)
+      ASSETS.sounds.pound.play()
       break
   }
 }

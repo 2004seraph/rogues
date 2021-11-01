@@ -124,6 +124,7 @@ loadScenes.hubScene = function() {
             //matchmake
             this.gameBoxStuff.matchmakeButton = createButton('find random (competitve)')
               .parent('P5Container')
+              .attribute("disabled", "")
               .size(this.gameBoxStuff.joinCodeInput.size().width + inter*2, this.gameBoxStuff.joinCodeInput.size().height*2 + inter)
               .position(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + inter*7 + this.gameBoxStuff.joinCodeInput.size().height*5)
               .mousePressed(() => {

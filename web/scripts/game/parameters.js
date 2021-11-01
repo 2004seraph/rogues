@@ -6,8 +6,7 @@ var aspectRatio = {
   h: 4
 }
 
-//the game breaks if this is set to or below zero
-var mainInterfaceSpeed = 7
+var mainInterfaceSpeed = 5
 
 //debug
 var showColliders = false

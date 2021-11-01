@@ -11,7 +11,7 @@ exports.accountEvents = {
               PlayerDatabase.addUser(rUsername, data.passwordHash, 1000, function() {
                 PlayerDatabase.queryUsername(rUsername, function(rec) {
                   socket.emit("signupCode", {code: "successful"})
-                  //exports.accountEvents["signIn"](rec.ID, io, socket)//to sign them in at account creation
+                  exports.accountEvents["signIn"](rec.ID, io, socket)//to sign them in at account creation
                   socket.accountCooldown.time = 10000
                 })
               })
