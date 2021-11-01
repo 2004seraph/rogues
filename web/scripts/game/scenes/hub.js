@@ -172,7 +172,7 @@ loadScenes.hubScene = function() {
           //sign in
           this.accountBoxStuff.usernameInput = createInput()
             .attribute('placeholder', 'Username')
-            .attribute('maxlength', globalServerInfo.username.max)
+            .attribute('maxlength', globalServerInfo.username.max - 1)
             .attribute("autocomplete", "username")
             .attribute("spellcheck", false)
             .parent('P5Container')
@@ -181,7 +181,7 @@ loadScenes.hubScene = function() {
 
           this.accountBoxStuff.passwordInput = createInput('', 'password')
             .attribute('placeholder', 'Password')
-            .attribute('maxlength', globalServerInfo.password.max)
+            .attribute('maxlength', globalServerInfo.password.max - 1)
             .attribute("autocomplete", "current-password")
             .attribute("spellcheck", false)
             .parent('P5Container')
@@ -201,7 +201,7 @@ loadScenes.hubScene = function() {
           //sign up
           this.accountBoxStuff.usernameCreate = createInput()
             .attribute('placeholder', 'Username')
-            .attribute('maxlength', globalServerInfo.username.max)
+            .attribute('maxlength', globalServerInfo.username.max - 1)
             .attribute("autocomplete", "nickname")
             .attribute("spellcheck", false)
             .parent('P5Container')
@@ -210,7 +210,7 @@ loadScenes.hubScene = function() {
 
           this.accountBoxStuff.passwordCreate1 = createInput('', 'password')
             .attribute('placeholder', 'Password')
-            .attribute('maxlength', globalServerInfo.password.max)
+            .attribute('maxlength', globalServerInfo.password.max - 1)
             .attribute("autocomplete", "new-password")
             .attribute("spellcheck", false)
             .parent('P5Container')
@@ -218,7 +218,7 @@ loadScenes.hubScene = function() {
           this.accountBoxStuff.passwordCreate1.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + b_height+ this.accountBoxStuff.usernameInput.size().height*3 + this.spacing + inter*2)
           this.accountBoxStuff.passwordCreate2 = createInput('', 'password')
             .attribute('placeholder', 'Confirm')
-            .attribute('maxlength', globalServerInfo.password.max)
+            .attribute('maxlength', globalServerInfo.password.max - 1)
             .attribute("autocomplete", "new-password")
             .attribute("spellcheck", false)
             .parent('P5Container')
@@ -507,6 +507,9 @@ loadScenes.hubScene = function() {
                 break
               case "creationCooldown":
                 setPrompt(new Prompt(10, 10, "Too Many sign ups", 300))
+                break
+              case "badUsername":
+                setPrompt(new Prompt(10, 10, "Invalid username: ASCII characters only", 300))
                 break
             }
             resetPacket()
