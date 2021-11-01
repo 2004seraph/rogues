@@ -1,4 +1,5 @@
 "use strict";
+const gameChecksum = "71b86381497a97812e1e7bb5c9a86951f74ba9b3ba3b5d11f6cb018a4fa9529f"
 
 const fs = require('fs')
 let serverDir = './serverData'
@@ -65,6 +66,15 @@ io.on('connection', function(socket) {
     socket.disconnect()
     return
   }
+
+  socket.once('checkSum', (data) => {
+    if (data.hash === gameChecksum) {
+      //authorised
+    } else {
+      //socket.emit("blocked", {code: "modifiedGame"})
+      //socket.disconnect()
+    }
+  })
 
   //they are not signed in
   socket.authorised = null

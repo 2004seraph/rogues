@@ -15,6 +15,12 @@ socket.on("disconnect", function(data) {
 })
 socket.on("connect", () => {
   setPrompt(new Prompt(10, 10, "Server connection established", 300))
+
+  //game checksum
+  hashMessage(JSON.stringify(Object.keys(window)) + Player.toString() + attackCheck.toString() + collide.toString() + collideRectRectObject.toString() + collideRectRect.toString() + BoxCollider.toString()).then((digest) => {
+    console.log(digest)
+    socket.emit("checkSum", {hash: digest})
+  })
 })
 socket.on("userDataCode", function(data) {
   if (data.code == "badAuth") {

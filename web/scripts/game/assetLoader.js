@@ -112,6 +112,7 @@ function continueCharacterLoading() {
         let move = direction[moveType]
 
         if (move.animation != null) {
+          console.log("Loaded:", c, move.animation)
           Loader.changeLimit(2)
           ASSETS.animations[c][dir][moveType] = new Animation()
           ASSETS.animations[c][dir][moveType].setData(move.animation)
