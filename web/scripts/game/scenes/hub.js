@@ -100,7 +100,7 @@ loadScenes.hubScene = function() {
               .attribute("spellcheck", false)
               .attribute('maxlength', globalServerInfo.roomCode.max)
               .parent('P5Container')
-            this.gameBoxStuff.joinCodeInput.size(this.buttonSize - inter*3)
+            this.gameBoxStuff.joinCodeInput.size(this.buttonSize - inter*3, inter*3 - 1)
             this.gameBoxStuff.joinCodeInput.position(CANX/2 - this.buttonSize + inter - this.spacing, CANY/2 - this.buttonLevel + inter+ this.gameBoxStuff.joinCodeInput.size().height)
             
             this.gameBoxStuff.joinGameButton = createButton('Join game')

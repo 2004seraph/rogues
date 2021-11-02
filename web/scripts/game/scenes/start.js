@@ -55,10 +55,29 @@ loadScenes.startScene = function() {
       let embPos = {x: 90, y: 90}
       this.mouseDirection.set(embPos.x - mouseX, embPos.y - mouseY).rotate(Math.PI/2)
       this.spin += (this.mouseDirection.heading() - this.spin)/5 * timeScaler()
+
       push()
+      colorMode(HSB)
       imageMode(CENTER, CENTER)
       translate(embPos.x, embPos.y)
       rotate(this.spin)
+      //lazer (disabled)
+      if (mouseIsPressed && false) {
+        push()
+        strokeWeight(2)
+        stroke(255)
+        // for (let i = 0; i < CANX + CANY; i++) {
+        //   if (i % 40 == 0) {
+        //     let segmentLevel = i
+        //     let segmentHeight = Math.sin(i + frameCount) * 20
+        //     let offset = (Math.random() - Math.random()) * 10
+        //     stroke(190 + Math.random() * 60, 255, 255)
+        //     line(offset, segmentLevel, offset, segmentLevel+segmentHeight)
+        //   }
+        // }
+        line(0, 0, 0, CANY+CANX)
+        pop()
+      }
       image(ASSETS.namedImages.starEmbelum, 1, 1)
       pop()
 

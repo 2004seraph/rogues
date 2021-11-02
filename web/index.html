@@ -2,7 +2,7 @@
 <html prefix="og: https://ogp.me/ns#">
   <head>
     <script>
-      if ('serviceWorker' in navigator) {
+      if ('../scripts/serviceWorker' in navigator) {
         navigator.serviceWorker.register('./serviceWorker.js')
           .then(function(registration) {
             // Registration was successful
@@ -17,8 +17,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>ROGUES ONLINE</title>
-    <link href="style.css" rel="stylesheet" type="text/css" />
-    <link href="buttons.css" rel="stylesheet" type="text/css" />
+    <link href="styles/style.css" rel="stylesheet" type="text/css" />
+    <link href="styles/buttons.css" rel="stylesheet" type="text/css" />
 
     <link rel="manifest" href="manifest.json" crossorigin="use-credentials">
 

@@ -33,9 +33,9 @@ function setup() {
   }
 
   Loader = new LoadingBar(50, CANY/2 - 50, CANX - 100, 100, rootJSONFiles)
-  loadGameAssets()
-
   ScenesManager = new SceneManager({}, LOADINGSCREEN, FaderCanvas)
+  
+  loadGameAssets()
   createScenes()
 
   textAlign(CENTER, CENTER)

@@ -18,7 +18,7 @@ socket.on("connect", () => {
 
   //game checksum
   hashMessage(JSON.stringify(Object.keys(window)) + Player.toString() + attackCheck.toString() + collide.toString() + collideRectRectObject.toString() + collideRectRect.toString() + BoxCollider.toString()).then((digest) => {
-    console.log(digest)
+    //console.log(digest)
     socket.emit("checkSum", {hash: digest})
   })
 })

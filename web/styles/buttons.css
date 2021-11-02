@@ -1,6 +1,6 @@
 #accountButton {
   transition-duration: 0s;
-  background-image: url("assets/buttons/account.png"), linear-gradient(rgb(75, 0, 173), rgb(255, 0, 212));
+  background-image: url("../assets/buttons/account.png"), linear-gradient(rgb(75, 0, 173), rgb(255, 0, 212));
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -8,11 +8,11 @@
   transition-duration: 0.7s;
 }
 #accountButton:hover {
-  background-image: url("assets/buttons/account.png"), linear-gradient(rgb(48, 0, 110), rgb(255, 0, 157));
+  background-image: url("../assets/buttons/account.png"), linear-gradient(rgb(48, 0, 110), rgb(255, 0, 157));
   color: rgb(255, 255, 255);
 }
 #accountButton[disabled=disabled], #accountButton:disabled {
-  background-image: url("assets/buttons/account.png"), linear-gradient(rgb(104, 0, 240), rgb(110, 0, 92));
+  background-image: url("../assets/buttons/account.png"), linear-gradient(rgb(104, 0, 240), rgb(110, 0, 92));
   color: rgb(89, 59, 255);
 }
 

@@ -2,7 +2,7 @@
   "name": "ROGUES-ONLINE",
   "short_name": "ROGUES",
   "start_url": ".",
-  "display": "fullscreen",
+  "display": "standalone",
   "background_color": "#00ffee",
   "theme_color": "#00ffee",
   "description": "An online platform fighter",

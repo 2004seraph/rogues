@@ -1,9 +1,9 @@
 "use strict";
-const gameChecksum = "71b86381497a97812e1e7bb5c9a86951f74ba9b3ba3b5d11f6cb018a4fa9529f"
+const gameChecksum = ""
 
 const fs = require('fs')
 let serverDir = './serverData'
-if (!fs.existsSync(serverDir)){
+if (!fs.existsSync(serverDir)) {
   fs.mkdirSync(serverDir)
 }
 
@@ -32,7 +32,7 @@ const socketio = require('socket.io')
 const io = socketio(webServer)
 
 //load in server functions
-const {accountEvents, gameEvents, matchMaking} = require("./modules/serverFunctions.js")
+const { accountEvents, gameEvents, matchMaking } = require("./modules/serverFunctions.js")
 global.GlobalServerInfo = {
   username: {
     min: 3,
@@ -62,7 +62,7 @@ global.spamStop = false
 io.on('connection', function(socket) {
   //limit connections to protect server
   if (io.engine.clientsCount > connectionsLimit) {
-    socket.emit("blocked", {code: "maxOnlineUsers"})
+    socket.emit("blocked", { code: "maxOnlineUsers" })
     socket.disconnect()
     return
   }
@@ -78,7 +78,7 @@ io.on('connection', function(socket) {
 
   //they are not signed in
   socket.authorised = null
-  
+
   //cooldowns
   socket.accountCooldown = {
     timer: setInterval(function() {
@@ -89,7 +89,7 @@ io.on('connection', function(socket) {
     }, 100),
     time: 0
   }
-  
+
   CLI.printLine("connected to " + socket.id)
   concurrentUsers++
   //handshake
@@ -99,7 +99,7 @@ io.on('connection', function(socket) {
   socket.once('disconnecting', (reason) => {
     CLI.printLine(socket.id + " disconnected: " + reason)
     if (socket.authorised != null) {
-      accountEvents.signOut({ID: socket.authorised}, io, socket)
+      accountEvents.signOut({ ID: socket.authorised }, io, socket)
     }
     concurrentUsers--
   })
@@ -120,6 +120,6 @@ io.on('connection', function(socket) {
 
   let gameMethodNames = Object.keys(gameEvents)
   for (let gameAction of gameMethodNames) {
-    socket.on(gameAction, (data) => {gameEvents[gameAction](data, io, socket)})
+    socket.on(gameAction, (data) => { gameEvents[gameAction](data, io, socket) })
   }
 })
