@@ -65,13 +65,12 @@ class Player {
     this.invulnerable = 100
     this.stunned = 20
 
-    //respawn them
-    this.pos = createVector(gameState.currentLevel.respawnArea.x + Math.random() * gameState.currentLevel.respawnArea.w, gameState.currentLevel.respawnArea.y + Math.random() * gameState.currentLevel.respawnArea.h)
-
     //have they lost the game?
     if (this.lives < 1) {
       return true
     } else {
+      //respawn them
+      this.pos = createVector(gameState.currentLevel.respawnArea.x + Math.random() * gameState.currentLevel.respawnArea.w, gameState.currentLevel.respawnArea.y + Math.random() * gameState.currentLevel.respawnArea.h)
       return false
     }
   }

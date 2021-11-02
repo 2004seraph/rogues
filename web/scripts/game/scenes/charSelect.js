@@ -97,7 +97,7 @@ loadScenes.charScene = function() {
         .position(x, y)
         .class("characterChoose")
         .size(this.playerCard, this.playerCardheight)
-        .style("background-image: url(assets/characters/" + (i + 1).toString() + "/preview.png), linear-gradient(rgb(75, 0, 173), rgb(255, 0, 212));")
+        .style("background-image: url(../assets/characters/" + (i + 1).toString() + "/preview.png), linear-gradient(rgb(75, 0, 173), rgb(255, 0, 212));")
         .mousePressed(() => {
           if (this.selection.player1 === null) {
             this.selection.player1 = i

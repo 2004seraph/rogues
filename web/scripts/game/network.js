@@ -10,7 +10,9 @@ socket.on("blocked", function(data) {
 socket.on("disconnect", function(data) {
   console.warn("server connection lost")
   accountData = null
-  ScenesManager.changeScene(MAINMENU, mainInterfaceSpeed)
+  if (playingOnline) {
+    ScenesManager.changeScene(MAINMENU, mainInterfaceSpeed)
+  }
   setPrompt(new Prompt(10, 10, "Server connection lost", 300))
 })
 socket.on("connect", () => {

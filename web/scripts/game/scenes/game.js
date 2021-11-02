@@ -84,7 +84,6 @@ loadScenes.gameScene = function() {
 
       let index = 0
       let totalPlayers = Object.keys(gameState.players).length
-
       for (let player in gameState.players) {
         let p = gameState.players[player]
         p.show()
@@ -98,14 +97,14 @@ loadScenes.gameScene = function() {
           if (playingOnline) {
             if (player == "one") {
               socket.emit("statusUpdate", {code: "dead"})
-              if (p.death()) {
+              if (this.gameOver == null && p.death()) {
                 socket.emit("gameOver", {p: 1})
                 this.gameOver = {lost: player, won: "two"}
                 this.createGameOverButtons()
               }
             }
           } else {
-            if (p.death()) {
+            if (this.gameOver == null && p.death()) {
               switch (player) {
                 case "one":
                   this.gameOver = {lost: player, won: "two"}
@@ -152,6 +151,7 @@ loadScenes.gameScene = function() {
     gameOver: null,
     gameOverStuff: [],
     createGameOverButtons: function() {
+      console.log("GAMEOVER")
       let width = CANX/3
       let height = CANY/3
       let spacing = ScenesManager.scenes[MAINMENU].spacing
