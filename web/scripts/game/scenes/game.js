@@ -27,9 +27,10 @@ loadScenes.gameScene = function() {
         if (!(imopPacket == null)) {
           switch (imopPacket.name) {
             case "statusUpdate":
+              console.log(imopPacket)
               switch (imopPacket.data.code) {
                 case "dead":
-                  if (gameState.players.two.death()) {
+                  if (this.gameOver == null && gameState.players.two.death()) {
                     this.gameOver = {lost: "two", won: "one"}
                     this.createGameOverButtons()
                     socket.emit("gameOver", {p: 2})
@@ -91,20 +92,21 @@ loadScenes.gameScene = function() {
           p.update()
         }
         
+        //DEATH CHECK
         //if they are in the death zone
         //the lose condition only runs if the player is outside the bounds, this is risky
-        if (!collideRectRect(p.pos.x, p.pos.y, p.character.dimensions.width, p.character.dimensions.height, -100, -100, CANX + 200, CANY + 200)) {
+        if (this.gameOver == null && !collideRectRect(p.pos.x, p.pos.y, p.character.dimensions.width, p.character.dimensions.height, -100, -100, CANX + 200, CANY + 200)) {
           if (playingOnline) {
             if (player == "one") {
               socket.emit("statusUpdate", {code: "dead"})
-              if (this.gameOver == null && p.death()) {
+              if (p.death()) {
                 socket.emit("gameOver", {p: 1})
                 this.gameOver = {lost: player, won: "two"}
                 this.createGameOverButtons()
               }
             }
           } else {
-            if (this.gameOver == null && p.death()) {
+            if (p.death()) {
               switch (player) {
                 case "one":
                   this.gameOver = {lost: player, won: "two"}
@@ -223,7 +225,7 @@ loadScenes.gameScene = function() {
           stroke(255)
           rect(CANX/2, CANY/2, width, height)
           stroke(0, 0, 255)
-          if (this.gameOverStuff.soundStep == 0) {doSound("pound");this.gameOverStuff.soundStep++}
+          if (this.gameOverStuff.soundStep == 0) {doSound("pound");this.gameOverStuff.soundStep++;console.log(this.gameOverStuff.soundStep)}
           if (this.gameOverStuff.showDelay < -50) {
             fill(0, 255, 255, 255)
             text("GAME OVER", CANX/2, CANY/2 - height/2 + spacing)
