@@ -46,7 +46,7 @@ class Animation {
     if (this.debugVerbose) {console.log("Trimmed spritesheet: '", this.animationData.meta.image, "'")}
   }
 
-  play(x, y, flip=null) {//you pass in the character width so it knows where to draw the flip from
+  play(x, y, w=0, h=0, flip=false) {//you pass in the character width so it knows where to draw the flip from
     if (!this.complete) {
       this.frameTimeDelta += deltaTime
       if (this.frameTimeDelta > this.animationData.frames[this.currentFrame].duration) {
@@ -60,11 +60,17 @@ class Animation {
         }
       }
 
-      if (flip === null) {
-        image(this.frames[Math.floor(this.currentFrame)], x, y)
+      let yOffset = 0
+      if (this.animationData.hasOwnProperty("meta") && this.animationData.meta.hasOwnProperty("feet") && this.animationData.meta.feet) {
+        let img = this.flippedFrames[Math.floor(this.currentFrame)]
+        yOffset = h - img.height
+      }
+
+      if (!flip) {
+        image(this.frames[Math.floor(this.currentFrame)], x, y + yOffset)
       } else {
         let img = this.flippedFrames[Math.floor(this.currentFrame)]
-        image(img, x - (img.width - flip), y)
+        image(img, x - (img.width - w), y + yOffset)
       }
     }
   }

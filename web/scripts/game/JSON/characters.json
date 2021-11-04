@@ -15,7 +15,7 @@
       "acceleration": 1.1,
       "maxSpeedLR": 8.5,
       "maxFallSpeed": 15,
-      "totalJumps": 3,
+      "totalJumps": 2,
       "jumpFrameDelay": 15,
       "jumpForce": 14
     },
@@ -29,15 +29,15 @@
     "attacks": {
       "up": {
         "light": {
-          "animation": null,
+          "animation": "assets/characters/1/upHit.json",
           "hitboxes": [
             {
-              "area": {"x": 0, "y": -10, "w": 20, "h": 10},
-              "frameSpan": 3,
-              "frameOffset": 0,
+              "area": {"x": 10, "y": -10, "w": 20, "h": 10},
+              "frameSpan": 7,
+              "frameOffset": 360,
               "damage": 10,
               "stun": 10,
-              "direction": {"x": 0.34, "y": -0.93}
+              "direction": {"x": 0, "y": -1}
             }
           ],
           "movement": {
@@ -46,7 +46,7 @@
             "frameSpan": 0,
             "frameOffset": 0
           },
-          "frameCooldown": 20
+          "frameCooldown": 50
         },
         "special": {
           "animation": null,
@@ -108,38 +108,10 @@
             "frameSpan": 4,
             "frameOffset": 20
           },
-          "frameCooldown": 90
+          "frameCooldown": 70
         },
         "light": {
           "animation": "assets/characters/1/punch.json",
-          "hitboxes": [
-            {
-              "area":{"x": -10, "y": 10, "w": 10, "h": 20},
-              "frameSpan": 25,
-              "frameOffset": 400,
-              "damage": 3,
-              "stun": 30,
-              "direction": {"x": -1, "y": -0.2, "m": 7}
-            },
-            {
-              "area":{"x": -25, "y": 25, "w": 10, "h": 10},
-              "frameSpan": 5,
-              "frameOffset": 600,
-              "damage": 6,
-              "stun": 30,
-              "direction": {"x": -1, "y": -0.2, "m": 8}
-            }
-          ],
-          "movement": {
-            "vector": {"x": -1, "y": 0},
-            "speed": 10,
-            "frameSpan": 4,
-            "frameOffset": 20
-          },
-          "frameCooldown": 40
-        },
-        "special": {
-          "animation": "assets/characters/1/pulse.json",
           "hitboxes": [
             {
               "area":{"x": -10, "y": 10, "w": 10, "h": 20},
@@ -165,6 +137,26 @@
             "frameOffset": 20
           },
           "frameCooldown": 50
+        },
+        "special": {
+          "animation": "assets/characters/1/pulse.json",
+          "hitboxes": [
+            {
+              "area":{"x": -10, "y": 10, "w": 10, "h": 20},
+              "frameSpan": 25,
+              "frameOffset": 400,
+              "damage": 3,
+              "stun": 30,
+              "direction": {"x": -1, "y": -0.2, "m": 7}
+            }
+          ],
+          "movement": {
+            "vector": {"x": -1, "y": 0},
+            "speed": 10,
+            "frameSpan": 4,
+            "frameOffset": 20
+          },
+          "frameCooldown": 100
         }
       },
       "right": {
@@ -186,7 +178,7 @@
             "frameSpan": 2,
             "frameOffset": 20
           },
-          "frameCooldown": 90
+          "frameCooldown": 70
         },
         "light": {
           "animation": "assets/characters/1/punch.json",
@@ -200,7 +192,7 @@
               "direction": {"x": 1, "y": -0.2, "m": 7}
             },
             {
-              "area":{"x": 25, "y": 25, "w": 10, "h": 10},
+              "area":{"x": 50, "y": 25, "w": 10, "h": 10},
               "frameSpan": 5,
               "frameOffset": 600,
               "damage": 6,
@@ -214,9 +206,28 @@
             "frameSpan": 4,
             "frameOffset": 20
           },
-          "frameCooldown": 40
+          "frameCooldown": 50
         },
-        "special": {}
+        "special": {
+          "animation": "assets/characters/1/pulse.json",
+          "hitboxes": [
+            {
+              "area":{"x": 40, "y": 10, "w": 10, "h": 20},
+              "frameSpan": 25,
+              "frameOffset": 400,
+              "damage": 3,
+              "stun": 30,
+              "direction": {"x": 1, "y": -0.2, "m": 7}
+            }
+          ],
+          "movement": {
+            "vector": {"x": 1, "y": 0},
+            "speed": 10,
+            "frameSpan": 4,
+            "frameOffset": 20
+          },
+          "frameCooldown": 100
+        }
       }
     }
   }

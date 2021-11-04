@@ -270,16 +270,16 @@ class Player {
   show() {
     //show an attack animation first (if there is one) and if there is no current attack, show the movement animation (if there is one)
     if (this.stunned != 0) {
-      this.stunAnimation.play(this.pos.x, this.pos.y, (this.facingDirection == RIGHT) ? null : this.character.dimensions.width)
+      this.stunAnimation.play(this.pos.x, this.pos.y, this.character.dimensions.width, this.character.dimensions.height, (this.facingDirection == RIGHT) ? false : true)
     } else {
       if (this.attackAnimation != false && this.attackAnimation != null) {
-        this.attackAnimation.play(this.pos.x, this.pos.y, (this.facingDirection == RIGHT) ? null : this.character.dimensions.width)
+        this.attackAnimation.play(this.pos.x, this.pos.y, this.character.dimensions.width, this.character.dimensions.height, (this.facingDirection == RIGHT) ? false : true)
         if (this.attackAnimation.isComplete()) {
           this.attackAnimation = false
         }
       } else {
         if (this.moveAnimation instanceof Animation) {
-          this.moveAnimation.play(this.pos.x, this.pos.y, (this.facingDirection == RIGHT) ? null : this.character.dimensions.width)//this.character
+          this.moveAnimation.play(this.pos.x, this.pos.y, this.character.dimensions.width, this.character.dimensions.height, (this.facingDirection == RIGHT) ? false : true)//this.character
         }
       }
     }
