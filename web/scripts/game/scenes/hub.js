@@ -330,13 +330,18 @@ loadScenes.hubScene = function() {
       text("Rankings", CANX/2 + this.spacing + inter + (this.buttonSize - inter*2)/2, CANY/2 - this.buttonLevel + b_height + inter)
       fill(0, 255, 255)
       if (this.rankings != null) {
-        //show the top 9 players
-        for (let r = 0; r < this.rankings.length; r++) {
-          let record = this.rankings[r]
+        if (this.rankings.length == 0) {
           textAlign(LEFT, TOP)
-          text((r + 1).toString() + ". " + record.Username, CANX/2 + this.spacing + inter*2, CANY/2 - this.buttonLevel + b_height + this.spacing * r + this.spacing*2)
-          textAlign(RIGHT, TOP)
-          text(record.Elo, CANX/2 + this.spacing + this.buttonSize - inter*2, CANY/2 - this.buttonLevel + b_height + this.spacing * r + this.spacing*2)
+          text("No Players Ranked", CANX/2 + this.spacing + inter*2, CANY/2 - this.buttonLevel + b_height + this.spacing*2)
+        } else {
+          //show the top 9 players
+          for (let r = 0; r < this.rankings.length; r++) {
+            let record = this.rankings[r]
+            textAlign(LEFT, TOP)
+            text((r + 1).toString() + ". " + record.Username, CANX/2 + this.spacing + inter*2, CANY/2 - this.buttonLevel + b_height + this.spacing * r + this.spacing*2)
+            textAlign(RIGHT, TOP)
+            text(record.Elo, CANX/2 + this.spacing + this.buttonSize - inter*2, CANY/2 - this.buttonLevel + b_height + this.spacing * r + this.spacing*2)
+          }
         }
 
         //then add the current player's ranking below
