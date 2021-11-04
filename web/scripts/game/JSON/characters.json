@@ -9,15 +9,15 @@
       "run": "assets/characters/1/run.json"
     },
     "physics": {
-      "mass": 0.7,
-      "friction": 1.22,
+      "mass": 1,
+      "friction": 1.5,
       "airResistance": 1.01,
       "acceleration": 1.1,
-      "maxSpeedLR": 11,
-      "maxFallSpeed": 16,
-      "totalJumps": 4,
+      "maxSpeedLR": 8.5,
+      "maxFallSpeed": 15,
+      "totalJumps": 3,
       "jumpFrameDelay": 15,
-      "jumpForce": 13
+      "jumpForce": 14
     },
     "dimensions": {
       "width": 40,
