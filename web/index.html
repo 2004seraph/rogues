@@ -2,7 +2,7 @@
 <html prefix="og: https://ogp.me/ns#">
   <head>
     <script>
-      if ('../scripts/serviceWorker' in navigator) {
+      if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('./serviceWorker.js')
           .then(function(registration) {
             // Registration was successful
@@ -19,12 +19,14 @@
       "@context" : "http://schema.org",
       "@type" : "SoftwareApplication",
       "name": "ROGUES-ONLINE",
+      "screenshot": "https://rogues-online.samtaseff.repl.co/assets/decals/battlestar.png",
       "image": [
         "https://rogues-online.samtaseff.repl.co/assets/decals/battlestar.png",
         "https://rogues-online.samtaseff.repl.co/assets/decals/title.png"
       ],
       "operatingSystem": "WINDOWS",
       "applicationCategory": "GameApplication",
+      "applicationSubCategory": "Arcade",
       "offers": {
         "@type": "Offer",
         "price": "0",

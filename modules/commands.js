@@ -30,6 +30,12 @@ exports.commands = {
       PlayerDatabase.deleteTable(function() {
         CLI.printLine("Rebuilding Table")
         PlayerDatabase.initializeTable()
+        //log everyone out
+        // let sockets = io.sockets.sockets
+        // for (let socketId in sockets) {
+        //   let s = sockets[socketId]
+        //   accountEvents["signOut"](null, io, s)
+        // }
       })
     }
   },
