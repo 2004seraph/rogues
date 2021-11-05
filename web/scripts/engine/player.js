@@ -321,13 +321,13 @@ class Player {
   attack() {
     if (this.moveCoolDown == 0 && this.stunned == 0 && this.controls != null) {
       //find where the player is attacking, with precedence of left/right then up/down, finally, use facing
-      let direction = (keyIsDown(this.controls.left)) ? LEFT : ((keyIsDown(this.controls.right)) ? RIGHT : ((keyIsDown(this.controls.up)) ? UP : ((keyIsDown(this.controls.down)) ? DOWN : (this.facingDirection))))
+      let direction = (keyIsDown(this.controls.left)) ? LEFT : ((keyIsDown(this.controls.right)) ? RIGHT : ((keyIsDown(this.controls.up)) ? UP : this.facingDirection))
 
       let moveType = (keyIsDown(this.controls.lightAttack)) ? LIGHT : ((keyIsDown(this.controls.heavyAttack)) ? HEAVY : ((keyIsDown(this.controls.specialAttack)) ? SPECIAL : null))
 
-      if ((direction == DOWN && this.grounded == true) || moveType === null) {
-        //do not allow downward attacks on the ground
-      } else {
+      // if ((direction == DOWN && this.grounded == true) || moveType === null) {
+      //   //do not allow downward attacks on the ground
+      // } else {
         // if (keyIsDown(this.controls.lightAttack)) {
         //   this.startMove(direction, LIGHT)
         //   return
@@ -340,9 +340,12 @@ class Player {
         //   this.startMove(direction, SPECIAL)
         //   return
         // }
-
+      //use a jump for an air move
+      if (moveType != null && this.deltaJumps + 1 < this.character.physics.totalJumps) {
+        this.deltaJumps++
         this.startMove(direction, moveType)
       }
+      //}
     }
 
     //iterate the delta time since the move was used, if the delta exceeds the frameOffset, activate the hitbox
@@ -375,11 +378,6 @@ class Player {
   startMove(direction, whatMove) {
     switch (direction) {
       case UP:
-        if (whatMove == HEAVY) {
-          return
-        }
-        break
-      case DOWN:
         if (whatMove == HEAVY) {
           return
         }

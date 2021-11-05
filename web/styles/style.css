@@ -22,6 +22,18 @@ body {
   margin: auto;
 }
 
+
+
+/* @media only screen and (max-width : 800px) {
+  #P5Container {
+    display: none;
+  }
+  #badScreen {
+    color: white;
+    display: display;
+  }
+} */
+
 input {
   font-family: joystixmonospace, Arial, Helvetica, sans-serif;
   font-size: 24px;

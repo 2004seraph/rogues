@@ -75,7 +75,7 @@ function continueSoundLoading() {
 }
 
 function continueCharacterLoading() {
-  Loader.changeLimit(Object.keys(characters).length * 14)
+  Loader.changeLimit(Object.keys(characters).length * 13)
   loadUp()//because it has loaded the character JSON file
 
   for (let c in characters) {
@@ -95,10 +95,8 @@ function continueCharacterLoading() {
         ASSETS.animations[c].movement[mov] = new Animation()
         ASSETS.animations[c].movement[mov].setData(movementAnim)
         ASSETS.animations[c].movement[mov].repeat = true
-        //loadUp()
       } else {
-        console.log(c, "skipped movement animation")
-        //loadUp()
+        console.log("Char:", c, "[skipped movement animation]")
       }
       loadUp()//replace
     }
@@ -116,11 +114,9 @@ function continueCharacterLoading() {
           Loader.changeLimit(2)
           ASSETS.animations[c][dir][moveType] = new Animation()
           ASSETS.animations[c][dir][moveType].setData(move.animation)
-          //loadUp()
         } else {
           ASSETS.animations[c][dir][moveType] = null
-          console.log(c, "skipped attack animation")
-          //loadUp()
+          console.log("Char:", c, "[skipped attack animation]")
         }
         loadUp()//replace
       }

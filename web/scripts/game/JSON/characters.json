@@ -37,7 +37,7 @@
               "frameOffset": 360,
               "damage": 10,
               "stun": 10,
-              "direction": {"x": 0, "y": -1}
+              "direction": {"x": 0, "y": -1, "m": 10}
             }
           ],
           "movement": {
@@ -56,7 +56,8 @@
               "frameSpan": 10,
               "frameOffset": 0,
               "damage": 10,
-              "direction": {"x": 0.34, "y": 0.93}
+              "stun": 5,
+              "direction": {"x": 0.34, "y": 0.93, "m": 1}
             }
           ],
           "movement": {
@@ -66,27 +67,6 @@
             "frameOffset": 0
           },
           "frameCooldown": 80
-        }
-      },
-      "down": {
-        "light": {
-          "animation": null,
-          "hitboxes": [
-            {
-              "area": {"x": 0, "y": 40, "w": 20, "h": 10},
-              "frameSpan": 30,
-              "frameOffset": 0,
-              "damage": 10,
-              "direction": {"x": 0.86, "y": -0.5, "m": 7}
-            }
-          ],
-          "movement": {
-            "vector": {"x": 0, "y": 0},
-            "speed": 0,
-            "frameSpan": 0,
-            "frameOffset": 0
-          },
-          "frameCooldown": 35
         }
       },
       "left": {
@@ -145,7 +125,7 @@
               "area":{"x": -10, "y": 10, "w": 10, "h": 20},
               "frameSpan": 25,
               "frameOffset": 400,
-              "damage": 3,
+              "damage": 20,
               "stun": 30,
               "direction": {"x": -1, "y": -0.2, "m": 7}
             }
@@ -195,7 +175,7 @@
               "area":{"x": 50, "y": 25, "w": 10, "h": 10},
               "frameSpan": 5,
               "frameOffset": 600,
-              "damage": 6,
+              "damage": 20,
               "stun": 30,
               "direction": {"x": 1, "y": -0.2, "m": 8}
             }
