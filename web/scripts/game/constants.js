@@ -9,7 +9,7 @@ const CHARACTERSELECT = 5
 const LEVELSELECT = 6
 
 //GAME (numerical constants)
-const GRAVITY = 0.85
+const GRAVITY = 0.6
 const PARRALAX = 10
 const PUNCHPOWER = 1
 //visual

@@ -45,7 +45,7 @@ function collide(sprite, tiles) {
   }
 
   return {
-    pos: corrected_position, 
+    pos: corrected_position,
     vel: corrected_velocity,
     has: {x: xHit, y: yHit}
   }

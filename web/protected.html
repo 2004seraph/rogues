@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html prefix="og: https://ogp.me/ns#">
+  <head>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./serviceWorker.js')
+          .then(function(registration) {
+            // Registration was successful
+            console.log('ServiceWorker registration successful with scope: ', registration.scope)
+          }).catch(function(err) {
+            // registration failed :(
+            console.log('ServiceWorker registration failed: ', err)
+          }
+        )
+      }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "SoftwareApplication",
+      "name": "ROGUES-ONLINE",
+      "screenshot": "https://rogues.cyanseraph.net/assets/decals/battlestar.png",
+      "image": [
+        "https://rogues.cyanseraph.net/assets/decals/battlestar.png",
+        "https://rogues.cyanseraph.net/assets/decals/title.png"
+      ],
+      "operatingSystem": "WINDOWS",
+      "applicationCategory": "GameApplication",
+      "applicationSubCategory": "Arcade",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "GBP"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5",
+        "reviewCount": "4000"
+      }
+    }
+    </script>
+
+    <meta name="google-site-verification" content="c4aajzqBH9wDAbGVncc-Dyjz02m_MjeeEzzcxf3ymqQ" />
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles/style.css" rel="stylesheet" type="text/css" />
+    <link href="styles/buttons.css" rel="stylesheet" type="text/css" />
+    <link rel="manifest" href="manifest.json" crossorigin="use-credentials">
+
+    <title>ROGUES ONLINE</title>
+
+    <!-- basic Meta Tags -->
+    <meta property="og:title" content="Play Now!" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://rogues.cyanseraph.net/" />
+    <meta property="og:image" content="https://rogues.cyanseraph.net/assets/decals/battlestar.png" />
+    <meta name="description" content="A free web-based platform fighting game." />
+    <meta name="keywords" content="fight, platform, platformer, battle, online, free, smash, game">
+    <meta name="author" content="sammot">
+
+    <meta http-equiv="refresh" content="18000">
+
+    <!-- facebook Meta Tags -->
+    <meta property="og:description" content="A free web-based platform fighting game." />
+    <meta property="og:site_name" content="ROGUES_ONLINE" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="en_GB" />
+    <meta name="theme-color" content="#6ff4ff">
+
+    <style>
+      #badScreen {
+        color: white;
+        display: none;
+      }
+
+      @media only screen and (max-width : 1100px) {
+        #P5Container {
+          display: none;
+        }
+        #badScreen {
+          display: flex;
+        }
+      }
+      @media only screen and (max-height : 700px) {
+        #P5Container {
+          display: none;
+        }
+        #badScreen {
+          display: flex;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <script type='text/javascript' src="scripts/libraries/p5.min.js"></script>
+    <script type='text/javascript' src="scripts/libraries/p5.sound.min.js"></script>
+    <script type='text/javascript' src="scripts/libraries/socketio.js"></script>
+
+    <script type='text/javascript' src="scripts/game/constants.js"></script>
+    <script type='text/javascript' src="scripts/game/parameters.js"></script>
+
+    <script type='text/javascript' src="scripts/engine/particle.js"></script>
+    <script type='text/javascript' src="scripts/engine/loader.js"></script>
+    <script type='text/javascript' src="scripts/engine/camera.js"></script>
+    <script type='text/javascript' src="scripts/engine/collisions/collider.js"></script>
+    <script type='text/javascript' src="scripts/engine/collisions/collisionManager.js"></script>
+    <script type='text/javascript' src="scripts/engine/sceneManager.js"></script>
+    <script type='text/javascript' src="scripts/engine/button.js"></script>
+    <script type='text/javascript' src="scripts/engine/player.js"></script>
+    <script type='text/javascript' src="scripts/engine/utils.js"></script>
+    <script type='text/javascript' src="scripts/engine/attackManager.js"></script>
+    <script type='text/javascript' src="scripts/engine/animation.js"></script>
+    <script type='text/javascript' src="scripts/engine/dialog.js"></script>
+    
+    <script type='text/javascript' src="scripts/game/test.js"></script>
+
+    <script type='text/javascript' src="scripts/game/assetLoader.js"></script>
+    <script type='text/javascript' src="scripts/game/gameView.js"></script>
+    <script type='text/javascript' src="scripts/game/level.js"></script>
+    <script type='text/javascript' src="scripts/game/network.js"></script>
+    <script type='text/javascript' src="scripts/game/scenes.js"></script>
+    <script type='text/javascript' src="scripts/game/scenes/loading.js"></script>
+    <script type='text/javascript' src="scripts/game/scenes/start.js"></script>
+    <script type='text/javascript' src="scripts/game/scenes/hub.js"></script>
+    <script type='text/javascript' src="scripts/game/scenes/charSelect.js"></script>
+    <script type='text/javascript' src="scripts/game/scenes/stageSelect.js"></script>
+    <script type='text/javascript' src="scripts/game/scenes/game.js"></script>
+    <script type='text/javascript' src="scripts/game/scenes/credits.js"></script>
+
+    <script src="main.js"></script>
+
+    <div id="P5Container"></div>
+    <div id="badScreen" style="text-align: center;color: white;">
+      Your device resolution is too low: make sure you are using a PC or try zooming out of this webpage.
+    </div>
+  </body>
+</html>

@@ -105,18 +105,16 @@ class Player {
     this.moveAnimation = ASSETS.animations[this.charID].movement.idle
 
     if (this.controls != null && this.stunned == 0 && this.moveCoolDown == 0) {
-      //if (this.grounded || (keyIsDown(this.controls.jump) && this.jumpLock == false && (this.deltaJumps + 1 < this.character.physics.totalJumps && this.jumpCooldown == 0))) {
         if (keyIsDown(this.controls.left)) {
           //a
           inputVector.set(-1, inputVector.y)
           this.facingDirection = LEFT
+          this.moveAnimation = ASSETS.animations[this.charID].movement.run
         }
         if (keyIsDown(this.controls.right)) {
           //d
           inputVector.set(1, inputVector.y)
           this.facingDirection = RIGHT
-        }
-        if (keyIsDown(this.controls.right) || keyIsDown(this.controls.left)) {
           this.moveAnimation = ASSETS.animations[this.charID].movement.run
         }
 
@@ -150,7 +148,7 @@ class Player {
 
     //potential error, maybe change to .mag()
     //slow down
-    if (inputVector.x == 0) {
+    if (inputVector.x == 0) {// && this.stunned == 0
       if (this.grounded) {
         this.velocity.set(this.velocity.x/this.character.physics.friction, this.velocity.y)//constantly slow the player down if they are on the ground
       } else {
@@ -166,7 +164,9 @@ class Player {
       this.velocity.set(-this.character.physics.maxSpeedLR, this.velocity.y)
     }
 
-    this.velocity.add(inputVector.mult(this.character.physics.acceleration * timeScaler()))
+    if (this.stunned == 0) {
+      this.velocity.add(inputVector.mult(this.character.physics.acceleration * timeScaler()))
+    }
   }
 
   update() {
@@ -178,8 +178,10 @@ class Player {
         this.stunned = stun
       }
       if (launch.x + launch.y !== 0) {
-        console.log
-        this.velocity.set(launch.x, launch.y)
+        
+        this.velocity = createVector(launch.x, launch.y)
+        console.log(this.velocity)
+        //cancel own move
       }
     }
 

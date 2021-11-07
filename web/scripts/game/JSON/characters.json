@@ -15,9 +15,9 @@
       "acceleration": 1.1,
       "maxSpeedLR": 8.5,
       "maxFallSpeed": 15,
-      "totalJumps": 2,
+      "totalJumps": 3,
       "jumpFrameDelay": 15,
-      "jumpForce": 14
+      "jumpForce": 13
     },
     "dimensions": {
       "width": 40,
@@ -61,10 +61,10 @@
             }
           ],
           "movement": {
-            "vector": {"x": 0, "y": 0},
-            "speed": 0,
-            "frameSpan": 0,
-            "frameOffset": 0
+            "vector": {"x": 0, "y": -1},
+            "speed": 20,
+            "frameSpan": 4,
+            "frameOffset": 10
           },
           "frameCooldown": 80
         }
@@ -79,7 +79,7 @@
               "frameOffset": 400,
               "damage": 16,
               "stun": 60,
-              "direction": {"x": -1, "y": -0.8, "m": 80}
+              "direction": {"x": -1, "y": -0.8, "m": 10}
             }
           ],
           "movement": {
@@ -99,7 +99,7 @@
               "frameOffset": 400,
               "damage": 3,
               "stun": 30,
-              "direction": {"x": -1, "y": -0.2, "m": 7}
+              "direction": {"x": -1, "y": 0, "m": 1000}
             },
             {
               "area":{"x": -25, "y": 25, "w": 10, "h": 10},
@@ -107,7 +107,7 @@
               "frameOffset": 600,
               "damage": 6,
               "stun": 30,
-              "direction": {"x": -1, "y": -0.2, "m": 8}
+              "direction": {"x": -1, "y": 0, "m": 1000}
             }
           ],
           "movement": {
@@ -133,7 +133,7 @@
           "movement": {
             "vector": {"x": -1, "y": 0},
             "speed": 10,
-            "frameSpan": 4,
+            "frameSpan": 2,
             "frameOffset": 20
           },
           "frameCooldown": 100
@@ -149,7 +149,7 @@
               "frameOffset": 400,
               "damage": 16,
               "stun": 60,
-              "direction": {"x": 1, "y": -0.8, "m": 8}
+              "direction": {"x": 1, "y": -0.8, "m": 10}
             }
           ],
           "movement": {
@@ -169,7 +169,7 @@
               "frameOffset": 400,
               "damage": 3,
               "stun": 30,
-              "direction": {"x": 1, "y": -0.2, "m": 7}
+              "direction": {"x": 1, "y": 0, "m": 1000}
             },
             {
               "area":{"x": 50, "y": 25, "w": 10, "h": 10},
@@ -177,7 +177,7 @@
               "frameOffset": 600,
               "damage": 20,
               "stun": 30,
-              "direction": {"x": 1, "y": -0.2, "m": 8}
+              "direction": {"x": 1, "y": 0, "m": 1000}
             }
           ],
           "movement": {
@@ -203,7 +203,7 @@
           "movement": {
             "vector": {"x": 1, "y": 0},
             "speed": 10,
-            "frameSpan": 4,
+            "frameSpan": 2,
             "frameOffset": 20
           },
           "frameCooldown": 100
