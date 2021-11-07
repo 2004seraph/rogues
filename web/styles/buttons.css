@@ -1,0 +1,54 @@
+#accountButton {
+  transition-duration: 0s;
+  background-image: url("../assets/buttons/account.png"), linear-gradient(rgb(75, 0, 173), rgb(255, 0, 212));
+  background-repeat: no-repeat;
+  background-position: center;
+}
+#accountButton::after {
+  transition-duration: 0.7s;
+}
+#accountButton:hover {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAABlBMVEUAAAAA//8bQaswAAAAAXRSTlMAQObYZgAAANlJREFUeNq91tEOQiEAguGf93/pbpspori4bPDVTjZjHX2F02iScp4Tskn2lTAv54SpRYLv7IX8HW73vuPmSe30e873mXBzVpO9fVnb4u5U+b0/v9Oj7vb+mbm9EQYAAywL6QdYN2og2XvhGcA5wCtAHaBHwN3V9h7wAn8G8HsPaJkIkM0e0CZzQDeApoC2GQE6gFeAov2k2gODkADjvge4B/jBMmDx5FJgch+fA4tjHQNa/ARTwPxJigBz050EOgE6AToBOgE6AToBOgGfah4IRGnWhuA02fgDkH8IUcWQOpsAAAAASUVORK5CYII="), linear-gradient(rgb(48, 0, 110), rgb(255, 0, 157));
+  color: rgb(255, 255, 255);
+}
+#accountButton[disabled=disabled], #accountButton:disabled {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAABlBMVEUAAAAA//8bQaswAAAAAXRSTlMAQObYZgAAANlJREFUeNq91tEOQiEAguGf93/pbpspori4bPDVTjZjHX2F02iScp4Tskn2lTAv54SpRYLv7IX8HW73vuPmSe30e873mXBzVpO9fVnb4u5U+b0/v9Oj7vb+mbm9EQYAAywL6QdYN2og2XvhGcA5wCtAHaBHwN3V9h7wAn8G8HsPaJkIkM0e0CZzQDeApoC2GQE6gFeAov2k2gODkADjvge4B/jBMmDx5FJgch+fA4tjHQNa/ARTwPxJigBz050EOgE6AToBOgE6AToBOgGfah4IRGnWhuA02fgDkH8IUcWQOpsAAAAASUVORK5CYII="), linear-gradient(rgb(104, 0, 240), rgb(110, 0, 92));
+  color: rgb(89, 59, 255);
+}
+
+.startButtons {
+  border-bottom-left-radius: 50px;
+}
+
+.characterChoose {
+  background-repeat: no-repeat;
+  background-position: center;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 0px;
+
+  cursor: pointer;
+
+  background-size: contain;
+
+}
+
+.characterChoose, div {
+  background-color: rgb(13, 0, 70);
+  margin: 0px;
+}
+
+#roomCodeDisplay {
+  z-index: 3;
+  background-image: linear-gradient(rgb(0, 14, 138), rgb(36, 124, 255));
+  color: rgb(0, 255, 213);
+  font-family: joystixmonospace, Arial, Helvetica, sans-serif;
+  font-size: 50px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

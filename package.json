@@ -1,0 +1,25 @@
+{
+  "name": "rogues-online",
+  "version": "1.0.0",
+  "description": "My Computer Science project; a web-based 2D platform fighting game.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sammot/rogues.git"
+  },
+  "keywords": [],
+  "author": "Sam Taseff",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sammot/rogues/issues"
+  },
+  "homepage": "https://github.com/Sammot/rogues#readme",
+  "dependencies": {
+    "express": "~4.17.1",
+    "socket.io": "~4.3.1",
+    "sqlite3": "~5.0.2"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "ROGUES-ONLINE",
+  "short_name": "ROGUES",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#00ffee",
+  "theme_color": "#00ffee",
+  "description": "An online platform fighter",
+  "scope": "/",
+  "orientation": "landscape",
+  "lang": "en-US",
+  "categories": ["entertainment", "games"],
+  "icons": [
+    {
+      "src": "/assets/decals/battlestar.png",
+      "sizes": "170x170"
+    }
+  ]
+}
