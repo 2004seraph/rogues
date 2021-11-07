@@ -14,7 +14,7 @@
       "airResistance": 1.01,
       "acceleration": 1.1,
       "maxSpeedLR": 8.5,
-      "maxFallSpeed": 15,
+      "maxFallSpeed": 14,
       "totalJumps": 3,
       "jumpFrameDelay": 15,
       "jumpForce": 11
@@ -88,7 +88,7 @@
             "frameSpan": 4,
             "frameOffset": 20
           },
-          "frameCooldown": 70
+          "frameCooldown": 60
         },
         "light": {
           "animation": "assets/characters/1/punch.json",
@@ -98,7 +98,7 @@
               "frameSpan": 25,
               "frameOffset": 400,
               "damage": 3,
-              "stun": 30,
+              "stun": 20,
               "direction": {"x": -1, "y": 0, "m": 10}
             },
             {
@@ -106,7 +106,7 @@
               "frameSpan": 5,
               "frameOffset": 600,
               "damage": 6,
-              "stun": 30,
+              "stun": 20,
               "direction": {"x": -1, "y": 0, "m": 10}
             }
           ],
@@ -158,7 +158,7 @@
             "frameSpan": 2,
             "frameOffset": 20
           },
-          "frameCooldown": 70
+          "frameCooldown": 60
         },
         "light": {
           "animation": "assets/characters/1/punch.json",
@@ -168,15 +168,15 @@
               "frameSpan": 25,
               "frameOffset": 400,
               "damage": 3,
-              "stun": 30,
+              "stun": 20,
               "direction": {"x": 1, "y": 0, "m": 10}
             },
             {
-              "area":{"x": 50, "y": 25, "w": 10, "h": 10},
+              "area":{"x": 60, "y": 25, "w": 10, "h": 10},
               "frameSpan": 5,
               "frameOffset": 600,
               "damage": 20,
-              "stun": 30,
+              "stun": 20,
               "direction": {"x": 1, "y": 0, "m": 10}
             }
           ],
