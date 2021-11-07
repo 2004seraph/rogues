@@ -23,8 +23,8 @@ function attackCheck(thisPlayer) {
           totalDamage += theHitbox.move.damage - thisPlayerDefense
           stun = theHitbox.move.stun - Math.floor(thisPlayerDefense/2)
           
-          throwVector.x = theHitbox.move.direction.x * PUNCHPOWER * theHitbox.move.direction.m * (1 + thisPlayer.damage/10)
-          throwVector.y = theHitbox.move.direction.y * PUNCHPOWER * theHitbox.move.direction.m * (1 + thisPlayer.damage/10)
+          throwVector.x = theHitbox.move.direction.x * PUNCHPOWER * theHitbox.move.direction.m * (1 + thisPlayer.damage/100)
+          throwVector.y = theHitbox.move.direction.y * PUNCHPOWER * theHitbox.move.direction.m * (1 + thisPlayer.damage/100)
 
 
           if (!spamHitboxes) {

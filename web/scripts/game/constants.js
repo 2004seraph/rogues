@@ -12,6 +12,12 @@ const LEVELSELECT = 6
 const GRAVITY = 0.6
 const PARRALAX = 10
 const PUNCHPOWER = 1
+
+const MAXDXPERFRAME = 60
+const MAXDYPERFRAME = 60
+const MOVEDDECAY = 1.1
+
+const MAXDAMAGE = 600
 //visual
 const GAMERTAGHEIGHT = 90
 const FRAMERATE = 60

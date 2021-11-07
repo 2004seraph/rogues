@@ -23,6 +23,8 @@ class Player {
     this.damage = 0
     this.lives = 3
 
+    this.launchVelocity = createVector(0, 0)
+
     this.queuedHitboxes = []
     this.activeHitboxes = []
 
@@ -156,17 +158,19 @@ class Player {
       }
     }
 
-    //apply max speed limits
-    if (this.velocity.x > this.character.physics.maxSpeedLR) {
-      this.velocity.set(this.character.physics.maxSpeedLR, this.velocity.y)
-    }
-    if (this.velocity.x < -this.character.physics.maxSpeedLR) {
-      this.velocity.set(-this.character.physics.maxSpeedLR, this.velocity.y)
-    }
-
     if (this.stunned == 0) {
       this.velocity.add(inputVector.mult(this.character.physics.acceleration * timeScaler()))
     }
+  }
+
+  trueVelocity() {
+    let v
+    if (this.launchVelocity.mag() < 1) {
+      v = this.velocity
+    } else {
+      v = this.launchVelocity
+    }
+    return v
   }
 
   update() {
@@ -174,13 +178,15 @@ class Player {
     if (this.invulnerable == 0) {
       let {damage, launch, stun} = attackCheck(this)
       this.damage += damage
+      if (this.damage > MAXDAMAGE) {
+        this.damage = MAXDAMAGE
+      }
       if (this.stunned < stun) {
         this.stunned = stun
       }
       if (launch.x + launch.y !== 0) {
         
-        this.velocity = createVector(launch.x, launch.y)
-        console.log(this.velocity)
+        this.launchVelocity = createVector(launch.x, launch.y)
         //cancel own move
       }
     }
@@ -198,22 +204,43 @@ class Player {
     } else {
       //if there is no move propulsion, assume normal input
       this.move()//take user control input
+      //apply speed limits
       if (this.velocity.y > this.character.physics.maxFallSpeed) {
         this.velocity.set(this.velocity.x, this.character.physics.maxFallSpeed)
       }
       if (this.velocity.y < -this.character.physics.maxFallSpeed) {
         this.velocity.set(this.velocity.x, -this.character.physics.maxFallSpeed)
       }
+      if (this.velocity.x > this.character.physics.maxSpeedLR) {
+        this.velocity.set(this.character.physics.maxSpeedLR, this.velocity.y)
+      }
+      if (this.velocity.x < -this.character.physics.maxSpeedLR) {
+        this.velocity.set(-this.character.physics.maxSpeedLR, this.velocity.y)
+      }
 
       //this weird if statement is meant to stop the players not colliding when the user tabs out of the game
       if (!this.grounded) {
         this.velocity.add(0, GRAVITY * this.character.physics.mass * timeScaler())//constantly pull the player down with gravity
       } else {
-        this.velocity.add(0, 1)
+        this.velocity.add(0, 1)//to stop collide-uncollide loop
       }
     }
 
-    this.pos.add(this.velocity)//actually move the player.mult( deltaTime / 10 )
+    if (this.launchVelocity.y > MAXDYPERFRAME) {
+      this.launchVelocity.set(this.launchVelocity.x, MAXDYPERFRAME)
+    }
+    if (this.launchVelocity.y < -MAXDYPERFRAME) {
+      this.launchVelocity.set(this.launchVelocity.x, -MAXDYPERFRAME)
+    }
+    if (this.launchVelocity.x > MAXDXPERFRAME) {
+      this.launchVelocity.set(MAXDXPERFRAME, this.launchVelocity.y)
+    }
+    if (this.launchVelocity.x < -MAXDXPERFRAME) {
+      this.launchVelocity.set(-MAXDXPERFRAME, this.launchVelocity.y)
+    }
+    this.launchVelocity.set(this.launchVelocity.x/MOVEDDECAY, this.launchVelocity.y/MOVEDDECAY)
+
+    this.pos.add(this.trueVelocity())//actually move the player.mult( deltaTime / 10 )
     
     //all the sprite properties of the player being put into an object
     let spriteInfo = {
@@ -262,7 +289,7 @@ class Player {
     this.attack()
 
     //check if player is on the grounded
-    if (this.velocity.y == 0 && (pastPos.y - this.pos.y) > 0) {
+    if ((pastPos.y - this.pos.y) > 0) {
       this.grounded = true
     } else {
       this.grounded = false

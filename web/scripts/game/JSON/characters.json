@@ -17,7 +17,7 @@
       "maxFallSpeed": 15,
       "totalJumps": 3,
       "jumpFrameDelay": 15,
-      "jumpForce": 13
+      "jumpForce": 11
     },
     "dimensions": {
       "width": 40,
@@ -46,7 +46,7 @@
             "frameSpan": 0,
             "frameOffset": 0
           },
-          "frameCooldown": 50
+          "frameCooldown": 40
         },
         "special": {
           "animation": null,
@@ -99,7 +99,7 @@
               "frameOffset": 400,
               "damage": 3,
               "stun": 30,
-              "direction": {"x": -1, "y": 0, "m": 1000}
+              "direction": {"x": -1, "y": 0, "m": 10}
             },
             {
               "area":{"x": -25, "y": 25, "w": 10, "h": 10},
@@ -107,16 +107,16 @@
               "frameOffset": 600,
               "damage": 6,
               "stun": 30,
-              "direction": {"x": -1, "y": 0, "m": 1000}
+              "direction": {"x": -1, "y": 0, "m": 10}
             }
           ],
           "movement": {
             "vector": {"x": -1, "y": 0},
-            "speed": 10,
+            "speed": 3,
             "frameSpan": 4,
             "frameOffset": 20
           },
-          "frameCooldown": 50
+          "frameCooldown": 40
         },
         "special": {
           "animation": "assets/characters/1/pulse.json",
@@ -169,7 +169,7 @@
               "frameOffset": 400,
               "damage": 3,
               "stun": 30,
-              "direction": {"x": 1, "y": 0, "m": 1000}
+              "direction": {"x": 1, "y": 0, "m": 10}
             },
             {
               "area":{"x": 50, "y": 25, "w": 10, "h": 10},
@@ -177,16 +177,16 @@
               "frameOffset": 600,
               "damage": 20,
               "stun": 30,
-              "direction": {"x": 1, "y": 0, "m": 1000}
+              "direction": {"x": 1, "y": 0, "m": 10}
             }
           ],
           "movement": {
             "vector": {"x": 1, "y": 0},
-            "speed": 10,
+            "speed": 3,
             "frameSpan": 4,
             "frameOffset": 20
           },
-          "frameCooldown": 50
+          "frameCooldown": 40
         },
         "special": {
           "animation": "assets/characters/1/pulse.json",
