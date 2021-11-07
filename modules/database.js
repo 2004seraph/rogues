@@ -38,6 +38,28 @@ module.exports = class PlayerDatabase {
     })
   }
 
+  resetUserData(callback=function() {}) {
+    this.database.run(`UPDATE Players SET Data=?`, ['{}'], function(err) {
+      if (err) {
+        CLI.printLine("Reser User Data Error:")
+        CLI.printLine(err)
+      } else {
+        callback()
+      }
+    })
+  }
+
+  resetUserElo(callback=function() {}) {
+    this.database.run(`UPDATE Players SET Elo=?`, [1000], function(err) {
+      if (err) {
+        CLI.printLine("Reser User Elo Error:")
+        CLI.printLine(err)
+      } else {
+        callback()
+      }
+    })
+  }
+
   addUser(username, passwordHash, elo, callback=function() {}) {
     let date = new Date()
     // Convert it to an ISO string

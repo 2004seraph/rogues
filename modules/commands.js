@@ -39,6 +39,20 @@ exports.commands = {
       })
     }
   },
+  "clearUserData":  {
+    "command": function(args) {
+      PlayerDatabase.resetUserData(function() {
+        CLI.printLine("Cleared User Data")
+      })
+    }
+  },
+  "clearUserElo":  {
+    "command": function(args) {
+      PlayerDatabase.resetUserElo(function() {
+        CLI.printLine("Reset User Elo")
+      })
+    }
+  },
   "allowSignups": {
     "command": function(args) {
       if (args[0] == "false") {
