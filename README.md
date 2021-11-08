@@ -2,8 +2,8 @@
 My Computer Science project; a 2D web-based multiplayer platform fighting game.
 
 ## Operation
-```
-PORT=<Webserver port> node index.js
+```console
+~$ PORT=<Webserver port> node index.js
 ```
 
 ## TODO List
