@@ -1,6 +1,11 @@
 # **Rogues-Online**
 My Computer Science project; a 2D web-based multiplayer platform fighting game.
 
+## Operation
+```
+PORT=<Webserver port> node index.js
+```
+
 ## TODO List
 ### Musts:
    - [x] when you tab out and tab back in the colliders will break
@@ -33,4 +38,3 @@ My Computer Science project; a 2D web-based multiplayer platform fighting game.
  - [ ] finish implementing scalable resolution
  - [ ] try vector-midpoint collsion detection
  - [ ] minify the game
- - <input type="checkbox"/>
