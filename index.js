@@ -38,7 +38,7 @@ const { accountEvents, gameEvents, matchMaking } = require("./modules/serverFunc
 global.GlobalServerInfo = {
   username: {
     min: 3,
-    max: 12
+    max: 7
   },
   password: {
     min: 6,
@@ -61,6 +61,40 @@ global.runningRooms = {}
 //global.updateLastRequest = function() {lastRequest = Date.now()}
 global.spamStop = false
 
+
+setInterval(() => {
+  let matchMakers = []
+  let currentSockets = Array.from(io.sockets.sockets)
+  for (let socket of currentSockets) {
+    let socketObject = socket[1]
+    if (socketObject.matchmake == true) {
+      matchMakers.push(socketObject)
+    }
+  }
+
+  for (let i = matchMakers.length - 1; i > 0; i--) {
+    if (matchMakers.length >= 2) {
+      let player = io.sockets.sockets.get(matchMakers[i].id)
+      player.matchmake = false
+      matchMakers.splice(i, 1)
+
+      let opponentIndex = Math.floor(Math.random(matchMakers.length))
+      let opponent = matchMakers[opponentIndex]
+      opponent.matchmake = false
+      matchMakers.splice(opponentIndex, 1)
+
+      matchMaking["createRoom"](null, io, player)
+      let roomCode = player.id.substring(0, 6).toUpperCase()
+      matchMaking["joinRoom"]({room: roomCode}, io, opponent)
+
+      i--
+    } else {
+      //not enough players to matchmake
+      return
+    }
+  }
+}, 1000)
+
 io.on('connection', function(socket) {
   //limit connections to protect server
   if (io.engine.clientsCount > connectionsLimit) {
@@ -81,16 +115,20 @@ io.on('connection', function(socket) {
   //they are not signed in
   socket.authorised = null
 
+  socket.matchmake = false
+
   //cooldowns
   socket.accountCooldown = {
     timer: setInterval(function() {
       if (socket.accountCooldown.time > 0) {
         socket.accountCooldown.time -= 100
-        //console.log(socket.accountCooldown.time)
       }
     }, 100),
     time: 0
   }
+  socket.valueChecker = setInterval(() => {
+    if (socket.authorised == null) {socket.matchmake = false}
+  }, 100)
 
   CLI.printLine("connected to " + socket.id)
   concurrentUsers++

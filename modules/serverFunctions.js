@@ -98,6 +98,8 @@ exports.accountEvents = {
       exports.matchMaking["deleteRoom"](null, io, socket)
 
       concurrentOnlineUsers--
+
+      exports.matchMaking["stopMatchmake"](null, io, socket)
       
       //socket.openRoom = false
       PlayerDatabase.setOnlineStatus(socket.authorised.id, "false", function() {//sign them out
@@ -148,7 +150,9 @@ exports.matchMaking = {
         if (runningRooms[roomCode].players < 2) {//if the room exists and there is space
           runningRooms[roomCode].players++
           socket.join(roomCode)
-          socket.to(roomCode).emit("roomCode", {code: "opponentJoined"})
+          exports.accountEvents["getUserData"](socket.authorised.id, (rec) => {//give client details to host
+            socket.to(roomCode).emit("roomCode", {code: "opponentJoined", opponentName: rec.Username, opponentElo: rec.Elo})
+          })
 
           //this is all just to find their opponent
           let rooms = Array.from(io.sockets.adapter.rooms)
@@ -156,8 +160,8 @@ exports.matchMaking = {
             if (room[0] == roomCode) {//find the current room
               let clientIds = Array.from(room[1])
               let hostAccountID = io.sockets.sockets.get(clientIds[0]).authorised.id//get the authorised account from the host socket (always index zero, because they created the room)
-              exports.accountEvents["getUserData"](hostAccountID, (hostAccount) => {
-                socket.emit("roomCode", {code: "joinedRoom"})
+              exports.accountEvents["getUserData"](hostAccountID, (hostAccount) => {//give host details to client
+                socket.emit("roomCode", {code: "joinedRoom", host: hostAccount.Username, hostElo: hostAccount.Elo})
               })
               break
             }
@@ -204,6 +208,7 @@ exports.matchMaking = {
       if (room[0] == roomCode) {//find the current room
         let clientIds = Array.from(room[1])
         socket.to(roomCode).emit("roomCode", {code: "opponentLeft"})
+        socket.matchmake = false
         //try for the possible two residents of the room
         try {
           io.sockets.sockets.get(clientIds[0]).leave(roomCode)
@@ -262,6 +267,16 @@ exports.matchMaking = {
       } catch (err) {
         console.log("levelSelectError")
       }
+    }
+  },
+  "availibleForRandom": function(data, io, socket) {
+    if (socket.authorised != null) {//if they are signed in
+      socket.matchmake = true
+    }
+  },
+  "stopMatchmake": function(data, io, socket) {
+    if (socket.authorised != null) {//if they are signed in
+      socket.matchmake = false
     }
   }
 }

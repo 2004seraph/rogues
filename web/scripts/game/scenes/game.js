@@ -31,7 +31,7 @@ loadScenes.gameScene = function() {
               switch (imopPacket.data.code) {
                 case "dead":
                   if (this.gameOver == null && gameState.players.two.death()) {
-                    this.gameOver = {lost: "two", won: "one"}
+                    this.gameOver = {lost: opponent, won: accountData.Username}
                     this.createGameOverButtons()
                     socket.emit("gameOver", {p: 2})
                   }
@@ -101,7 +101,7 @@ loadScenes.gameScene = function() {
               socket.emit("statusUpdate", {code: "dead"})
               if (p.death()) {
                 socket.emit("gameOver", {p: 1})
-                this.gameOver = {lost: player, won: "two"}
+                this.gameOver = {lost: accountData.Username, won: opponent}
                 this.createGameOverButtons()
               }
             }
@@ -123,8 +123,9 @@ loadScenes.gameScene = function() {
         //GAMER TAGS
         push()
         fill(255)
-        textSize(20)
-        let gamerTagText = (index + 1).toString()
+        noStroke()
+        textSize(16)
+        let gamerTagText = (player == "one") ? accountData.Username : opponent
         let arrow = "▼"
 
         if (relativeGamerTagHeights) {
@@ -270,7 +271,13 @@ loadScenes.gameScene = function() {
       }
       fill(255)
       textAlign(LEFT, CENTER)
-      text((p == "one") ? "1" : "2", location.x + 10, location.y + location.h/2)
+      if (!playingOnline) {
+        text((p == "one") ? "1" : "2", location.x + 10, location.y + location.h/2)
+      } else {
+        text((p == "one") ? "1" : "2", location.x + 10, location.y + location.h/2)
+        textAlign(LEFT, BOTTOM)
+        text((p == "one") ? accountData.Username : opponent, location.x, location.y - 2)
+      }
       strokeWeight(3)
       stroke(255)
       fill(0, 0, 0, 255)

@@ -8,7 +8,7 @@ My Computer Science project; a 2D web-based multiplayer platform fighting game.
    - [x] update attacks as they are made
    - [x] update everything else every 10 frames
    - [x] add all login prompts
-   - [ ] show usernames on gameover screen in multiplayer
+   - [x] show usernames on gameover screen in multiplayer
    - [ ] add one more stage
    - [x] add speedy character
    - [ ] add heavy character
@@ -30,5 +30,6 @@ My Computer Science project; a 2D web-based multiplayer platform fighting game.
 
 ## Maybe:
  - [ ] 2^n stepped screen resolution changes
+ - [ ] finish implementing scalable resolution
  - [ ] try vector-midpoint collsion detection
  - [ ] minify the game

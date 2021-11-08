@@ -43,6 +43,7 @@ var currentStatsPacket = null//stats
 var currentGamePacket = null
 var imopPacket = null
 
+var opponent = ""
 
 let packetHeaders = ["loginCode", "signupCode", "userDataCode", "gameStatisticsCode", "roomCode", "characterSelectCode", "readyContinue", "levelSelectCode"]
 for (let header of packetHeaders) {
@@ -113,7 +114,7 @@ function logIn() {
 
   hashMessage(password).then((digest) => {
     updateTransmission()
-    socket.emit("requestLogin", {username: username, passwordHash: digest, latency: latency})
+    socket.volatile.emit("requestLogin", {username: username, passwordHash: digest, latency: latency})
   })
 }
 
@@ -134,7 +135,7 @@ function signUp() {
       if (password1.length > globalServerInfo.password.min && password1.length < globalServerInfo.password.max) {
         hashMessage(password1).then((digest) => {
           updateTransmission()
-          socket.emit("requestSignup", {username: username.toString().toUpperCase(), passwordHash: digest, latency: latency})
+          socket.volatile.emit("requestSignup", {username: username.toString().toUpperCase(), passwordHash: digest, latency: latency})
         })
       } else {
         setPrompt(new Prompt(10, 10, "Bad password length", 300))
@@ -162,4 +163,5 @@ function createGame() {
 }
 
 function matchmakeGame() {
+  socket.emit("availibleForRandom")
 }

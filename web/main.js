@@ -2,7 +2,7 @@
 p5.disableFriendlyErrors = true
 
 var CANX, CANY, Canvas, ScenesManager, Loader, FaderCanvas
-var resolutionMultiplier = 1
+var resolutionMultiplier = 1//half-implemented
 
 var gameState = {
   currentLevel: null,

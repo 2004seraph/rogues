@@ -13,6 +13,9 @@ loadScenes.charScene = function() {
       this.screendivider = 100
     },
     start: function() {
+      if (playingOnline) {
+        setPrompt(new Prompt(10, 65, "Joined " + opponent, 300))
+      }
       particleSystems.charBoxes = new ParticleSystem(0, 0)
       for (let i = 0; i < 300; i++) {
         let charBoxesParameters = {

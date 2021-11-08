@@ -121,11 +121,10 @@ loadScenes.hubScene = function() {
                 doSound("click")
               })
 
-            //matchmake
+            //matchmake.attribute("disabled", "")
             this.gameBoxStuff.matchmakeButton = createButton('find random (competitve)')
               .parent('P5Container')
-              .attribute("disabled", "")
-              .attribute("title", "Coming soon")
+              .attribute("title", "Affects Elo")
               .size(this.gameBoxStuff.joinCodeInput.size().width + inter*2, this.gameBoxStuff.joinCodeInput.size().height*2 + inter)
               .position(CANX/2 - this.buttonSize - this.spacing, CANY/2 - this.buttonLevel + inter*7 + this.gameBoxStuff.joinCodeInput.size().height*5)
               .mousePressed(() => {
@@ -147,6 +146,7 @@ loadScenes.hubScene = function() {
                 this.logDone()
                 this.start()
                 socket.emit("deleteRoom")
+                socket.emit("stopMatchmake")
                 doSound("back")
             })
           }
@@ -434,7 +434,8 @@ loadScenes.hubScene = function() {
                 playingOnline = true
                 this.logDone()
                 //server-side game init
-
+                console.log("host: player joined [", currentPacket.data.opponentName, "]")
+                opponent = currentPacket.data.opponentName
                 ScenesManager.changeScene(CHARACTERSELECT, mainInterfaceSpeed)
                 break
                 
@@ -443,7 +444,8 @@ loadScenes.hubScene = function() {
                 playingOnline = true
                 this.logDone()
                 //client-side game init
-
+                console.log("joined [", currentPacket.data.host, "]'s room")
+                opponent = currentPacket.data.host
                 ScenesManager.changeScene(CHARACTERSELECT, mainInterfaceSpeed)
                 break
               case "roomFull":
