@@ -1,6 +1,11 @@
 "use strict";
 p5.disableFriendlyErrors = true
 
+//turn off console.log()s
+// console.log = function(...args) {
+//   return true
+// }
+
 var CANX, CANY, Canvas, ScenesManager, Loader, FaderCanvas
 var resolutionMultiplier = 1//half-implemented
 
