@@ -17,6 +17,9 @@ loadScenes.hubScene = function() {
         setPrompt(new Prompt(10, 10, "Game ended", 300))
       }
       playingOnline = false
+      if (accountData) {
+        //socket.emit("requestUserData")
+      }
       
       //background moving boxes
       particleSystems.hubDataBoxes = new ParticleSystem(0, 0)
@@ -410,6 +413,7 @@ loadScenes.hubScene = function() {
       pop()
 
       if (!(currentPacket == null)) {
+        console.log(currentPacket)
         switch (currentPacket.name) {
           case "roomCode":
             switch (currentPacket.data.code) {

@@ -45,7 +45,7 @@ var imopPacket = null
 
 var opponent = ""
 
-let packetHeaders = ["loginCode", "signupCode", "userDataCode", "gameStatisticsCode", "roomCode", "characterSelectCode", "readyContinue", "levelSelectCode"]
+let packetHeaders = ["loginCode", "signupCode", "userDataCode", "roomCode", "characterSelectCode", "readyContinue", "levelSelectCode"]
 for (let header of packetHeaders) {
   socket.on(header, function(data) {
     currentPacket = {name: header, data: data}

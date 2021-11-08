@@ -14,7 +14,7 @@ My Computer Science project; a 2D web-based multiplayer platform fighting game.
    - [ ] add heavy character
    - [ ] add first median character
    - [ ] add second median character
-   - [ ] add competitve matchmaking for Elo
+   - [x] add competitve matchmaking for Elo
 ### Coulds:
    - [ ] lobby text-chat
 
@@ -23,7 +23,7 @@ My Computer Science project; a 2D web-based multiplayer platform fighting game.
     - characters playing the exact same animation will both use the same animation progress, hence, will both iterate the animations progress.
     - very rarely players wont both load the same map in multiplayer if they both vote on different stages.
     - very rarely the game will just not load.
-    - very rarely the character/stage select screen will fail in multiplayer, choices do not sync and the lobby stops
+    - very rarely the character/stage select screen will fail in multiplayer, choices do not sync and the lobby stops; possibly because clients aren't being left properly from rooms
 
   ### Commands
     - 'nuke' command does not log out authenticated sockets

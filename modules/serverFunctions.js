@@ -143,13 +143,23 @@ exports.matchMaking = {
       try {
         roomCode = data.room.toString().trim().toUpperCase()//cleanse
       } catch (err) {
+        console.log(err)
         socket.emit("roomCode", {code: "invalidRoomCode"})
         return
       }
 
       let room = io.sockets.adapter.rooms.get(roomCode)
+      console.log(room, roomCode)
       if (room) {//if the room exists
         if (room.players < 2) {// and there is space
+          {//leave all other rooms
+            let otherRooms = Array.from(io.sockets.adapter.sids.get(socket.id))
+            for (let otherRoom of otherRooms) {
+              socket.to(otherRoom).emit("roomCode", {code: "opponentLeft"})
+              socket.leave(otherRoom)
+            }
+          }
+
           room.players++
           socket.join(roomCode)
           exports.accountEvents["getUserData"](socket.authorised.id, (rec) => {//give client details to host
@@ -158,7 +168,14 @@ exports.matchMaking = {
 
           //this is all just to find the joinee opponent
           let clientIds = Array.from(room)//this will also include any room variables, be careful
+          CLI.printLine(room)
+          CLI.printLine(clientIds)
           let hostAccountID = io.sockets.sockets.get(clientIds[0]).authorised.id
+          // for (let sock of clientIds) {
+          //   if (sock != socket.id) {
+          //     hostAccountID = io.sockets.sockets.get(sock).authorised.id
+          //   }
+          // }
           exports.accountEvents["getUserData"](hostAccountID, (hostAccount) => {
             socket.emit("roomCode", {code: "joinedRoom", host: hostAccount.Username, hostElo: hostAccount.Elo})
           })
@@ -209,6 +226,7 @@ exports.matchMaking = {
         let room = io.sockets.adapter.rooms.get(roomCode)
         room.ready[data.player] = true
       } catch (err) {
+        CLI.printLine(err)
         //no room exists or room has disbanded
       }
     }
@@ -228,11 +246,15 @@ exports.matchMaking = {
         try {
           io.sockets.sockets.get(clientIds[0]).leave(roomCode)
           //console.log("1")
-        } catch (err) {}
+        } catch (err) {
+          CLI.printLine(err)
+        }
         try {
           io.sockets.sockets.get(clientIds[1]).leave(roomCode)
           //console.log("2")
-        } catch (err) {}
+        } catch (err) {
+          CLI.printLine(err)
+        }
         //break
       //}
     }
