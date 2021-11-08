@@ -33,3 +33,4 @@ My Computer Science project; a 2D web-based multiplayer platform fighting game.
  - [ ] finish implementing scalable resolution
  - [ ] try vector-midpoint collsion detection
  - [ ] minify the game
+ - <input type="checkbox"/>
