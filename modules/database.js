@@ -49,6 +49,17 @@ module.exports = class PlayerDatabase {
     })
   }
 
+  updateUserElo(change, id, callback=function() {}) {
+    this.database.run(`UPDATE Players SET Elo=Elo + ? WHERE ID=?`, [change, id], function(err) {
+      if (err) {
+        CLI.printLine("Update User Elo Error:")
+        CLI.printLine(err)
+      } else {
+        callback()
+      }
+    })
+  }
+
   resetUserElo(callback=function() {}) {
     this.database.run(`UPDATE Players SET Elo=?`, [1000], function(err) {
       if (err) {

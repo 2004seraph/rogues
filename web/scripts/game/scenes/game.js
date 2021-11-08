@@ -33,7 +33,6 @@ loadScenes.gameScene = function() {
                   if (this.gameOver == null && gameState.players.two.death()) {
                     this.gameOver = {lost: opponent, won: accountData.Username}
                     this.createGameOverButtons()
-                    socket.emit("gameOver", {p: 2})
                   }
                   resetImopPacket()
                   break
@@ -100,7 +99,7 @@ loadScenes.gameScene = function() {
             if (player == "one") {
               socket.emit("statusUpdate", {code: "dead"})
               if (p.death()) {
-                socket.emit("gameOver", {p: 1})
+                socket.emit("gameOver")
                 this.gameOver = {lost: accountData.Username, won: opponent}
                 this.createGameOverButtons()
               }

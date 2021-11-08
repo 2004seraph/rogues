@@ -89,7 +89,7 @@ setInterval(() => {
       matchMaking["joinRoom"]({room: roomCode}, io, opponent)
 
       let room = io.sockets.adapter.rooms.get(roomCode)
-      room.competitve = true//the elo of the players will be affected
+      room.competitive = true//the elo of the players will be affected
     } else {
       //not enough players to matchmake
       return

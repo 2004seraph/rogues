@@ -194,6 +194,7 @@ exports.matchMaking = {
 
         let room = io.sockets.adapter.rooms.get(roomCode)
         room.players = 1
+        room.competitive = false
       } else {
         socket.emit("roomCode", {code: "alreadyInRoom"})
       }
@@ -239,7 +240,7 @@ exports.matchMaking = {
     let roomsTheyHaveJoined = Array.from(socket.rooms)
     roomsTheyHaveJoined.shift()//remove the socketio default room of the same name as the socket id
     for (let room of roomsTheyHaveJoined) {
-      console.log(room)
+      //CLI.printLine(room)
       socket.to(room).emit("roomCode", {code: "opponentLeft"})//broadcast to the others this one has left
       socket.leave(room)
     }
@@ -251,7 +252,7 @@ exports.matchMaking = {
         let room = Array.from(socket.rooms)[1]
         socket.to(room).emit("characterSelectCode", data)
       } catch (err) {
-        console.log(err)
+        CLI.printLine(err)
       }
     }
   },
@@ -262,11 +263,15 @@ exports.matchMaking = {
         let room = Array.from(socket.rooms)[1]
         if (data.code == "start") {//choose a map
           let selection = [data.selection1, data.selection2][Math.floor(Math.random() * 2)]
-          data.serverSelection = selection
+          let sdata = {}
+          sdata.serverSelection = selection
+          sdata.code = "start"
+          io.to(room).emit("readyContinue", sdata)
+        } else {
+          io.to(room).emit("readyContinue", data)
         }
-        io.to(room).emit("readyContinue", data)
       } catch (err) {
-        console.log(err)
+        CLI.printLine(err)
       }
     }
   },
@@ -277,7 +282,7 @@ exports.matchMaking = {
         let room = Array.from(socket.rooms)[1]
         socket.to(room).emit("levelSelectCode", data)
       } catch (err) {
-        console.log("levelSelectError")
+        CLI.printLine("levelSelectError")
       }
     }
   },
@@ -297,7 +302,7 @@ exports.gameEvents = {
       let room = Array.from(socket.rooms)[1]
       socket.to(room).emit("positionUpdate", data)
     } catch (err) {
-      console.log(err)
+      CLI.printLine(err)
     }
   },
   "attackUpdate": function(data, io, socket) {
@@ -305,7 +310,7 @@ exports.gameEvents = {
       let room = Array.from(socket.rooms)[1]
       socket.to(room).emit("attackUpdate", data)
     } catch (err) {
-      console.log(err)
+      CLI.printLine(err)
     }
   },
   "statusUpdate": function(data, io, socket) {
@@ -313,7 +318,35 @@ exports.gameEvents = {
       let room = Array.from(socket.rooms)[1]
       socket.to(room).emit("statusUpdate", data)
     } catch (err) {
-      console.log(err)
+      CLI.printLine(err)
+    }
+  },
+  "gameOver": function(data, io, socket) {
+    try {
+      let roomCode = Array.from(socket.rooms)[1]
+      let room = io.sockets.adapter.rooms.get(roomCode)
+      CLI.printLine(socket.authorised.id + " has lost")
+      if (room) {
+        if (room.competitive) {
+          //database elo
+          let EloChange = 100
+          PlayerDatabase.updateUserElo(EloChange * -1, socket.authorised.id, () => {
+            socket.emit("EloChange", EloChange)
+          })
+
+          let clientIds = Array.from(room)
+          clientIds.forEach((element) => {//this is updating the player that lost which is wrong
+            if (element != socket.id) {
+              let winnerSocket = io.sockets.sockets.get(element)
+              PlayerDatabase.updateUserElo(EloChange, winnerSocket.authorised.id, () => {
+                socket.emit("EloChange", EloChange)
+              })
+            }
+          })
+        }
+      }
+    } catch (err) {
+      CLI.printLine(err)
     }
   }
 }
