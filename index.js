@@ -61,7 +61,7 @@ global.runningRooms = {}
 //global.updateLastRequest = function() {lastRequest = Date.now()}
 global.spamStop = false
 
-
+//matchmaker
 setInterval(() => {
   let matchMakers = []
   let currentSockets = Array.from(io.sockets.sockets)
@@ -82,12 +82,14 @@ setInterval(() => {
       let opponent = matchMakers[opponentIndex]
       opponent.matchmake = false
       matchMakers.splice(opponentIndex, 1)
+      i--
 
       matchMaking["createRoom"](null, io, player)
       let roomCode = player.id.substring(0, 6).toUpperCase()
       matchMaking["joinRoom"]({room: roomCode}, io, opponent)
 
-      i--
+      let room = io.sockets.adapter.rooms.get(roomCode)
+      room.competitve = true//the elo of the players will be affected
     } else {
       //not enough players to matchmake
       return

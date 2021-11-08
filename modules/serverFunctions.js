@@ -146,31 +146,39 @@ exports.matchMaking = {
         socket.emit("roomCode", {code: "invalidRoomCode"})
         return
       }
-      if (Object.keys(runningRooms).includes(roomCode)) {
-        if (runningRooms[roomCode].players < 2) {//if the room exists and there is space
-          runningRooms[roomCode].players++
+
+      let room = io.sockets.adapter.rooms.get(roomCode)
+      if (room) {//if the room exists
+        if (room.players < 2) {// and there is space
+          room.players++
           socket.join(roomCode)
           exports.accountEvents["getUserData"](socket.authorised.id, (rec) => {//give client details to host
-            socket.to(roomCode).emit("roomCode", {code: "opponentJoined", opponentName: rec.Username, opponentElo: rec.Elo})
+            socket.to(roomCode).emit("roomCode", {code: "opponentJoined", opponentName: rec.Username, opponentElo: rec.Elo})//broadcast to the other players in the room (host)
           })
 
-          //this is all just to find their opponent
-          let rooms = Array.from(io.sockets.adapter.rooms)
-          for (let room of rooms) {
-            if (room[0] == roomCode) {//find the current room
-              let clientIds = Array.from(room[1])
-              let hostAccountID = io.sockets.sockets.get(clientIds[0]).authorised.id//get the authorised account from the host socket (always index zero, because they created the room)
-              exports.accountEvents["getUserData"](hostAccountID, (hostAccount) => {//give host details to client
-                socket.emit("roomCode", {code: "joinedRoom", host: hostAccount.Username, hostElo: hostAccount.Elo})
-              })
-              break
-            }
-          }
+          //this is all just to find the joinee opponent
+          let clientIds = Array.from(room)//this will also include any room variables, be careful
+          let hostAccountID = io.sockets.sockets.get(clientIds[0]).authorised.id
+          exports.accountEvents["getUserData"](hostAccountID, (hostAccount) => {
+            socket.emit("roomCode", {code: "joinedRoom", host: hostAccount.Username, hostElo: hostAccount.Elo})
+          })
+          //legacy code, fallback to this if there is a failiure
+          //let rooms = Array.from(io.sockets.adapter.rooms)
+          // for (let room of rooms) {
+          //   if (room[0] == roomCode) {//find the current room
+          //     let clientIds = Array.from(room[1])
+          //     let hostAccountID = io.sockets.sockets.get(clientIds[0]).authorised.id//get the authorised account from the host socket (always index zero, because they created the room)
+          //     exports.accountEvents["getUserData"](hostAccountID, (hostAccount) => {//give host details to client
+          //       socket.emit("roomCode", {code: "joinedRoom", host: hostAccount.Username, hostElo: hostAccount.Elo})
+          //     })
+          //     break
+          //   }
+          // }
         } else {
           socket.emit("roomCode", {code: "roomFull"})
         }
       } else {
-        socket.emit("roomCode", {code: "roomNoExist"})
+       socket.emit("roomCode", {code: "roomNoExist"})
       }
     } else {
       socket.emit("roomCode", {code: "noAuth"})
@@ -179,10 +187,13 @@ exports.matchMaking = {
   "createRoom": function(data, io, socket) {
     if (socket.authorised != null) {//if they are signed in
       let roomCode = socket.id.substring(0, 6).toUpperCase()
-      if (!Object.keys(runningRooms).includes(roomCode)) {//if the room doesnt Already exist
-        runningRooms[roomCode] = {name: "room_" + roomCode, ready: {player1: false, player2: false}, players: 1}
+      if (true) {//this should never be false, since the socketid is always unique
+        //runningRooms[roomCode] = {name: "room_" + roomCode, ready: {player1: false, player2: false}, players: 1}
         socket.emit("roomCode", {code: "successfulCreation", room: roomCode})
         socket.join(roomCode)
+
+        let room = io.sockets.adapter.rooms.get(roomCode)
+        room.players = 1
       } else {
         socket.emit("roomCode", {code: "alreadyInRoom"})
       }
@@ -193,8 +204,9 @@ exports.matchMaking = {
   "ready": function(data, io, socket) {
     if (socket.authorised != null) {//if they are signed in
       try {
-        let room = Array.from(socket.rooms)[1]
-        runningRooms[roomCode].ready[data.player] = true
+        let roomCode = Array.from(socket.rooms)[1]
+        let room = io.sockets.adapter.rooms.get(roomCode)
+        room.ready[data.player] = true
       } catch (err) {
         //no room exists or room has disbanded
       }
@@ -203,33 +215,33 @@ exports.matchMaking = {
   "deleteRoom": function(data, io, socket) {
     //this only works if they are the host
     let roomCode = socket.id.substring(0, 6).toUpperCase()
-    let rooms = Array.from(io.sockets.adapter.rooms)
-    for (let room of rooms) {
-      if (room[0] == roomCode) {//find the current room
-        let clientIds = Array.from(room[1])
+    //let rooms = Array.from(io.sockets.adapter.rooms)
+    let room = io.sockets.adapter.rooms.get(roomCode)
+    if (room) {
+    //for (let room of rooms) {
+    //  if (room[0] == roomCode) {//find the current room
+        let clientIds = Array.from(room)
         socket.to(roomCode).emit("roomCode", {code: "opponentLeft"})
         socket.matchmake = false
         //try for the possible two residents of the room
         try {
           io.sockets.sockets.get(clientIds[0]).leave(roomCode)
+          //console.log("1")
         } catch (err) {}
         try {
           io.sockets.sockets.get(clientIds[1]).leave(roomCode)
+          //console.log("2")
         } catch (err) {}
-        break
-      }
+        //break
+      //}
     }
-    if (Object.keys(runningRooms).includes(roomCode)) {
-      delete runningRooms[roomCode]
-    }
-
     //client code
     let roomsTheyHaveJoined = Array.from(socket.rooms)
     roomsTheyHaveJoined.shift()//remove the socketio default room of the same name as the socket id
     for (let room of roomsTheyHaveJoined) {
       console.log(room)
       socket.to(room).emit("roomCode", {code: "opponentLeft"})//broadcast to the others this one has left
-      delete runningRooms[room]
+      socket.leave(room)
     }
   },
   "characterSelectCode": function(data, io, socket) {
@@ -275,9 +287,7 @@ exports.matchMaking = {
     }
   },
   "stopMatchmake": function(data, io, socket) {
-    if (socket.authorised != null) {//if they are signed in
-      socket.matchmake = false
-    }
+    socket.matchmake = false
   }
 }
 

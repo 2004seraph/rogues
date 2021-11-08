@@ -23,7 +23,7 @@ My Computer Science project; a 2D web-based multiplayer platform fighting game.
     - characters playing the exact same animation will both use the same animation progress, hence, will both iterate the animations progress.
     - very rarely players wont both load the same map in multiplayer if they both vote on different stages.
     - very rarely the game will just not load.
-    - very rarely the character/stage select screen will fail in multiplayer.
+    - very rarely the character/stage select screen will fail in multiplayer, choices do not sync and the lobby stops
 
   ### Commands
     - 'nuke' command does not log out authenticated sockets
