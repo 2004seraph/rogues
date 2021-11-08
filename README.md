@@ -3,7 +3,7 @@ My Computer Science project; a 2D web-based multiplayer platform fighting game.
 
 ## Operation
 ```console
-~$ PORT=<Webserver port> node index.js
+~$ PORT=[Webserver port] node index.js
 ```
 
 ## TODO List
