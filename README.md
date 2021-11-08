@@ -22,6 +22,11 @@ My Computer Science project; a 2D web-based multiplayer platform fighting game.
    - [x] add competitve matchmaking for Elo
 ### Coulds:
    - [ ] lobby text-chat
+### Maybe:
+   - [ ] 2^n stepped screen resolution changes
+   - [ ] finish implementing scalable resolution
+   - [ ] try vector-midpoint collsion detection
+   - [ ] minify the game
 
 ## Bugs:
   ### Game
@@ -32,9 +37,3 @@ My Computer Science project; a 2D web-based multiplayer platform fighting game.
 
   ### Commands
     - 'nuke' command does not log out authenticated sockets
-
-## Maybe:
- - [ ] 2^n stepped screen resolution changes
- - [ ] finish implementing scalable resolution
- - [ ] try vector-midpoint collsion detection
- - [ ] minify the game
