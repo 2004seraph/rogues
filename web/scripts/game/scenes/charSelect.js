@@ -157,19 +157,18 @@ loadScenes.charScene = function() {
     },
     run: function() {
       if (!(currentPacket == null) && playingOnline) {
+        console.log(currentPacket)
         switch (currentPacket.name) {
           case "roomCode":
             switch (currentPacket.data.code) {
               case "opponentLeft":
                 ScenesManager.changeScene(MAINMENU, mainInterfaceSpeed)//leave room
                 break
-              console.log(currentPacket)
             }
             resetPacket()
             break
           case "characterSelectCode":
             this.selection.player2 = currentPacket.data.char
-            console.log(currentPacket)
             resetPacket()
             break
           case "readyContinue":
@@ -177,7 +176,6 @@ loadScenes.charScene = function() {
               case "level":
                 ScenesManager.changeScene(LEVELSELECT, mainInterfaceSpeed)
                 break
-              console.log(currentPacket)
             }
             resetPacket()
             break

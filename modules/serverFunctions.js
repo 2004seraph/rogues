@@ -149,16 +149,17 @@ exports.matchMaking = {
       }
 
       let room = io.sockets.adapter.rooms.get(roomCode)
-      console.log(room, roomCode)
+      console.log("roomData", room)
+      console.log("roomcode", roomCode)
       if (room) {//if the room exists
         if (room.players < 2) {// and there is space
-          {//leave all other rooms
-            let otherRooms = Array.from(io.sockets.adapter.sids.get(socket.id))
-            for (let otherRoom of otherRooms) {
-              socket.to(otherRoom).emit("roomCode", {code: "opponentLeft"})
-              socket.leave(otherRoom)
-            }
-          }
+          // {//leave all other rooms
+          //   let otherRooms = Array.from(io.sockets.adapter.sids.get(socket.id))
+          //   for (let otherRoom of otherRooms) {
+          //     socket.to(otherRoom).emit("roomCode", {code: "opponentLeft"})
+          //     socket.leave(otherRoom)
+          //   }
+          // }
 
           room.players++
           socket.join(roomCode)
@@ -168,7 +169,6 @@ exports.matchMaking = {
 
           //this is all just to find the joinee opponent
           let clientIds = Array.from(room)//this will also include any room variables, be careful
-          CLI.printLine(room)
           CLI.printLine(clientIds)
           let hostAccountID = io.sockets.sockets.get(clientIds[0]).authorised.id
           // for (let sock of clientIds) {
@@ -203,6 +203,7 @@ exports.matchMaking = {
   },
   "createRoom": function(data, io, socket) {
     if (socket.authorised != null) {//if they are signed in
+      console.log("cre")
       let roomCode = socket.id.substring(0, 6).toUpperCase()
       if (true) {//this should never be false, since the socketid is always unique
         //runningRooms[roomCode] = {name: "room_" + roomCode, ready: {player1: false, player2: false}, players: 1}
@@ -232,11 +233,13 @@ exports.matchMaking = {
     }
   },
   "deleteRoom": function(data, io, socket) {
+    console.log("del")
     //this only works if they are the host
     let roomCode = socket.id.substring(0, 6).toUpperCase()
     //let rooms = Array.from(io.sockets.adapter.rooms)
     let room = io.sockets.adapter.rooms.get(roomCode)
     if (room) {
+      console.log("del2")
     //for (let room of rooms) {
     //  if (room[0] == roomCode) {//find the current room
         let clientIds = Array.from(room)
@@ -263,6 +266,7 @@ exports.matchMaking = {
     roomsTheyHaveJoined.shift()//remove the socketio default room of the same name as the socket id
     for (let room of roomsTheyHaveJoined) {
       //CLI.printLine(room)
+      console.log("del3")
       socket.to(room).emit("roomCode", {code: "opponentLeft"})//broadcast to the others this one has left
       socket.leave(room)
     }
@@ -270,8 +274,10 @@ exports.matchMaking = {
   "characterSelectCode": function(data, io, socket) {
     //this only works if they are the host
     if (socket.authorised != null) {//if they are signed in
+      console.log("csel")
       try {
-        let room = Array.from(socket.rooms)[1]
+        let room = Array.from(socket.rooms).pop()
+        console.log(room, socket.rooms)
         socket.to(room).emit("characterSelectCode", data)
       } catch (err) {
         CLI.printLine(err)
@@ -282,7 +288,7 @@ exports.matchMaking = {
     //this only works if they are the host
     if (socket.authorised != null) {//if they are signed in
       try {
-        let room = Array.from(socket.rooms)[1]
+        let room = Array.from(socket.rooms).pop()
         if (data.code == "start") {//choose a map
           let selection = [data.selection1, data.selection2][Math.floor(Math.random() * 2)]
           let sdata = {}
@@ -301,7 +307,7 @@ exports.matchMaking = {
     //this only works if they are the host
     if (socket.authorised != null) {//if they are signed in
       try {
-        let room = Array.from(socket.rooms)[1]
+        let room = Array.from(socket.rooms).pop()
         socket.to(room).emit("levelSelectCode", data)
       } catch (err) {
         CLI.printLine("levelSelectError")
@@ -321,7 +327,7 @@ exports.matchMaking = {
 exports.gameEvents = {
   "positionUpdate": function(data, io, socket) {
     try {
-      let room = Array.from(socket.rooms)[1]
+      let room = Array.from(socket.rooms).pop()
       socket.to(room).emit("positionUpdate", data)
     } catch (err) {
       CLI.printLine(err)
@@ -329,7 +335,7 @@ exports.gameEvents = {
   },
   "attackUpdate": function(data, io, socket) {
     try {
-      let room = Array.from(socket.rooms)[1]
+      let room = Array.from(socket.rooms).pop()
       socket.to(room).emit("attackUpdate", data)
     } catch (err) {
       CLI.printLine(err)
@@ -337,7 +343,7 @@ exports.gameEvents = {
   },
   "statusUpdate": function(data, io, socket) {
     try {
-      let room = Array.from(socket.rooms)[1]
+      let room = Array.from(socket.rooms).pop()
       socket.to(room).emit("statusUpdate", data)
     } catch (err) {
       CLI.printLine(err)
@@ -345,7 +351,7 @@ exports.gameEvents = {
   },
   "gameOver": function(data, io, socket) {
     try {
-      let roomCode = Array.from(socket.rooms)[1]
+      let roomCode = Array.from(socket.rooms).pop()
       let room = io.sockets.adapter.rooms.get(roomCode)
       CLI.printLine(socket.authorised.id + " has lost")
       if (room) {
