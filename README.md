@@ -32,7 +32,7 @@ To start the webserver which hosts and serves the game, type this into shell wit
 ## Bugs:
   ### Game
     - [OPEN ] characters playing the exact same animation will both use the same animation progress, hence, will both iterate the animations progress.
-    - [OPEN ]  very rarely players wont both load the same map in multiplayer if they both vote on different stages.
+    - [OPEN ] very rarely players wont both load the same map in multiplayer if they both vote on different stages.
     - [OPEN ] very rarely the game will just not load.
     - [FIXED] very rarely the character/stage select screen will fail in multiplayer, choices do not sync and the lobby stops; it is because clients aren't being left properly from rooms
     - [OPEN ] moves are dropped
