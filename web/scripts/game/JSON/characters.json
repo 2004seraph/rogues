@@ -13,7 +13,7 @@
       "friction": 1.5,
       "airResistance": 1.01,
       "acceleration": 1.1,
-      "maxSpeedLR": 8.5,
+      "maxSpeedLR": 7,
       "maxFallSpeed": 14,
       "totalJumps": 3,
       "jumpFrameDelay": 15,
