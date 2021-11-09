@@ -13,17 +13,18 @@ loadScenes.gameScene = function() {
       if (playingOnline) {
         if (!(currentGamePacket == null)) {
           switch (currentGamePacket.name) {
-            case "positionUpdate":
-              gameState.players.two.pos.set(currentGamePacket.data.pos.x, currentGamePacket.data.pos.y)
-              gameState.players.two.facingDirection = currentGamePacket.data.facingDirection
-              resetGamePacket()
-              break
             case "attackUpdate":
               gameState.players.two.startMove(currentGamePacket.data.direction, currentGamePacket.data.whatMove)
               resetGamePacket()
+              console.log("sti")
               break
           }
         }
+        if (positionPacket) {
+          gameState.players.two.pos.set(positionPacket.pos.x, positionPacket.pos.y)
+          gameState.players.two.facingDirection = positionPacket.facingDirection
+        }
+
         if (!(imopPacket == null)) {
           switch (imopPacket.name) {
             case "statusUpdate":
@@ -124,7 +125,12 @@ loadScenes.gameScene = function() {
         fill(255)
         noStroke()
         textSize(16)
-        let gamerTagText = (player == "one") ? accountData.Username : opponent
+        let gamerTagText = ""
+        if (playingOnline) {
+          gamerTagText = (player == "one") ? accountData.Username : opponent
+        } else {
+          gamerTagText = (player == "one") ? "1" : "2"
+        }
         let arrow = "▼"
 
         if (relativeGamerTagHeights) {

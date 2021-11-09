@@ -69,6 +69,10 @@ for (let imop of importantHeaders) {
     imopPacket = {name: imop, data: data}
   })
 }
+var positionPacket
+socket.on("positionUpdate", function(data) {
+  positionPacket = data
+})
 
 //just a cache for userdata
 var accountData = null

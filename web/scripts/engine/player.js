@@ -219,10 +219,12 @@ class Player {
       }
 
       //this weird if statement is meant to stop the players not colliding when the user tabs out of the game
-      if (!this.grounded && this.launchVelocity.mag() < 1) {
-        this.velocity.add(0, GRAVITY * this.character.physics.mass * timeScaler())//constantly pull the player down with gravity
-      } else {
-        this.velocity.add(0, 1)//to stop collide-uncollide loop
+      if (this.controls != null) {
+        if (!this.grounded && this.launchVelocity.mag() < 1) {
+          this.velocity.add(0, GRAVITY * this.character.physics.mass * timeScaler())//constantly pull the player down with gravity
+        } else {
+          this.velocity.add(0, 1)//to stop collide-uncollide loop
+        }
       }
     }
 
