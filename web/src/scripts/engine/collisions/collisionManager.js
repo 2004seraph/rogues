@@ -1,5 +1,5 @@
 "use strict";
-function collideRectRect(x1, y1, w1, h1, x2, y2, w2, h2) {
+export function collideRectRect(x1, y1, w1, h1, x2, y2, w2, h2) {
   if ((x1 + w1 > x2) && (x1 < x2 + w2)) {
     if ((y2 + h2 > y1) && (y2 < y1 + h1)) {
       return true
@@ -8,11 +8,11 @@ function collideRectRect(x1, y1, w1, h1, x2, y2, w2, h2) {
   return false
 }
 
-function collideRectRectObject(rect1, rect2) {
+export function collideRectRectObject(rect1, rect2) {
   return collideRectRect(rect1.x, rect1.y, rect1.w, rect1.h, rect2.x, rect2.y, rect2.w, rect2.h)
 }
 
-function collide(sprite, tiles) {
+export function collide(sprite, tiles) {
   //work out which side the player hits first and void the other collsion
   let corrected_velocity = sprite.velocity
   let corrected_position = sprite.position

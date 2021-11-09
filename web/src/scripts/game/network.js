@@ -1,4 +1,6 @@
 "use strict";
+import io from "./scripts/libraries/socketio.js"
+
 var socket = io()
 socket.on("blocked", function(data) {
   console.warn("#############################################")

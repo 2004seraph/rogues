@@ -1,5 +1,5 @@
 "use strict";
-function attackCheck(thisPlayer) {
+export default function attackCheck(thisPlayer) {
   let totalDamage = 0
   let throwVector = {x: 0, y: 0}
   let stun = 0

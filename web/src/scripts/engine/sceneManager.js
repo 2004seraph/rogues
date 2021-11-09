@@ -1,14 +1,17 @@
 "use strict";
-class SceneManager {
-  constructor(scenesObject, startingScene=0, autoInitialize=false, faderCanvas) {
+import p5 from "../libraries/p5.min.js"
+
+export default class SceneManager {
+  constructor(scenesObject, startingScene=0, autoInitialize=false) {
     this.transition = {
       frameDelta: 0,
       frameLimit: 0,
       targetScene: null,
       transitioning: false,
       faderP5Instance: new p5((sketch) => {
+        let faderCanvas
         sketch.setup = () => {
-          faderCanvas = sketch.createCanvas(CANX, CANY)
+          faderCanvas = sketch.createCanvas(window.CANX, window.CANY)
           faderCanvas.parent("P5Container")
             .position(0, 0)
             .style("z-index: 5")
@@ -22,7 +25,7 @@ class SceneManager {
         }
         sketch.draw = () => {
           sketch.clear()
-          sketch.background(0, 0, 0, map(this.transition.frameDelta, 0, this.transition.frameLimit + 1, 0, 255))
+          sketch.background(0, 0, 0, sketch.map(this.transition.frameDelta, 0, this.transition.frameLimit + 1, 0, 255))
         }
       })
     }

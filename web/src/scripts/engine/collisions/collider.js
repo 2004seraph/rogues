@@ -1,5 +1,5 @@
 "use strict";
-class BoxCollider {
+export default class BoxCollider {
   constructor(x, y, width, height, thickness=10, top=true, bottom=true, left=true, right=true, cornerCrush=5) {
     this.pos = createVector(x, y)
 

@@ -1,5 +1,5 @@
 "use strict";
-class Player {
+export default class Player {
   constructor(x, y, controlScheme) {
     this.pos = createVector(x, y)
     this.velocity = createVector(0, 0)

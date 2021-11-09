@@ -23,7 +23,7 @@ const express = require('express')
 const app = express()
 const PORT = process.env['PORT']
 
-app.use(express.static('web'))
+app.use(express.static('./web/dist'))
 
 const webServer = app.listen(PORT, function() {
   CLI.printLine("Started Rogues Server")

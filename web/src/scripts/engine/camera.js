@@ -1,5 +1,5 @@
 "use strict";
-class Camera {
+export default class Camera {
   constructor(x, y, zoom=1, speed=0.5) {
     this.pos = {
       x: x,

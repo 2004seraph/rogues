@@ -1,33 +1,33 @@
 "use strict";
 //P5 HELPER FUNCTIONS
-p5.Image.prototype.tint = function (r, g, b, a=255) {
-  let tintedImage = createGraphics(this.width, this.height)
-	tintedImage.tint(r, g, b, a)
-	tintedImage.image(this, 0, 0)
+// p5.Image.prototype.tint = function (r, g, b, a=255) {
+//   let tintedImage = createGraphics(this.width, this.height)
+// 	tintedImage.tint(r, g, b, a)
+// 	tintedImage.image(this, 0, 0)
   
-  return tintedImage
-}
-// p5.Image.prototype.resize = function (x, y) {
-//   let newImage = createGraphics(x, y)
-// 	newImage.image(this, 0, 0, x, y)
+//   return tintedImage
+// }
+// // p5.Image.prototype.resize = function (x, y) {
+// //   let newImage = createGraphics(x, y)
+// // 	newImage.image(this, 0, 0, x, y)
   
+// //   return newImage
+// // }
+// p5.Image.prototype.flip = function (dir, doTint=false, tintLevels=[255, 255, 255, 255]) {
+//   let newImage = createGraphics(this.width, this.height)
+//   if (doTint) {
+//     newImage.tint(tintLevels[0], tintLevels[1], tintLevels[2], tintLevels[3])
+//   }
+//   if (dir == X) {
+//     newImage.scale(-1, 1)
+//     newImage.image(this, 0, 0, -this.width, this.height)
+//   } else {
+//     newImage.scale(1, -1)
+//     newImage.image(this, 0, 0, this.width, -this.height)
+//   }
 //   return newImage
 // }
-p5.Image.prototype.flip = function (dir, doTint=false, tintLevels=[255, 255, 255, 255]) {
-  let newImage = createGraphics(this.width, this.height)
-  if (doTint) {
-    newImage.tint(tintLevels[0], tintLevels[1], tintLevels[2], tintLevels[3])
-  }
-  if (dir == X) {
-    newImage.scale(-1, 1)
-    newImage.image(this, 0, 0, -this.width, this.height)
-  } else {
-    newImage.scale(1, -1)
-    newImage.image(this, 0, 0, this.width, -this.height)
-  }
-  return newImage
-}
-function onScreen(x, y) {
+export function onScreen(x, y) {
   if (x > 0 && x < CANX) {
     if (y > 0 && y < CANY) {
       return true
@@ -36,7 +36,7 @@ function onScreen(x, y) {
 
   return false
 }
-function multiText(x, y, stringList=[]) {
+export function multiText(x, y, stringList=[]) {
   push()
   textAlign(LEFT, TOP)
 
@@ -63,7 +63,7 @@ function multiText(x, y, stringList=[]) {
 }
 
 //MATH
-function Logistic_S_Curve(x, shape=12) {
+export function Logistic_S_Curve(x, shape=12) {
   let min = 0
   let max = 1
   let mean = 0.5//middle value
@@ -72,18 +72,18 @@ function Logistic_S_Curve(x, shape=12) {
   return min + (max - min) * 1/(1 + Math.exp(-shape * (x - mean))) ** balance
 }
 
-function distanceBetweenPoints(pointOne, pointTwo) {
+export function distanceBetweenPoints(pointOne, pointTwo) {
   return Math.sqrt((pointOne.x - pointTwo.x) ** 2 + (pointOne.y - pointTwo.y) ** 2)
 }
-function magnitude(point) {
+export function magnitude(point) {
   return Math.sqrt((point.x) ** 2 + (point.y) ** 2)
 }
 
-function makeMatrix(w, h, principle=0) {
+export function makeMatrix(w, h, principle=0) {
   return new Array(h).fill(principle).map(() => new Array(w).fill(principle))
 }
 
-class Rectangle {
+export class Rectangle {
   constructor(x, y, w, h=w, t=1, data={}) {
     this.x = x
     this.y = y
@@ -104,7 +104,7 @@ class Rectangle {
 }
 
 //sha-256 hash
-async function hashMessage(message) {
+export async function hashMessage(message) {
   const encoder = new TextEncoder()
   const data = encoder.encode(message)
   const hash = await crypto.subtle.digest('SHA-256', data)

@@ -1,5 +1,5 @@
 "use strict";
-class Animation {
+export default class Animation {
   constructor(animationData = {}, repeat=false) {
     this.animationData = animationData
     this.currentFrame = 0

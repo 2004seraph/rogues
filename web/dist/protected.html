@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html prefix="og: https://ogp.me/ns#">
+  <head>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./service-worker.js')
+          .then(function(registration) {
+            // Registration was successful
+            console.log('ServiceWorker registration successful with scope: ', registration.scope)
+          }).catch(function(err) {
+            // registration failed :(
+            console.log('ServiceWorker registration failed: ', err)
+          }
+        )
+      }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "SoftwareApplication",
+      "name": "ROGUES-ONLINE",
+      "screenshot": "https://rogues.cyanseraph.net/assets/decals/battlestar.png",
+      "image": [
+        "https://rogues.cyanseraph.net/assets/decals/battlestar.png",
+        "https://rogues.cyanseraph.net/assets/decals/title.png"
+      ],
+      "operatingSystem": "WINDOWS",
+      "applicationCategory": "GameApplication",
+      "applicationSubCategory": "Arcade",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "GBP"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5",
+        "reviewCount": "4000"
+      }
+    }
+    </script>
+    
+    <meta name="google-site-verification" content="Ors_aet0qHzk76WTwiCRFETYi1yIjuEWWBNwHzmKRhQ" />
+
+    <!--<meta http-equiv="Content-Security-Policy" 
+      content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; worker-src 'self'; upgrade-insecure-requests;">-->
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROGUES ONLINE</title>
+
+    <!-- basic Meta Tags -->
+    <meta property="og:title" content="Root" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://rogues.cyanseraph.net//" />
+    <meta name="description" content="Rogues Directory" />
+    <meta name="author" content="sammot">
+
+    <!-- facebook Meta Tags -->
+    <meta property="og:description" content="Rogues Directory" />
+    <meta property="og:site_name" content="ROGUES_ONLINE" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="en_GB" />
+    <meta name="theme-color" content="#6ff4ff">
+
+    <style>
+      #badScreen {
+        color: white;
+        display: none;
+      }
+
+      @media only screen and (max-width : 1100px) {
+        #P5Container {
+          display: none;
+        }
+        #badScreen {
+          display: flex;
+        }
+      }
+      @media only screen and (max-height : 700px) {
+        #P5Container {
+          display: none;
+        }
+        #badScreen {
+          display: flex;
+        }
+      }
+    </style>
+  <script defer src="build.js"></script></head>
+  <body>
+    <div id="P5Container"></div>
+    <div id="badScreen" style="text-align: center;color: white;">
+      Your device resolution is too low: make sure you are using a PC or try zooming out of this webpage.
+    </div>
+  </body>
+</html>
