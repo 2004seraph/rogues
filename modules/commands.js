@@ -1,6 +1,11 @@
 "use strict";
 //quality of life CLI for testing and basic management
 exports.commands = {
+  "motd": {
+    "command": function(args) {
+      GlobalServerInfo.motd = JSON.stringify(args)
+    }
+  },
   "stop": {
     "command": function(args) {
       CLI.printLine("shutdown server")

@@ -393,7 +393,7 @@ loadScenes.hubScene = function() {
         gameButtons.onlinePlayButton.attribute("disabled", "").attribute("title", "Sign in to play online")
       }
       
-      if (globalServerInfo.motd.length > 0) {
+      if (globalServerInfo && globalServerInfo.motd.length > 0) {
         push()
         textAlign(CENTER, BOTTOM)
         fill(255)
