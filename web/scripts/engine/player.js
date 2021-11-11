@@ -185,7 +185,6 @@ class Player {
         this.stunned = stun
       }
       if (launch.x + launch.y !== 0) {
-        
         this.launchVelocity = createVector(launch.x, launch.y)
         //cancel own move
       }
@@ -355,25 +354,13 @@ class Player {
       let direction = (keyIsDown(this.controls.left)) ? LEFT : ((keyIsDown(this.controls.right)) ? RIGHT : ((keyIsDown(this.controls.up)) ? UP : this.facingDirection))
 
       let moveType = (keyIsDown(this.controls.lightAttack)) ? LIGHT : ((keyIsDown(this.controls.heavyAttack)) ? HEAVY : ((keyIsDown(this.controls.specialAttack)) ? SPECIAL : null))
-
-      // if ((direction == DOWN && this.grounded == true) || moveType === null) {
-      //   //do not allow downward attacks on the ground
-      // } else {
-        // if (keyIsDown(this.controls.lightAttack)) {
-        //   this.startMove(direction, LIGHT)
-        //   return
-        // }
-        // if (keyIsDown(this.controls.heavyAttack)) {
-        //   this.startMove(direction, HEAVY)
-        //   return
-        // }
-        // if (keyIsDown(this.controls.specialAttack)) {
-        //   this.startMove(direction, SPECIAL)
-        //   return
-        // }
+      
       //use a jump for an air move
       if (moveType != null && this.deltaJumps + 1 < this.character.physics.totalJumps) {
         this.deltaJumps++
+        if (playingOnline) {
+          socket.emit("attackUpdate", {direction: direction, whatMove: moveType})
+        }
         this.startMove(direction, moveType)
       }
       //}
@@ -417,10 +404,6 @@ class Player {
         break
       case RIGHT:
         break
-    }
-
-    if (playingOnline) {
-      socket.emit("attackUpdate", {direction: direction, whatMove: whatMove})
     }
     let moveData = this.character.attacks[direction][whatMove]
 

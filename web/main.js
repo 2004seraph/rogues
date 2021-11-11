@@ -74,7 +74,7 @@ function keyPressed() {
   userStartAudio()
   switch (keyCode) {
     case SHIFT:
-      gotoGame()
+      //gotoGame()
       break
     case ENTER:
       let hub = ScenesManager.scenes[MAINMENU]

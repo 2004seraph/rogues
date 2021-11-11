@@ -14,7 +14,6 @@ var ASSETS = {
 var gameLoaded = false
 
 let fontParse, levels, namedImagesParse, soundsParse, characters
-
 function loadGameAssets() {
   fontParse = loadJSON("scripts/game/JSON/fonts.json", continueFontLoading)//useless, since the game only has one font, might as well hard code it
   levels = loadJSON("scripts/game/JSON/levels.json", continueLevelLoading)
