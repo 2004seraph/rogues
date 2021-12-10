@@ -55,7 +55,7 @@ global.allowSignups = true
 global.matchServers = true
 global.concurrentUsers = 0
 global.concurrentOnlineUsers = 0
-global.connectionsLimit = 6
+global.connectionsLimit = 4
 global.runningRooms = {}
 //var lastRequest = null
 //global.updateLastRequest = function() {lastRequest = Date.now()}
@@ -105,18 +105,8 @@ io.on('connection', function(socket) {
     return
   }
 
-  socket.once('checkSum', (data) => {
-    if (data.hash === gameChecksum) {
-      //authorised
-    } else {
-      //socket.emit("blocked", {code: "modifiedGame"})
-      //socket.disconnect()
-    }
-  })
-
   //they are not signed in
   socket.authorised = null
-
   socket.matchmake = false
 
   //cooldowns

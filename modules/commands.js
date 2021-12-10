@@ -3,7 +3,11 @@
 exports.commands = {
   "motd": {
     "command": function(args) {
-      GlobalServerInfo.motd = JSON.stringify(args)
+      let argString = ""
+      for (let ele of args) {
+        argString += " " + ele.toString()
+      }
+      GlobalServerInfo.motd = argString
     }
   },
   "stop": {
@@ -34,13 +38,16 @@ exports.commands = {
     "command": function() {
       PlayerDatabase.deleteTable(function() {
         CLI.printLine("Rebuilding Table")
-        PlayerDatabase.initializeTable()
+        PlayerDatabase.initializeTable(function() {
+          PlayerDatabase.addUser("SAMMOT", sha256Hash("password"), 5000)
+        })
         //log everyone out
         // let sockets = io.sockets.sockets
         // for (let socketId in sockets) {
         //   let s = sockets[socketId]
         //   accountEvents["signOut"](null, io, s)
         // }
+        
       })
     }
   },
@@ -114,7 +121,7 @@ exports.commands = {
   },
   "rankings": {
     "command": function(args) {
-      PlayerDatabase.getRankings()
+      //CLI.printLine(PlayerDatabase.getRankings())
     }
   },
   "removeUser": {

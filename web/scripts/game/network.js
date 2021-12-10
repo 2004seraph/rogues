@@ -169,3 +169,18 @@ function createGame() {
 function matchmakeGame() {
   socket.emit("availibleForRandom")
 }
+
+function joinGame() {
+  let code = ScenesManager.scenes[MAINMENU]
+    .gameBoxStuff
+    .joinCodeInput
+    .value()
+    .toString()
+    .trim()
+    
+  if (code.length < 6) {
+    setPrompt(new Prompt(10, 10, "Bad code", 300))
+  } else {
+    socket.emit("joinRoom", {room: code})
+  }
+}

@@ -4,7 +4,7 @@ My College Computer Science project; a 2D web-based multiplayer platform fightin
 ## Operation
 To start the webserver which hosts and serves the game, type this into shell within the project root directory - supplying a port number as an environment variable.
 ```console
-~/rogues$ PORT=[Webserver port] node index.js
+~/rogues$ PORT=<port> node index.js
 ```
 
 ## TODO List
@@ -21,6 +21,7 @@ To start the webserver which hosts and serves the game, type this into shell wit
    - [ ] add first median character
    - [ ] add second median character
    - [x] add competitve matchmaking for Elo
+   - [ ] make interace gradienty
 ### Coulds:
    - [ ] lobby text-chat
 ### Maybe:

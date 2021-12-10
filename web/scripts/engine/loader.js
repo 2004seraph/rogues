@@ -9,7 +9,7 @@ class LoadingBar {
 
     this.barProgress = 0
 
-    this.smooth = 3
+    this.smooth = 5
   }
 
   show() {
@@ -24,13 +24,20 @@ class LoadingBar {
       // grd.addColorStop(1.0,clr2);
       // drawingContext.fillStyle = grd;
 
-      fill(180, 2, 255)
+      //fill(180, 2, 255)
+      drawingContext.fillStyle = "#002ba1"
       drawingContext.shadowColor = 'darkblue'
       drawingContext.shadowOffsetX = 5
       drawingContext.shadowOffsetY = -5
       rect(this.pos.x, this.pos.y, this.dimensions.width, this.dimensions.height)
 
-      fill(255)
+      //fill(255)
+      let g0 = drawingContext.createLinearGradient(this.pos.x, this.pos.y, this.pos.x + this.barProgress, this.pos.y + this.dimensions.height)
+      g0.addColorStop(0.0, '#ff00ea')
+      g0.addColorStop(0.2, '#ff00ea')
+      g0.addColorStop(1.0, 'cyan')
+      drawingContext.fillStyle = g0
+
       drawingContext.shadowOffsetX = 0
       drawingContext.shadowOffsetY = 0
       if (!this.complete()) {
@@ -40,7 +47,7 @@ class LoadingBar {
       }
     }
     
-    fill(0)
+    fill(255)
     text("LOADING GAME", this.pos.x + this.dimensions.width/2, this.pos.y + this.dimensions.height/2)
   }
 

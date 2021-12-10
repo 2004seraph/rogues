@@ -185,7 +185,9 @@ class Player {
         this.stunned = stun
       }
       if (launch.x + launch.y !== 0) {
+        console.log("hit")
         this.launchVelocity = createVector(launch.x, launch.y)
+        this.velocity = createVector(0, 0)
         //cancel own move
       }
     }
@@ -257,6 +259,12 @@ class Player {
     this.velocity.set(this.collisions.vel)//apply the change to position (undo overlap)
     let pastPos = this.pos.copy()
     this.pos.set(this.collisions.pos)//cancel velocity in the respective direction if their is a collsion
+    //check if player is on the grounded
+    if ((pastPos.y - this.pos.y) > 0) {
+      this.grounded = true
+    } else {
+      this.grounded = false
+    }
 
     if (this.jumpCooldown > 0) {
       this.jumpCooldown -= timeScaler()
@@ -288,13 +296,6 @@ class Player {
     }
 
     this.attack()
-
-    //check if player is on the grounded
-    if ((pastPos.y - this.pos.y) > 0) {
-      this.grounded = true
-    } else {
-      this.grounded = false
-    }
   }
 
   show() {
@@ -351,15 +352,22 @@ class Player {
   attack() {
     if (this.moveCoolDown == 0 && this.stunned == 0 && this.controls != null) {
       //find where the player is attacking, with precedence of left/right then up/down, finally, use facing
-      let direction = (keyIsDown(this.controls.left)) ? LEFT : ((keyIsDown(this.controls.right)) ? RIGHT : ((keyIsDown(this.controls.up)) ? UP : this.facingDirection))
+      let direction = (keyIsDown(this.controls.left)) ? LEFT : 
+      ((keyIsDown(this.controls.right)) ? RIGHT : 
+      ((keyIsDown(this.controls.up)) ? UP : 
+      this.facingDirection))
 
-      let moveType = (keyIsDown(this.controls.lightAttack)) ? LIGHT : ((keyIsDown(this.controls.heavyAttack)) ? HEAVY : ((keyIsDown(this.controls.specialAttack)) ? SPECIAL : null))
+      let moveType = (keyIsDown(this.controls.lightAttack)) ? LIGHT : 
+      ((keyIsDown(this.controls.heavyAttack)) ? HEAVY : 
+      ((keyIsDown(this.controls.specialAttack)) ? SPECIAL : 
+      null))
       
       //use a jump for an air move
       if (moveType != null && this.deltaJumps + 1 < this.character.physics.totalJumps) {
         this.deltaJumps++
         if (playingOnline) {
-          socket.emit("attackUpdate", {direction: direction, whatMove: moveType})
+          //socket.emit("attackUpdate", {direction: direction, whatMove: moveType})
+          ScenesManager.scenes[GAME].ownNetworkMove = {direction: direction, whatMove: moveType}
         }
         this.startMove(direction, moveType)
       }
@@ -396,7 +404,7 @@ class Player {
   startMove(direction, whatMove) {
     switch (direction) {
       case UP:
-        if (whatMove == HEAVY) {
+        if (!(whatMove == LIGHT)) {
           return
         }
         break

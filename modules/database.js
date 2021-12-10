@@ -63,7 +63,7 @@ module.exports = class PlayerDatabase {
   resetUserElo(callback=function() {}) {
     this.database.run(`UPDATE Players SET Elo=?`, [1000], function(err) {
       if (err) {
-        CLI.printLine("Reser User Elo Error:")
+        CLI.printLine("Reset User Elo Error:")
         CLI.printLine(err)
       } else {
         callback()
@@ -72,9 +72,9 @@ module.exports = class PlayerDatabase {
   }
 
   addUser(username, passwordHash, elo, callback=function() {}) {
-    let date = new Date()
+    //let date = new Date()
     // Convert it to an ISO string
-    let sqliteDate = date.toISOString().replace(/T/, ' ').replace(/\..+/, '')
+    //let sqliteDate = date.toISOString().replace(/T/, ' ').replace(/\..+/, '')
 
     this.database.run(`INSERT INTO Players(Username, PasswordHash, Elo) VALUES(?, ?, ?)`, [username, passwordHash, elo], function(err) {
       if (err) {

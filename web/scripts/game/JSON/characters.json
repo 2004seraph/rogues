@@ -47,26 +47,6 @@
             "frameOffset": 0
           },
           "frameCooldown": 40
-        },
-        "special": {
-          "animation": null,
-          "hitboxes": [
-            {
-              "area": {"x": 0, "y": 0, "w": 0, "h": 0},
-              "frameSpan": 10,
-              "frameOffset": 0,
-              "damage": 10,
-              "stun": 5,
-              "direction": {"x": 0.34, "y": 0.93, "m": 1}
-            }
-          ],
-          "movement": {
-            "vector": {"x": 0, "y": -1},
-            "speed": 20,
-            "frameSpan": 4,
-            "frameOffset": 10
-          },
-          "frameCooldown": 80
         }
       },
       "left": {
@@ -125,7 +105,7 @@
               "area":{"x": -10, "y": 10, "w": 10, "h": 20},
               "frameSpan": 25,
               "frameOffset": 400,
-              "damage": 20,
+              "damage": 6,
               "stun": 30,
               "direction": {"x": -1, "y": -0.2, "m": 7}
             }
@@ -195,7 +175,7 @@
               "area":{"x": 40, "y": 10, "w": 10, "h": 20},
               "frameSpan": 25,
               "frameOffset": 400,
-              "damage": 3,
+              "damage": 6,
               "stun": 30,
               "direction": {"x": 1, "y": -0.2, "m": 7}
             }

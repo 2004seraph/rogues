@@ -309,10 +309,17 @@ loadScenes.hubScene = function() {
       }
       //wrapper
       stroke(255, 0, 100)
+      strokeWeight(2)
       fill(60, 0, 255)
       rect(CANX/2 + this.spacing, CANY/2 - this.buttonLevel, this.buttonSize, b_height*3 + this.spacing*4)
       //server info wrapper
-      fill(123, 36, 255)
+      //fill(123, 36, 255)
+      let g0 = drawingContext.createLinearGradient(CANX/2 + this.spacing + inter, CANY/2 - this.buttonLevel + inter, CANX/2 + this.spacing + inter + this.buttonSize - inter*2, CANY/2 - this.buttonLevel + inter + b_height - inter*2)
+      g0.addColorStop(0.0, '#260073')
+      g0.addColorStop(0.2, '#260073')
+      g0.addColorStop(1.0, 'cyan')
+      drawingContext.fillStyle = g0
+
       rect(CANX/2 + this.spacing + inter, CANY/2 - this.buttonLevel + inter, this.buttonSize - inter*2, b_height - inter*2)
       fill(255)
       textAlign(CENTER, TOP)
@@ -326,12 +333,24 @@ loadScenes.hubScene = function() {
         text("Retrieving...", CANX/2 + this.spacing + inter*3 + 32, CANY/2 - this.buttonLevel + inter*1.75 + b_height/2)
       }
       //rankings
-      fill(123, 36, 255)
+      //fill(123, 36, 255)
+      let g = drawingContext.createLinearGradient(CANX/2 + this.spacing + inter, CANY/2 - this.buttonLevel + b_height, CANX/2 + this.spacing + inter + this.buttonSize - inter*2,  CANY/2 - this.buttonLevel + b_height + b_height*3 - inter*3)
+      g.addColorStop(0.0, '#260073')
+      g.addColorStop(0.2, '#260073')
+      g.addColorStop(1.0, 'cyan')
+      drawingContext.fillStyle = g
       rect(CANX/2 + this.spacing + inter, CANY/2 - this.buttonLevel + b_height, this.buttonSize - inter*2, b_height*3 - inter*3)
       textAlign(CENTER, TOP)
       fill(255)
       text("Rankings", CANX/2 + this.spacing + inter + (this.buttonSize - inter*2)/2, CANY/2 - this.buttonLevel + b_height + inter)
-      fill(0, 255, 255)
+      //fill(0, 255, 255)
+
+      let g2 = drawingContext.createLinearGradient(CANX/2 + this.spacing + inter, CANY/2 - this.buttonLevel + b_height, CANX/2 + this.spacing + inter + this.buttonSize - inter*2,  CANY/2 - this.buttonLevel + b_height + b_height*3 - inter*3)
+      g2.addColorStop(0.0, 'cyan')
+      g2.addColorStop(0.8, 'purple')
+      g2.addColorStop(1.0, 'purple')
+      drawingContext.fillStyle = g2
+
       if (this.rankings != null) {
         if (this.rankings.length == 0) {
           textAlign(LEFT, TOP)

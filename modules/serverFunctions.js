@@ -220,26 +220,25 @@ exports.matchMaking = {
       socket.emit("roomCode", {code: "noAuth"})
     }
   },
-  "ready": function(data, io, socket) {
-    if (socket.authorised != null) {//if they are signed in
-      try {
-        let roomCode = Array.from(socket.rooms)[1]
-        let room = io.sockets.adapter.rooms.get(roomCode)
-        room.ready[data.player] = true
-      } catch (err) {
-        CLI.printLine(err)
-        //no room exists or room has disbanded
-      }
-    }
-  },
+  // "ready": function(data, io, socket) {
+  //   if (socket.authorised != null) {//if they are signed in
+  //     try {
+  //       let roomCode = Array.from(socket.rooms)[1]
+  //       let room = io.sockets.adapter.rooms.get(roomCode)
+  //       room.ready[data.player] = true
+  //     } catch (err) {
+  //       CLI.printLine(err)
+  //       //no room exists or room has disbanded
+  //     }
+  //   }
+  // },
   "deleteRoom": function(data, io, socket) {
-    console.log("del")
     //this only works if they are the host
     let roomCode = socket.id.substring(0, 6).toUpperCase()
     //let rooms = Array.from(io.sockets.adapter.rooms)
     let room = io.sockets.adapter.rooms.get(roomCode)
     if (room) {
-      console.log("del2")
+      //console.log("del2")
     //for (let room of rooms) {
     //  if (room[0] == roomCode) {//find the current room
         let clientIds = Array.from(room)
@@ -266,7 +265,7 @@ exports.matchMaking = {
     roomsTheyHaveJoined.shift()//remove the socketio default room of the same name as the socket id
     for (let room of roomsTheyHaveJoined) {
       //CLI.printLine(room)
-      console.log("del3")
+      //console.log("del3")
       socket.to(room).emit("roomCode", {code: "opponentLeft"})//broadcast to the others this one has left
       socket.leave(room)
     }
@@ -274,7 +273,7 @@ exports.matchMaking = {
   "characterSelectCode": function(data, io, socket) {
     //this only works if they are the host
     if (socket.authorised != null) {//if they are signed in
-      console.log("csel")
+      //console.log("csel")
       try {
         let room = Array.from(socket.rooms).pop()
         console.log(room, socket.rooms)
@@ -329,6 +328,10 @@ exports.gameEvents = {
     try {
       let room = Array.from(socket.rooms).pop()
       socket.to(room).emit("positionUpdate", data)
+
+      if (data.move) {
+        //socket.emit("statusUpdate", {code: "moveACK"})
+      }
     } catch (err) {
       CLI.printLine(err)
     }
@@ -363,7 +366,7 @@ exports.gameEvents = {
           })
 
           let clientIds = Array.from(room)
-          clientIds.forEach((element) => {//this is updating the player that lost which is wrong
+          clientIds.forEach((element) => {
             if (element != socket.id) {
               let winnerSocket = io.sockets.sockets.get(element)
               PlayerDatabase.updateUserElo(EloChange, winnerSocket.authorised.id, () => {

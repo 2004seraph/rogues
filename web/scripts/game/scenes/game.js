@@ -8,28 +8,29 @@ loadScenes.gameScene = function() {
       this.parallax = {x: 0, y: 0}
       this.gameOver = null
       this.gameOverStuff = []
+
+      this.ownNetworkMove = null
     },
     run: function() {
       if (playingOnline) {
-        if (!(currentGamePacket == null)) {
-          switch (currentGamePacket.name) {
-            case "attackUpdate":
-              gameState.players.two.startMove(currentGamePacket.data.direction, currentGamePacket.data.whatMove)
-              resetGamePacket()
-              console.log("sti")
-              break
-          }
-        }
         if (positionPacket) {
           gameState.players.two.pos.set(positionPacket.pos.x, positionPacket.pos.y)
           gameState.players.two.facingDirection = positionPacket.facingDirection
+
+          if (positionPacket.move) {
+            gameState.players.two.startMove(positionPacket.move.direction, positionPacket.move.whatMove)
+          }
         }
 
         if (!(imopPacket == null)) {
           switch (imopPacket.name) {
             case "statusUpdate":
-              console.log(imopPacket)
               switch (imopPacket.data.code) {
+                case "moveACK":
+                  this.ownNetworkMove = null
+                  console.log("stopped")
+                  resetImopPacket()
+                  break
                 case "dead":
                   if (this.gameOver == null && gameState.players.two.death()) {
                     this.gameOver = {lost: opponent, won: accountData.Username}
@@ -40,7 +41,8 @@ loadScenes.gameScene = function() {
               }
           }
         }
-        socket.emit("positionUpdate", {pos: {x: gameState.players.one.pos.x, y: gameState.players.one.pos.y}, facingDirection: gameState.players.one.facingDirection})
+        socket.emit("positionUpdate", {move: this.ownNetworkMove, pos: {x: gameState.players.one.pos.x, y: gameState.players.one.pos.y}, facingDirection: gameState.players.one.facingDirection})
+        this.ownNetworkMove = null
 
         if (!(currentPacket == null)) {
           switch (currentPacket.name) {

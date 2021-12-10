@@ -81,7 +81,7 @@ loadScenes.startScene = function() {
       image(ASSETS.namedImages.starEmbelum, 1, 1)
       pop()
 
-      image(this.titleImgs[Math.floor(this.titleIndex)], 210, 43)
+      image(this.titleImgs[Math.floor(this.titleIndex)], 210, 24)
 
       this.titleIndex++
       if (this.titleIndex > this.titleImgs.length - 1) {
