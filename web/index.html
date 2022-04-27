@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html prefix="og: https://ogp.me/ns#">
+<html prefix="og: https://ogp.me/ns#" lang="en_US">
   <head>
     <script>
       if ('serviceWorker' in navigator) {
@@ -17,14 +17,15 @@
     <script type="application/ld+json">
     {
       "@context" : "http://schema.org",
-      "@type" : "SoftwareApplication",
+      "@type" : "WebApplication",
       "name": "ROGUES-ONLINE",
+      "description": "A free web-based platform fighting game.",
       "screenshot": "https://rogues.cyanseraph.net/assets/decals/battlestar.png",
       "image": [
         "https://rogues.cyanseraph.net/assets/decals/battlestar.png",
         "https://rogues.cyanseraph.net/assets/decals/title.png"
       ],
-      "operatingSystem": "WINDOWS",
+      "operatingSystem": "All",
       "applicationCategory": "GameApplication",
       "applicationSubCategory": "Arcade",
       "offers": {
@@ -32,13 +33,21 @@
         "price": "0",
         "priceCurrency": "GBP"
       },
+      "genre": "Platform Fighter",
+      "url": "https://rogues.cyanseraph.net/",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "softwareVersion": "1.0.0"
+    }
+    </script>
+
+    <!--
+      ,
       "aggregateRating": {
         "@type": "AggregateRating",
         "ratingValue": "5",
         "reviewCount": "4000"
       }
-    }
-    </script>
+    -->
 
     <meta name="google-site-verification" content="c4aajzqBH9wDAbGVncc-Dyjz02m_MjeeEzzcxf3ymqQ" />
     
@@ -48,7 +57,7 @@
     <link href="styles/buttons.css" rel="stylesheet" type="text/css" />
     <link rel="manifest" href="manifest.json" crossorigin="use-credentials">
 
-    <title>ROGUES SOURCE</title>
+    <title>ROGUES ONLINE</title>
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="robots" content="noodp,noydir" />
@@ -132,10 +141,14 @@
     <script type='text/javascript' src="scripts/game/scenes/credits.js"></script>
 
     <script src="main.js"></script>
+    <noscript>Please enable JavaScript in your browser to play this game.</noscript>
 
     <div id="P5Container"></div>
+    
     <div id="badScreen" style="text-align: center;color: white;">
       Your device resolution is too low: make sure you are using a PC or try zooming out of this webpage.❤
     </div>
+
+    <a href="https://cyanseraph.net/">/CYANSERAPH/</a>
   </body>
 </html>

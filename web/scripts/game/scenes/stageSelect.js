@@ -66,7 +66,7 @@ loadScenes.stageScene = function() {
       })
 
       for (let i = 0; i < this.amountOfLevels; i++) {
-        let x = CANX/2 - (this.amountOfLevels/2) * this.playerCard + i * (this.playerCard + this.cardSpacing) - this.cardSpacing
+        let x = CANX/2 - (this.amountOfLevels/2) * this.playerCard + i * (this.playerCard + this.cardSpacing) - this.cardSpacing*1.5
         let y = 140
 
         gameButtons[("levelSelect" + (i).toString())] = createButton("")
@@ -173,7 +173,7 @@ loadScenes.stageScene = function() {
       image(ASSETS.namedImages.characterSelect, 0, 0, CANX, CANY)
 
       for (let i = 0; i < this.amountOfLevels; i++) {
-        let x = CANX/2 - (this.amountOfLevels/2) * this.playerCard + i * (this.playerCard + this.cardSpacing) - this.cardSpacing
+        let x = CANX/2 - (this.amountOfLevels/2) * this.playerCard + i * (this.playerCard + this.cardSpacing) - this.cardSpacing*1.5
         let y = 140
         let extra = 12
         if (this.stageSelection.player1 === i) {

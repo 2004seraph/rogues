@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "My Computer Science project; a web-based 2D platform fighting game.",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\""
   },
@@ -12,7 +13,7 @@
   },
   "keywords": [],
   "author": "Sam Taseff",
-  "license": "ISC",
+  "license": "UNLICENSED",
   "bugs": {
     "url": "https://github.com/Sammot/rogues/issues"
   },

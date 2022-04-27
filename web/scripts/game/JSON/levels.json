@@ -67,5 +67,25 @@
       "w": 600,
       "h": 0
     }
+  },
+  "3": {
+    "name": "Crystalis",
+    "description": "",
+    "music": null,
+    "images": {
+      "1": null,
+      "2": null,
+      "3": "assets/backgrounds/crystalis.png"
+    },
+    "previewImage": "assets/levels/4/preview.png",
+    "colliders": [
+      [-100, 800, 1800, 100]
+    ],
+    "respawnArea": {
+      "x": 300,
+      "y": -50,
+      "w": 600,
+      "h": 0
+    }
   }
 }

@@ -55,7 +55,7 @@ global.allowSignups = true
 global.matchServers = true
 global.concurrentUsers = 0
 global.concurrentOnlineUsers = 0
-global.connectionsLimit = 4
+global.connectionsLimit = 100
 global.runningRooms = {}
 //var lastRequest = null
 //global.updateLastRequest = function() {lastRequest = Date.now()}

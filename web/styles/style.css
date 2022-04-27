@@ -9,10 +9,12 @@ body {
   background-color: rgb(47, 49, 51);
 
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 
   font-family: joystixmonospace, Arial, Helvetica, sans-serif;
+  color: white;
+  text-align: center;
 }
 #P5Container {
   font-family: joystixmonospace, Arial, Helvetica, sans-serif;
@@ -119,6 +121,10 @@ button[disabled=disabled], button:disabled {
   border-style: solid;
   border-color: aqua;
   border-radius: 2px;
+}
+
+a {
+  color: white;
 }
 
 @keyframes fadein {
