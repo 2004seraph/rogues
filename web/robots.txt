@@ -1,1 +1,15 @@
-Sitemap: https://cyanseraph.net/sitemap.xml
+User-agent: *
+Disallow: /
+Crawl-Delay: 10
+
+User-agent: Google
+Disallow:
+
+User-agent: Googlebot
+Disallow:
+
+User-agent: AdsBot-Google
+Disallow:
+
+User-agent: Googlebot-Image
+Disallow:
