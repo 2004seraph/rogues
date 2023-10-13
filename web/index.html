@@ -87,7 +87,7 @@
       }
 
       @media only screen and (max-width : 1100px) {
-        #P5Container {
+        #P5Container-main {
           display: none;
         }
         #badScreen {
@@ -95,7 +95,7 @@
         }
       }
       @media only screen and (max-height : 700px) {
-        #P5Container {
+        #P5Container-main {
           display: none;
         }
         #badScreen {
@@ -143,12 +143,49 @@
     <script src="main.js"></script>
     <noscript>Please enable JavaScript in your browser to play this game.</noscript>
 
-    <div id="P5Container"></div>
+    <div id="P5Container-main">
+    	<div id="P5Container"></div>
+		
+		<div class="help">
+			<h2>How to Play</h2>
+			<h3>Offline with two players sharing a keyboard</h3>
+			<div class="split">
+				<div>
+					<h4>Player 1 Controls</h4>
+					<ul>
+						<li>Movement: WASD</li>
+						<li>Light attack: B</li>
+						<li>Heavy attack: N</li>
+						<li>Special attack: M</li>
+					</ul>
+				</div>
+				<div>
+					<h4>Player 2 Controls</h4>
+					<ul>
+						<li>Movement: Arrow keys</li>
+						<li>Light attack: ,</li>
+						<li>Heavy attack: .</li>
+						<li>Special attack: /</li>
+					</ul>
+				</div>
+			</div>
+			<h3>Online</h3>
+			<p>Each player must register and sign in to an account.</p>
+			<p>Both then click on online play, one player hosts a room and then gives the code to the other for them to join with.</p>
+			<p>To play competitively and earn rankings, you must use random matchmaking.</p>
+			
+			<h2>About</h2>
+			<p>Made for my computer science college course.</p>
+			<p>No warranty. No data collected. No cookies.</p>
+		</div>
+	</div>
     
     <div id="badScreen" style="text-align: center;color: white;">
       Your device resolution is too low: make sure you are using a PC or try zooming out of this webpage.❤
     </div>
 
-    <a href="https://stupid.seraph.parts/">/CYANSERAPH/</a>
+	
+
+    <!-- <a href="https://stupid.seraph.parts/">/CYANSERAPH/</a> -->
   </body>
 </html>

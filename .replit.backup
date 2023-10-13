@@ -1,0 +1,3 @@
+language = "nodejs"
+run = "node index.js"
+onBoot="echo Setting up Rogues"

@@ -6,7 +6,7 @@
 body {
   image-rendering: pixelated;
   display: flex;
-  background-color: rgb(47, 49, 51);
+  background-color: rgb(13, 0, 70);
 
   flex-direction: column;
   justify-content: space-around;
@@ -24,6 +24,21 @@ body {
   margin: auto;
 }
 
+.help {
+	width: 1200px;
+}
+
+.help h3,p,li {
+	text-align: left;
+}
+
+.split {
+	display: flex;
+	flex-direction: row;
+}
+.split > div {
+	flex: 1;
+}
 
 
 /* @media only screen and (max-width : 800px) {
