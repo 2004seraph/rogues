@@ -1,4 +1,4 @@
-# **Rogues-Online**
+# **Rogues Online**
 My College Computer Science project; a 2D web-based multiplayer platform fighting game.
 
 [Play online now](https://rogues.seraph.parts/) - Also available as a Progressive Web App. You may also check out the GitHub pages deployment, but that has no backend server, so no online functionality.
@@ -11,8 +11,8 @@ To start the webserver which hosts and serves the game, type this into shell wit
 ~/rogues$ PORT=<port> node index.js
 ```
 
-## TODO List
-### Musts:
+## TODOs
+### Musts
    - [x] when you tab out and tab back in the colliders will break
    - [x] update position every frame
    - [x] update attacks as they are made
@@ -26,15 +26,15 @@ To start the webserver which hosts and serves the game, type this into shell wit
    - [ ] add second median character
    - [x] add competitve matchmaking for Elo
    - [ ] make interace gradienty
-### Coulds:
+### Coulds
    - [ ] lobby text-chat
-### Maybe:
+### Maybes
    - [ ] 2^n stepped screen resolution changes
    - [ ] finish implementing scalable resolution
    - [ ] try vector-midpoint collsion detection
    - [ ] minify the game
 
-## Known Issues:
+## Known Issues
   ### Client
     - [OPEN ] very rarely the game will not load on start. This is fixed by refreshing the page.
     - [OPEN ] characters playing the exact same move will both use the same animation progress, so both will perform the move animation twice as fast.
