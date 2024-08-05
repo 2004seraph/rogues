@@ -1,7 +1,9 @@
 # **Rogues-Online**
 My College Computer Science project; a 2D web-based multiplayer platform fighting game.
 
-[Play now](https://rogues.seraph.parts/)
+[Play online now](https://rogues.seraph.parts/)
+
+You may also check out the GitHub pages deployment, but that has no backend server, so no online functionality.
 
 ## Operation
 To start the webserver which hosts and serves the game, type this into shell within the project root directory - supplying a port number as an environment variable.
