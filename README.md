@@ -1,9 +1,9 @@
 # **Rogues-Online**
 My College Computer Science project; a 2D web-based multiplayer platform fighting game.
 
-[Play online now](https://rogues.seraph.parts/)
+[Play online now](https://rogues.seraph.parts/) - Also available as a Progressive Web App. You may also check out the GitHub pages deployment, but that has no backend server, so no online functionality.
 
-You may also check out the GitHub pages deployment, but that has no backend server, so no online functionality.
+Be warned this app is broken by AdBlockers.
 
 ## Operation
 To start the webserver which hosts and serves the game, type this into shell within the project root directory - supplying a port number as an environment variable.
@@ -34,15 +34,16 @@ To start the webserver which hosts and serves the game, type this into shell wit
    - [ ] try vector-midpoint collsion detection
    - [ ] minify the game
 
-## Bugs:
-  ### Game
-    - [OPEN ] characters playing the exact same animation will both use the same animation progress, hence, will both iterate the animations progress.
+## Known Issues:
+  ### Client
+    - [OPEN ] very rarely the game will not load on start. This is fixed by refreshing the page.
+    - [OPEN ] characters playing the exact same move will both use the same animation progress, so both will perform the move animation twice as fast.
     - [OPEN ] very rarely players wont both load the same map in multiplayer if they both vote on different stages.
-    - [OPEN ] very rarely the game will just not load.
-    - [FIXED] very rarely the character/stage select screen will fail in multiplayer, choices do not sync and the lobby stops; it is because clients aren't being left properly from rooms
-    - [OPEN ] moves are dropped
-    - [OPEN ] client side server-player sometimes does attacks for no reason
-    - [OPEN ] Damage Desyncs
+    - [OPEN ] sometimes some moves are not registered by the server.
+    - [OPEN ] client side server-player sometimes does attacks for no reason.
+    - [OPEN ] damage desyncs during online versus matches.
+    
+    - [FIXED] very rarely the character/stage select screen will fail in multiplayer, choices do not sync and the lobby stops; it is because clients aren't being left properly from rooms.
 
-  ### Commands
-    - 'nuke' command does not log out authenticated sockets
+  ### Server
+    - 'nuke' command does not log out authenticated sockets, leading to an inconsistent server state.
