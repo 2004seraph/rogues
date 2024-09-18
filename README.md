@@ -1,7 +1,10 @@
 # **Rogues Online**
+
 My College Computer Science project; a 2D web-based multiplayer platform fighting game.
 
-[Play online now](https://rogues.seraph.parts/) - Also available as a Progressive Web App. You may also check out the GitHub pages deployment, but that has no backend server, so no online functionality.
+[Play online now](https://rogues.seraph.parts/) - Also available as a Progressive Web App. 
+
+[Serverless GitHub Pages Backup](https://2004seraph.github.io/rogues/) - Has no backend server, so no online functionality. Exists due to `repl.it` pricing changes.
 
 Be warned this app is broken by AdBlockers.
 
